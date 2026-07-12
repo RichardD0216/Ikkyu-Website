@@ -7,9 +7,12 @@ document.addEventListener('DOMContentLoaded', () => {
   initMobileNav();
   initScrollReveal();
   initHeroParallax();
-  initMenuFilters();
+  // initMenuFilters() is now initialized inside loadMenuItems after fetching data
   initGalleryLightbox();
   initSmoothScroll();
+  
+  loadMenuItems();
+  loadSakeItems();
 });
 
 /**
@@ -228,6 +231,9 @@ function initMobileNav() {
   });
 }
 
+// Global observer for scroll reveal animations
+let revealObserver = null;
+
 /**
  * Scroll Reveal Animations via Intersection Observer
  */
@@ -235,7 +241,8 @@ function initScrollReveal() {
   // Add js-enabled class to body to trigger CSS transitions
   document.body.classList.add('js-enabled');
 
-  const revealElements = document.querySelectorAll('section, .sake-card, .menu-item, .polaroid-frame, .info-wood-board, .links-panel .map-btn');
+  // Select reveal targets, excluding menu-items which are loaded dynamically
+  const revealElements = document.querySelectorAll('section, .sake-card, .polaroid-frame, .info-wood-board, .links-panel .map-btn');
 
   // Mark all targets with reveal class
   revealElements.forEach(el => {
@@ -248,7 +255,7 @@ function initScrollReveal() {
     threshold: 0.12
   };
 
-  const observer = new IntersectionObserver((entries, obs) => {
+  revealObserver = new IntersectionObserver((entries, obs) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         entry.target.classList.add('reveal-visible');
@@ -257,5 +264,140 @@ function initScrollReveal() {
     });
   }, observerOptions);
 
-  revealElements.forEach(el => observer.observe(el));
+  revealElements.forEach(el => revealObserver.observe(el));
 }
+
+/**
+ * Register dynamically loaded menu items for scroll reveal
+ */
+function observeMenuItems(menuItems) {
+  if (!revealObserver) return;
+  menuItems.forEach(el => {
+    el.classList.add('reveal');
+    revealObserver.observe(el);
+  });
+}
+
+/**
+ * Fetch and render menu items dynamically from API
+ */
+async function loadMenuItems() {
+  const menuGrid = document.getElementById('menu-items-grid');
+  if (!menuGrid) return;
+
+  try {
+    let apiUrl = '/api/menu';
+    if (window.location.port && window.location.port !== '5001') {
+      apiUrl = 'http://localhost:5001/api/menu';
+    }
+    const response = await fetch(apiUrl);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const items = await response.json();
+    
+    // Clear loading placeholder
+    menuGrid.innerHTML = '';
+    
+    const fragment = document.createDocumentFragment();
+    
+    items.forEach(item => {
+      const itemEl = document.createElement('div');
+      itemEl.className = 'menu-item';
+      itemEl.setAttribute('data-category', item.category);
+      itemEl.id = item.item_id;
+
+      let badgeHTML = '';
+      if (item.badge) {
+        badgeHTML = `<span class="menu-item-badge">${item.badge}</span>`;
+      }
+
+      let descHTML = '';
+      if (item.description) {
+        descHTML = `<p class="menu-item-desc">${item.description}</p>`;
+      }
+
+      itemEl.innerHTML = `
+        ${badgeHTML}
+        <div class="menu-item-header">
+          <h4 class="menu-item-title">${item.title}</h4>
+          <div class="menu-item-dots"></div>
+          <span class="menu-item-price">${item.price_display}<span class="tax-inc"> ${item.tax_display}</span></span>
+        </div>
+        ${descHTML}
+      `;
+      fragment.appendChild(itemEl);
+    });
+
+    menuGrid.appendChild(fragment);
+
+    // Initialize filter behavior for the newly added items
+    initMenuFilters();
+    
+    // Register the menu items to scroll reveal observer
+    const newItems = menuGrid.querySelectorAll('.menu-item');
+    observeMenuItems(newItems);
+
+  } catch (error) {
+    console.error('Error loading menu items:', error);
+    menuGrid.innerHTML = `
+      <p class="error-placeholder" style="grid-column: 1/-1; text-align: center; color: var(--color-accent); padding: 3rem 0; font-size: 1.1rem; letter-spacing: 0.05em;">
+        メニューの読み込みに失敗しました。再度お試しください。
+      </p>
+    `;
+  }
+}
+
+/**
+ * Fetch and render sake items dynamically from API
+ */
+async function loadSakeItems() {
+  const sakeGrid = document.getElementById('sake-cards-grid');
+  if (!sakeGrid) return;
+
+  try {
+    let apiUrl = '/api/sake';
+    if (window.location.port && window.location.port !== '5001') {
+      apiUrl = 'http://localhost:5001/api/sake';
+    }
+    const response = await fetch(apiUrl);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const items = await response.json();
+    
+    // Clear loading placeholder
+    sakeGrid.innerHTML = '';
+    
+    const fragment = document.createDocumentFragment();
+    
+    items.forEach(item => {
+      const cardEl = document.createElement('div');
+      cardEl.className = 'sake-card';
+      cardEl.id = item.item_id;
+
+      cardEl.innerHTML = `
+        <div class="sake-card-tag">${item.tag}</div>
+        <div class="sake-card-name">${item.name}</div>
+        <div class="sake-card-origin">${item.description}<br><span class="sake-card-price">${item.price_display} <span class="tax-label">${item.tax_display}</span></span></div>
+        <img src="${item.image_src}" alt="${item.name}" class="sake-card-bottle-art">
+      `;
+      fragment.appendChild(cardEl);
+    });
+
+    sakeGrid.appendChild(fragment);
+    
+    // Register the sake cards to scroll reveal observer
+    const newCards = sakeGrid.querySelectorAll('.sake-card');
+    observeMenuItems(newCards);
+
+  } catch (error) {
+    console.error('Error loading sake items:', error);
+    sakeGrid.innerHTML = `
+      <p class="error-placeholder" style="grid-column: 1/-1; text-align: center; color: var(--color-accent); padding: 2rem 0; font-size: 1rem; width: 100%;">
+        地酒メニューの読み込みに失敗しました。再度お試しください。
+      </p>
+    `;
+  }
+}
+
