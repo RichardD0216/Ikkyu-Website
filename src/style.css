@@ -1031,6 +1031,7 @@ body.js-enabled .reveal.reveal-visible {
   color: var(--wood-dark);
   box-shadow: 0 4px 10px rgba(0,0,0,0.2);
   transition: var(--transition-smooth);
+  flex-shrink: 0;
 }
 
 .map-btn:hover .map-btn-icon {
@@ -1174,7 +1175,7 @@ footer {
   }
   
   .lantern-float {
-    top: 10%;
+    top: 16%;
     left: 4%;
     width: 140px;
   }
@@ -1183,6 +1184,20 @@ footer {
     bottom: 5%;
     right: 4%;
     width: 110px;
+  }
+
+  .menu-tabs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    margin-bottom: 2.2rem;
+  }
+
+  .menu-tab-btn {
+    padding: 0.7rem 0.5rem;
+    font-size: 0.95rem;
+    width: 100%;
+    text-align: center;
   }
   
   .menu-grid {
