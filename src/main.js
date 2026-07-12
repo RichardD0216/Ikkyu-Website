@@ -61,54 +61,153 @@ function initHeroParallax() {
   });
 }
 
+// Dynamic category mapping for Parent-Child tabs
+const MENU_CATEGORIES = {
+  food: [
+    { key: 'all', label: 'すべて' },
+    { key: 'alacarte', label: 'アラカルト' },
+    { key: 'salad', label: 'サラダ' },
+    { key: 'fry', label: '揚げもの' },
+    { key: 'grill', label: '焼きもの' },
+    { key: 'stirfry', label: '炒めもの' },
+    { key: 'hotpot', label: 'ミニ鍋' },
+    { key: 'meal', label: '食事もの' }
+  ],
+  drink: [
+    { key: 'all', label: 'すべて' },
+    { key: 'beer', label: 'ビール' },
+    { key: 'nonalcoholic', label: 'ノンアルコールビール' },
+    { key: 'sake', label: 'お酒' },
+    { key: 'umeshu', label: '梅酒' },
+    { key: 'chuhai', label: 'チューハイ' },
+    { key: 'highball', label: 'ハイボール' },
+    { key: 'wine', label: 'ワイン(赤・白)' },
+    { key: 'jizake', label: '地酒' },
+    { key: 'shochu', label: '焼酎' },
+    { key: 'shochu_keep', label: '焼酎ボトルキープ' },
+    { key: 'softdrink', label: 'ソフトドリンク' }
+  ]
+};
+
+let allMenuItems = [];
+let activeParentGroup = 'food';
+let activeChildCategory = 'all';
+
 /**
- * Filter menu category grids dynamically
+ * Initialize parent tab events
  */
-function initMenuFilters() {
-  const tabButtons = document.querySelectorAll('.menu-tab-btn');
-  const menuItems = document.querySelectorAll('.menu-item');
-  const menuGrid = document.getElementById('menu-items-grid');
+function initParentTabs() {
+  const parentButtons = document.querySelectorAll('.menu-parent-tab-btn');
+  if (parentButtons.length === 0) return;
 
-  if (tabButtons.length === 0 || menuItems.length === 0) return;
-
-  tabButtons.forEach(btn => {
+  parentButtons.forEach(btn => {
     btn.addEventListener('click', () => {
-      const selectedCategory = btn.getAttribute('data-category');
+      const selectedGroup = btn.getAttribute('data-group');
+      if (selectedGroup === activeParentGroup) return;
+
+      activeParentGroup = selectedGroup;
+      activeChildCategory = 'all';
 
       // Update active button state
-      tabButtons.forEach(b => b.classList.remove('active'));
+      parentButtons.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
 
-      // Fade out grid before item modification
-      if (menuGrid) {
-        menuGrid.style.opacity = '0.3';
-      }
-
-      setTimeout(() => {
-        menuItems.forEach(item => {
-          const itemCategories = item.getAttribute('data-category').split(' ');
-
-          if (selectedCategory === 'all' || itemCategories.includes(selectedCategory)) {
-            item.style.display = 'flex';
-            // slight delay to play nice with CSS smooth transitions
-            setTimeout(() => {
-              item.style.opacity = '1';
-              item.style.transform = 'scale(1)';
-            }, 50);
-          } else {
-            item.style.opacity = '0';
-            item.style.transform = 'scale(0.95)';
-            item.style.display = 'none';
-          }
-        });
-
-        // Fade grid back in
-        if (menuGrid) {
-          menuGrid.style.opacity = '1';
-        }
-      }, 200);
+      // Re-render child tabs and filter items
+      renderChildTabs();
+      filterAndRenderGrid();
     });
   });
+}
+
+/**
+ * Dynamically render sub-category child tabs based on active parent group
+ */
+function renderChildTabs() {
+  const tabContainer = document.getElementById('menu-tab-container');
+  if (!tabContainer) return;
+
+  const categories = MENU_CATEGORIES[activeParentGroup];
+  tabContainer.innerHTML = categories.map(cat => {
+    const isActive = cat.key === activeChildCategory ? 'active' : '';
+    return `<button class="menu-tab-btn ${isActive}" data-category="${cat.key}">${cat.label}</button>`;
+  }).join('');
+
+  // Re-bind click events to new child tab buttons
+  const childButtons = tabContainer.querySelectorAll('.menu-tab-btn');
+  childButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      const selectedCategory = btn.getAttribute('data-category');
+      if (selectedCategory === activeChildCategory) return;
+
+      activeChildCategory = selectedCategory;
+
+      // Update active state
+      childButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      // Scroll the selected tab into view smoothly
+      btn.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+
+      // Filter and render items
+      filterAndRenderGrid();
+    });
+  });
+}
+
+/**
+ * Filter allMenuItems and render the grid dynamically
+ */
+function filterAndRenderGrid() {
+  const menuGrid = document.getElementById('menu-items-grid');
+  if (!menuGrid) return;
+
+  // Fade out grid before item modification
+  menuGrid.style.opacity = '0.3';
+
+  setTimeout(() => {
+    // 1. Get allowable categories in active parent group
+    const allowedCategories = MENU_CATEGORIES[activeParentGroup].map(c => c.key);
+    
+    // 2. Filter items
+    const filteredItems = allMenuItems.filter(item => {
+      // Must belong to active parent group
+      if (!allowedCategories.includes(item.category)) return false;
+      
+      // Must match sub-category filter if not 'all'
+      if (activeChildCategory === 'all') return true;
+      return item.category === activeChildCategory;
+    });
+
+    // 3. Render items HTML
+    if (filteredItems.length === 0) {
+      menuGrid.innerHTML = '<p class="error-placeholder" style="grid-column: 1/-1; text-align: center; color: var(--color-text-muted); padding: 3rem 0;">該当するメニューはありません。</p>';
+    } else {
+      menuGrid.innerHTML = filteredItems.map(item => {
+        let badgeHTML = item.badge ? `<span class="menu-item-badge">${item.badge}</span>` : '';
+        let descHTML = item.description ? `<p class="menu-item-desc">${item.description}</p>` : '';
+        
+        return `
+          <div class="menu-item" data-category="${item.category}" id="${item.item_id}">
+            ${badgeHTML}
+            <div class="menu-item-header">
+              <h4 class="menu-item-title">${item.title}</h4>
+              <div class="menu-item-dots"></div>
+              <span class="menu-item-price">${item.price_display}<span class="tax-inc"> ${item.tax_display}</span></span>
+            </div>
+            ${descHTML}
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Fade grid back in
+    menuGrid.style.opacity = '1';
+
+    // Register dynamically added elements for scroll reveal
+    const newItems = menuGrid.querySelectorAll('.menu-item');
+    observeMenuItems(newItems);
+
+  }, 150);
 }
 
 /**
@@ -294,49 +393,12 @@ async function loadMenuItems() {
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
-    const items = await response.json();
+    allMenuItems = await response.json();
     
-    // Clear loading placeholder
-    menuGrid.innerHTML = '';
-    
-    const fragment = document.createDocumentFragment();
-    
-    items.forEach(item => {
-      const itemEl = document.createElement('div');
-      itemEl.className = 'menu-item';
-      itemEl.setAttribute('data-category', item.category);
-      itemEl.id = item.item_id;
-
-      let badgeHTML = '';
-      if (item.badge) {
-        badgeHTML = `<span class="menu-item-badge">${item.badge}</span>`;
-      }
-
-      let descHTML = '';
-      if (item.description) {
-        descHTML = `<p class="menu-item-desc">${item.description}</p>`;
-      }
-
-      itemEl.innerHTML = `
-        ${badgeHTML}
-        <div class="menu-item-header">
-          <h4 class="menu-item-title">${item.title}</h4>
-          <div class="menu-item-dots"></div>
-          <span class="menu-item-price">${item.price_display}<span class="tax-inc"> ${item.tax_display}</span></span>
-        </div>
-        ${descHTML}
-      `;
-      fragment.appendChild(itemEl);
-    });
-
-    menuGrid.appendChild(fragment);
-
-    // Initialize filter behavior for the newly added items
-    initMenuFilters();
-    
-    // Register the menu items to scroll reveal observer
-    const newItems = menuGrid.querySelectorAll('.menu-item');
-    observeMenuItems(newItems);
+    // Initialize parent tabs and dynamic child tabs rendering
+    initParentTabs();
+    renderChildTabs();
+    filterAndRenderGrid();
 
   } catch (error) {
     console.error('Error loading menu items:', error);
