@@ -429,16 +429,17 @@ body.js-enabled .reveal.reveal-visible {
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
-  align-items: start;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+  align-items: stretch;
 }
 
 .sake-showcase {
   display: flex;
   flex-direction: column;
   gap: 2.5rem;
+  width: 100%;
 }
 
 /* Conversion Callout Board */
@@ -504,8 +505,8 @@ body.js-enabled .reveal.reveal-visible {
 /* Sake List interactive */
 .sake-list {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 2rem;
 }
 
 .sake-card {
@@ -1092,13 +1093,7 @@ footer {
 /* --- Responsive Media Queries --- */
 @media (max-width: 992px) {
   .specialty-container {
-    grid-template-columns: 1fr;
     gap: 3.5rem;
-  }
-  
-  .specialty-visual {
-    max-width: 600px;
-    margin: 0 auto;
   }
   
   .access-container {
