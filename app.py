@@ -22,7 +22,6 @@ def get_menu():
     try:
         conn = get_db()
         cursor = conn.cursor()
-        # id順にメニューを取得
         cursor.execute("SELECT * FROM menu_items ORDER BY id ASC")
         rows = cursor.fetchall()
         conn.close()
@@ -39,7 +38,9 @@ def get_menu():
                 "tax_price": row["tax_price"],
                 "price_display": row["price_display"],
                 "tax_display": row["tax_display"],
-                "description": row["description"]
+                "description": row["description"],
+                "sake_tag": row["sake_tag"],
+                "sake_image": row["sake_image"]
             })
         response = jsonify(menu_items)
         response.headers.add("Access-Control-Allow-Origin", "*")
@@ -54,7 +55,7 @@ def get_sake():
     try:
         conn = get_db()
         cursor = conn.cursor()
-        cursor.execute("SELECT * FROM sake_items ORDER BY id ASC")
+        cursor.execute("SELECT * FROM menu_items WHERE category = 'jizake' ORDER BY id ASC")
         rows = cursor.fetchall()
         conn.close()
         
@@ -63,12 +64,12 @@ def get_sake():
             sake_items.append({
                 "id": row["id"],
                 "item_id": row["item_id"],
-                "tag": row["tag"],
-                "name": row["name"],
-                "description": row["description"],
+                "tag": row["sake_tag"],
+                "name": row["title"],
+                "description": row["description"] or "",
                 "price_display": row["price_display"],
                 "tax_display": row["tax_display"],
-                "image_src": row["image_src"]
+                "image_src": row["sake_image"]
             })
         response = jsonify(sake_items)
         response.headers.add("Access-Control-Allow-Origin", "*")
