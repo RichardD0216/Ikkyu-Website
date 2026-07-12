@@ -19,7 +19,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込308円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Chilled Tofu (Hiyayakko)",
+        "badge_en": "Quick Start!",
+        "price_display_en": "280 yen",
+        "tax_display_en": "(incl. tax 308 yen)",
+        "description_en": "Chilled silken tofu served with grated ginger, scallions, and bonito flakes.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-edamame",
@@ -32,7 +39,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込308円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Edamame",
+        "badge_en": "Classic!",
+        "price_display_en": "280 yen",
+        "tax_display_en": "(incl. tax 308 yen)",
+        "description_en": "Lightly salted boiled green soybeans. The perfect companion for beer.",
+        "sake_tag_en": null,
+        "is_recommend_en": 1
     },
     {
         "item_id": "menu-item-kimchi",
@@ -45,7 +59,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込308円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Napa Cabbage Kimchi",
+        "badge_en": null,
+        "price_display_en": "280 yen",
+        "tax_display_en": "(incl. tax 308 yen)",
+        "description_en": "Spicy fermented napa cabbage.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-morokyu",
@@ -58,7 +79,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込385円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Cucumber with Miso (Morokyu)",
+        "badge_en": null,
+        "price_display_en": "350 yen",
+        "tax_display_en": "(incl. tax 385 yen)",
+        "description_en": "Fresh cucumber slices served with rich savory miso paste.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-yamamotanzaku",
@@ -71,7 +99,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込363円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Sliced Mountain Yam",
+        "badge_en": null,
+        "price_display_en": "330 yen",
+        "tax_display_en": "(incl. tax 363 yen)",
+        "description_en": "Crisp sliced raw mountain yam.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-dashimaki",
@@ -84,7 +119,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込385円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Rolled Omelet (Dashimaki)",
+        "badge_en": "Handmade!",
+        "price_display_en": "350 yen",
+        "tax_display_en": "(incl. tax 385 yen)",
+        "description_en": "Traditional handmade rolled omelet seasoned with rich savory dashi broth.",
+        "sake_tag_en": null,
+        "is_recommend_en": 1
     },
     {
         "item_id": "menu-item-hiyashitomato",
@@ -97,7 +139,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込385円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Chilled Tomato",
+        "badge_en": null,
+        "price_display_en": "350 yen",
+        "tax_display_en": "(incl. tax 385 yen)",
+        "description_en": "Refreshing chilled tomato slices.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-tsukemono",
@@ -110,7 +159,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込385円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Assorted Pickles",
+        "badge_en": null,
+        "price_display_en": "350 yen",
+        "tax_display_en": "(incl. tax 385 yen)",
+        "description_en": "Selection of traditional Japanese pickled vegetables.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-kizushi",
@@ -123,7 +179,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込440円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Cured Mackerel (Kizushi)",
+        "badge_en": null,
+        "price_display_en": "400 yen",
+        "tax_display_en": "(incl. tax 440 yen)",
+        "description_en": "Sliced vinegared mackerel sashimi.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-tataki",
@@ -136,7 +199,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込440円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Seared Local Chicken (Tataki)",
+        "badge_en": "Rare Choice",
+        "price_display_en": "400 yen",
+        "tax_display_en": "(incl. tax 440 yen)",
+        "description_en": "Lightly seared premium local chicken served with green onions and ponzu.",
+        "sake_tag_en": null,
+        "is_recommend_en": 1
     },
     {
         "item_id": "menu-item-cheeseomelet",
@@ -149,7 +219,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込462円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Cheese Omelet",
+        "badge_en": null,
+        "price_display_en": "420 yen",
+        "tax_display_en": "(incl. tax 462 yen)",
+        "description_en": "Fluffy omelet filled with melted cheese.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-mizugyoza",
@@ -162,7 +239,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込385円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Boiled Gyoza",
+        "badge_en": "Sesame Flavor",
+        "price_display_en": "350 yen",
+        "tax_display_en": "(incl. tax 385 yen)",
+        "description_en": "Boiled gyoza dumplings with rich sesame oil dressing.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-tomatosalad",
@@ -175,7 +259,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込418円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Tomato Salad",
+        "badge_en": null,
+        "price_display_en": "380 yen",
+        "tax_display_en": "(incl. tax 418 yen)",
+        "description_en": "Fresh tomato slices on seasonal greens with house dressing.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-potatosalad",
@@ -188,7 +279,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込418円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Handmade Potato Salad",
+        "badge_en": "Handmade!",
+        "price_display_en": "380 yen",
+        "tax_display_en": "(incl. tax 418 yen)",
+        "description_en": "Creamy handmade Japanese-style potato salad.",
+        "sake_tag_en": null,
+        "is_recommend_en": 1
     },
     {
         "item_id": "menu-item-caesarsalad",
@@ -201,7 +299,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込385円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Caesar Salad",
+        "badge_en": null,
+        "price_display_en": "350 yen",
+        "tax_display_en": "(incl. tax 385 yen)",
+        "description_en": "Crisp romaine lettuce with Caesar dressing and croutons.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-tokusensalad",
@@ -214,7 +319,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込462円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Ikkyu Special Salad",
+        "badge_en": "Most Popular!",
+        "price_display_en": "420 yen",
+        "tax_display_en": "(incl. tax 462 yen)",
+        "description_en": "Our most popular salad with assorted toppings and signature dressing.",
+        "sake_tag_en": null,
+        "is_recommend_en": 1
     },
     {
         "item_id": "menu-item-ageshumai",
@@ -227,7 +339,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込330円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Fried Shumai",
+        "badge_en": null,
+        "price_display_en": "300 yen",
+        "tax_display_en": "(incl. tax 330 yen)",
+        "description_en": "Deep-fried pork dumplings.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-frenchfries",
@@ -240,7 +359,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込330円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "French Fries",
+        "badge_en": "Kids' Choice!",
+        "price_display_en": "300 yen",
+        "tax_display_en": "(incl. tax 330 yen)",
+        "description_en": "Crispy golden potato fries.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-isobe",
@@ -253,7 +379,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込330円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Fried Fish Cakes (Isobeage)",
+        "badge_en": "Izakaya Classic",
+        "price_display_en": "300 yen",
+        "tax_display_en": "(incl. tax 330 yen)",
+        "description_en": "Chewy chikuwa fish cake tempura flavored with green nori seaweed.",
+        "sake_tag_en": null,
+        "is_recommend_en": 1
     },
     {
         "item_id": "menu-item-croquette",
@@ -266,7 +399,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込418円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Special Croquette",
+        "badge_en": "Handmade!",
+        "price_display_en": "380 yen",
+        "tax_display_en": "(incl. tax 418 yen)",
+        "description_en": "Handmade crispy potato croquettes.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-surume",
@@ -279,7 +419,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込440円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Dried Squid Tempura",
+        "badge_en": "Savory & Chewy",
+        "price_display_en": "400 yen",
+        "tax_display_en": "(incl. tax 440 yen)",
+        "description_en": "Deep-fried dried squid tempura. Excellent with sake or beer.",
+        "sake_tag_en": null,
+        "is_recommend_en": 1
     },
     {
         "item_id": "menu-item-koebi",
@@ -292,7 +439,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込462円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Fried Small Shrimp",
+        "badge_en": null,
+        "price_display_en": "420 yen",
+        "tax_display_en": "(incl. tax 462 yen)",
+        "description_en": "Crispy deep-fried small whole river shrimp.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-cheesefry",
@@ -305,7 +459,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込462円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Fried Cheese",
+        "badge_en": null,
+        "price_display_en": "420 yen",
+        "tax_display_en": "(incl. tax 462 yen)",
+        "description_en": "Melted cheese sticks fried in crispy breadcrumbs.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-kushikatsu",
@@ -318,7 +479,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込495円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Assorted Kushikatsu",
+        "badge_en": "Osaka Specialty",
+        "price_display_en": "450 yen",
+        "tax_display_en": "(incl. tax 495 yen)",
+        "description_en": "Osaka specialty: deep-fried skewered meat and vegetables.",
+        "sake_tag_en": null,
+        "is_recommend_en": 1
     },
     {
         "item_id": "menu-item-karaage",
@@ -331,7 +499,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込495円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Fried Chicken (Karaage)",
+        "badge_en": "Best Seller!",
+        "price_display_en": "450 yen",
+        "tax_display_en": "(incl. tax 495 yen)",
+        "description_en": "Crispy and juicy ginger-soy marinated fried chicken.",
+        "sake_tag_en": null,
+        "is_recommend_en": 1
     },
     {
         "item_id": "menu-item-torikara-ponzu",
@@ -344,7 +519,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込495円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Fried Chicken with Ponzu",
+        "badge_en": null,
+        "price_display_en": "450 yen",
+        "tax_display_en": "(incl. tax 495 yen)",
+        "description_en": "Crispy fried chicken topped with grated daikon radish and citrus ponzu.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-agedashidofu",
@@ -357,7 +539,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込385円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Agedashi Tofu",
+        "badge_en": "Classic",
+        "price_display_en": "350 yen",
+        "tax_display_en": "(incl. tax 385 yen)",
+        "description_en": "Deep-fried tofu cubes in hot savory dashi broth.",
+        "sake_tag_en": null,
+        "is_recommend_en": 1
     },
     {
         "item_id": "menu-item-yamamotenpura",
@@ -370,7 +559,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込363円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Mountain Yam Tempura",
+        "badge_en": null,
+        "price_display_en": "330 yen",
+        "tax_display_en": "(incl. tax 363 yen)",
+        "description_en": "Light and crispy mountain yam tempura.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-mezashi",
@@ -383,7 +579,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込363円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Grilled Sardines (Mezashi)",
+        "badge_en": null,
+        "price_display_en": "330 yen",
+        "tax_display_en": "(incl. tax 363 yen)",
+        "description_en": "Grilled semi-dried skewered sardines.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-shishamo",
@@ -396,7 +599,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込363円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Grilled Shishamo",
+        "badge_en": null,
+        "price_display_en": "330 yen",
+        "tax_display_en": "(incl. tax 363 yen)",
+        "description_en": "Grilled capelin fish filled with roe.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-yakigyoza",
@@ -409,7 +619,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込330円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Pan-Fried Gyoza",
+        "badge_en": null,
+        "price_display_en": "300 yen",
+        "tax_display_en": "(incl. tax 330 yen)",
+        "description_en": "Crispy pan-fried pork dumplings.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-satsumaage",
@@ -422,7 +639,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込363円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Fried Fish Cake (Jako-ten)",
+        "badge_en": "Uwajima Local Specialty",
+        "price_display_en": "330 yen",
+        "tax_display_en": "(incl. tax 363 yen)",
+        "description_en": "Tasty grilled fish cake from Uwajima.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-shogayaki",
@@ -435,7 +659,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込495円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Ginger Pork (Shogayaki)",
+        "badge_en": "Pub Favorite",
+        "price_display_en": "450 yen",
+        "tax_display_en": "(incl. tax 495 yen)",
+        "description_en": "Thinly sliced pork stir-fried in a savory ginger soy sauce.",
+        "sake_tag_en": null,
+        "is_recommend_en": 1
     },
     {
         "item_id": "menu-item-atsuageyaki",
@@ -448,7 +679,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込363円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Grilled Thick Tofu",
+        "badge_en": "With Ginger & Scallions",
+        "price_display_en": "330 yen",
+        "tax_display_en": "(incl. tax 363 yen)",
+        "description_en": "Grilled thick tofu served with grated ginger and scallions.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-buttercorn",
@@ -461,7 +699,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込330円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Butter Corn",
+        "badge_en": null,
+        "price_display_en": "300 yen",
+        "tax_display_en": "(incl. tax 330 yen)",
+        "description_en": "Sweet corn kernels sautéed in rich butter.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-moyashitame",
@@ -474,7 +719,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込352円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Bean Sprout Stir-Fry",
+        "badge_en": null,
+        "price_display_en": "320 yen",
+        "tax_display_en": "(incl. tax 352 yen)",
+        "description_en": "Stir-fried bean sprouts with pork.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-nasumiso",
@@ -487,7 +739,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込385円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Eggplant Miso Stir-Fry",
+        "badge_en": null,
+        "price_display_en": "350 yen",
+        "tax_display_en": "(incl. tax 385 yen)",
+        "description_en": "Tender eggplant stir-fried in savory sweet miso sauce.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-butakimchi",
@@ -500,7 +759,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込418円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Pork Kimchi Stir-Fry",
+        "badge_en": "Spicy!",
+        "price_display_en": "380 yen",
+        "tax_display_en": "(incl. tax 418 yen)",
+        "description_en": "Spicy stir-fried pork and napa cabbage kimchi.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-yasaitame",
@@ -513,7 +779,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込462円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Mixed Vegetable Stir-Fry",
+        "badge_en": null,
+        "price_display_en": "420 yen",
+        "tax_display_en": "(incl. tax 462 yen)",
+        "description_en": "Healthy stir-fried assortment of vegetables and pork.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-torinabe",
@@ -526,7 +799,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込572円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Chicken Hot Pot",
+        "badge_en": "Warm Comfort",
+        "price_display_en": "520 yen",
+        "tax_display_en": "(incl. tax 572 yen)",
+        "description_en": "Clear savory chicken hot pot cooked at your table.",
+        "sake_tag_en": null,
+        "is_recommend_en": 1
     },
     {
         "item_id": "menu-item-kimchinabe",
@@ -539,7 +819,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込572円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Kimchi Hot Pot",
+        "badge_en": "Spicy",
+        "price_display_en": "520 yen",
+        "tax_display_en": "(incl. tax 572 yen)",
+        "description_en": "Spicy kimchi broth hot pot with pork and tofu.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-yakiudon",
@@ -552,7 +839,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込440円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Yaki Udon",
+        "badge_en": "Soy Sauce Flavor",
+        "price_display_en": "400 yen",
+        "tax_display_en": "(incl. tax 440 yen)",
+        "description_en": "Stir-fried thick udon noodles with pork and vegetables.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-yakisoba",
@@ -565,7 +859,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込440円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Yakisoba",
+        "badge_en": "Izakaya Classic",
+        "price_display_en": "400 yen",
+        "tax_display_en": "(incl. tax 440 yen)",
+        "description_en": "Stir-fried wheat noodles with pork, vegetables, and savory sauce.",
+        "sake_tag_en": null,
+        "is_recommend_en": 1
     },
     {
         "item_id": "menu-item-onigiri",
@@ -578,7 +879,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込352円)",
         "description": "うめ、鮭、おかかの三つから選べます。",
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Country Rice Balls (2 pcs)",
+        "badge_en": "Handmade",
+        "price_display_en": "320 yen",
+        "tax_display_en": "(incl. tax 352 yen)",
+        "description_en": "Two handmade rice balls. Choose flavor: Plum, Salmon, or Bonito Flakes.",
+        "sake_tag_en": null,
+        "is_recommend_en": 1
     },
     {
         "item_id": "menu-item-norityazuke",
@@ -591,7 +899,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込352円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Nori Ochazuke",
+        "badge_en": "Light Finish",
+        "price_display_en": "320 yen",
+        "tax_display_en": "(incl. tax 352 yen)",
+        "description_en": "Rice in hot green tea/dashi broth topped with nori seaweed.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-saketyazuke",
@@ -604,7 +919,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込352円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Salmon Ochazuke",
+        "badge_en": "Traditional",
+        "price_display_en": "320 yen",
+        "tax_display_en": "(incl. tax 352 yen)",
+        "description_en": "Rice in hot green tea/dashi broth topped with flaked salmon.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-umetyazuke",
@@ -617,7 +939,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込352円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Plum Ochazuke",
+        "badge_en": "Sour & Salty",
+        "price_display_en": "320 yen",
+        "tax_display_en": "(incl. tax 352 yen)",
+        "description_en": "Rice in hot green tea/dashi broth topped with pickled plum.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-torizosui",
@@ -630,7 +959,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込429円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Chicken Rice Porridge",
+        "badge_en": null,
+        "price_display_en": "390 yen",
+        "tax_display_en": "(incl. tax 429 yen)",
+        "description_en": "Warm chicken and egg rice porridge.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-umezosui",
@@ -643,7 +979,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込429円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Plum Rice Porridge",
+        "badge_en": null,
+        "price_display_en": "390 yen",
+        "tax_display_en": "(incl. tax 429 yen)",
+        "description_en": "Warm pickled plum and egg rice porridge.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-draft-medium",
@@ -656,7 +999,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込495円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Super Dry Draft Beer (M)",
+        "badge_en": null,
+        "price_display_en": "450 yen",
+        "tax_display_en": "(incl. tax 495 yen)",
+        "description_en": "Super Dry draft beer (Medium glass).",
+        "sake_tag_en": null,
+        "is_recommend_en": 1
     },
     {
         "item_id": "menu-item-draft-large",
@@ -669,7 +1019,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込825円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Super Dry Draft Beer (L)",
+        "badge_en": null,
+        "price_display_en": "750 yen",
+        "tax_display_en": "(incl. tax 825 yen)",
+        "description_en": "Super Dry draft beer (Large mug).",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-bottle-medium",
@@ -682,7 +1039,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込528円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Super Dry Bottled Beer (M)",
+        "badge_en": null,
+        "price_display_en": "480 yen",
+        "tax_display_en": "(incl. tax 528 yen)",
+        "description_en": "Super Dry bottled beer (Medium bottle).",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-dryzero",
@@ -695,7 +1059,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込330円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Asahi Dry Zero",
+        "badge_en": "Non-Alcoholic",
+        "price_display_en": "300 yen",
+        "tax_display_en": "(incl. tax 330 yen)",
+        "description_en": "Non-alcoholic beer.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-tokkuri-sho",
@@ -708,7 +1079,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込363円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Sake Tokkuri (S) (180ml)",
+        "badge_en": "Flask",
+        "price_display_en": "330 yen",
+        "tax_display_en": "(incl. tax 363 yen)",
+        "description_en": "Hot or cold house sake served in a small flask.",
+        "sake_tag_en": null,
+        "is_recommend_en": 1
     },
     {
         "item_id": "menu-item-tokkuri-dai",
@@ -721,7 +1099,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込704円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Sake Tokkuri (L) (360ml)",
+        "badge_en": "Flask",
+        "price_display_en": "640 yen",
+        "tax_display_en": "(incl. tax 704 yen)",
+        "description_en": "Hot or cold house sake served in a large flask.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-umeshu",
@@ -734,7 +1119,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込418円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Plum Wine (Umeshu)",
+        "badge_en": "Sweet & Fruity",
+        "price_display_en": "380 yen",
+        "tax_display_en": "(incl. tax 418 yen)",
+        "description_en": "Sweet Japanese plum wine. Choose: On the Rocks or with Soda.",
+        "sake_tag_en": null,
+        "is_recommend_en": 1
     },
     {
         "item_id": "menu-item-chuhai-lemon",
@@ -747,7 +1139,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込418円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Shochu Sour (Lemon)",
+        "badge_en": null,
+        "price_display_en": "380 yen",
+        "tax_display_en": "(incl. tax 418 yen)",
+        "description_en": "Shochu mixed with soda and fresh lemon.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-chuhai-lime",
@@ -760,7 +1159,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込418円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Shochu Sour (Lime)",
+        "badge_en": null,
+        "price_display_en": "380 yen",
+        "tax_display_en": "(incl. tax 418 yen)",
+        "description_en": "Shochu mixed with soda and fresh lime.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-chuhai-calpis",
@@ -773,7 +1179,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込418円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Shochu Sour (Calpis)",
+        "badge_en": null,
+        "price_display_en": "380 yen",
+        "tax_display_en": "(incl. tax 418 yen)",
+        "description_en": "Shochu mixed with soda and Calpis yogurt flavor.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-chuhai-ume",
@@ -786,7 +1199,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込418円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Shochu Sour (Plum)",
+        "badge_en": null,
+        "price_display_en": "380 yen",
+        "tax_display_en": "(incl. tax 418 yen)",
+        "description_en": "Shochu mixed with soda and pickled plum.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-chuhai-kyoho",
@@ -799,7 +1219,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込418円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Shochu Sour (Kyoho Grape)",
+        "badge_en": null,
+        "price_display_en": "380 yen",
+        "tax_display_en": "(incl. tax 418 yen)",
+        "description_en": "Shochu mixed with soda and Kyoho grape juice.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-chuhai-yuzu",
@@ -812,7 +1239,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込418円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Shochu Sour (Yuzu)",
+        "badge_en": null,
+        "price_display_en": "380 yen",
+        "tax_display_en": "(incl. tax 418 yen)",
+        "description_en": "Shochu mixed with soda and aromatic citrus yuzu syrup.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-chuhai-oolong",
@@ -825,7 +1259,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込418円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Oolong High",
+        "badge_en": null,
+        "price_display_en": "380 yen",
+        "tax_display_en": "(incl. tax 418 yen)",
+        "description_en": "Shochu mixed with chilled oolong tea.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-highball",
@@ -838,7 +1279,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込440円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Whisky Highball",
+        "badge_en": "Popular",
+        "price_display_en": "400 yen",
+        "tax_display_en": "(incl. tax 440 yen)",
+        "description_en": "Whisky mixed with refreshing carbonated soda.",
+        "sake_tag_en": null,
+        "is_recommend_en": 1
     },
     {
         "item_id": "menu-item-wine-half",
@@ -851,7 +1299,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込1,210円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Wine (Half Bottle)",
+        "badge_en": null,
+        "price_display_en": "1,100 yen",
+        "tax_display_en": "(incl. tax 1,210 yen)",
+        "description_en": "Red or White half bottle wine.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-wine-full",
@@ -864,7 +1319,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込1,980円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Wine (Full Bottle)",
+        "badge_en": null,
+        "price_display_en": "1,800 yen",
+        "tax_display_en": "(incl. tax 1,980 yen)",
+        "description_en": "Red or White full bottle wine.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-jizake-kenbishi",
@@ -877,7 +1339,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込528円)",
         "description": null,
         "sake_tag": "兵庫県・芳醇旨口",
-        "sake_image": "assets/sake_kenbishi.png"
+        "sake_image": "assets/sake_kenbishi.png",
+        "title_en": "Kenbishi",
+        "badge_en": null,
+        "price_display_en": "Glass 480 yen",
+        "tax_display_en": "(incl. tax 528 yen)",
+        "description_en": "Hyogo prefecture • Rich and full-bodied classic sake.",
+        "sake_tag_en": "Hyogo • Rich & Dry",
+        "is_recommend_en": 1
     },
     {
         "item_id": "menu-item-jizake-tosatsuru",
@@ -890,7 +1359,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込528円)",
         "description": null,
         "sake_tag": "高知県・淡麗辛口",
-        "sake_image": "assets/sake_tosatsuru.png"
+        "sake_image": "assets/sake_tosatsuru.png",
+        "title_en": "Tosatsuru",
+        "badge_en": null,
+        "price_display_en": "Glass 480 yen",
+        "tax_display_en": "(incl. tax 528 yen)",
+        "description_en": "Kochi prefecture • Extremely crisp and dry sake.",
+        "sake_tag_en": "Kochi • Crisp & Dry",
+        "is_recommend_en": 1
     },
     {
         "item_id": "menu-item-jizake-karatanba",
@@ -903,7 +1379,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込528円)",
         "description": null,
         "sake_tag": "兵庫県・淡麗辛口",
-        "sake_image": "assets/sake_karatanba.png"
+        "sake_image": "assets/sake_karatanba.png",
+        "title_en": "Karatanba",
+        "badge_en": null,
+        "price_display_en": "Glass 480 yen",
+        "tax_display_en": "(incl. tax 528 yen)",
+        "description_en": "Hyogo prefecture • Rich yet clean dry sake.",
+        "sake_tag_en": "Hyogo • Clean & Dry",
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-jizake-goshun",
@@ -916,7 +1399,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込638円)",
         "description": null,
         "sake_tag": "大阪府・旨口",
-        "sake_image": "assets/sake_goshun.png"
+        "sake_image": "assets/sake_goshun.png",
+        "title_en": "Goshun",
+        "badge_en": "Osaka Local Sake",
+        "price_display_en": "Glass 580 yen",
+        "tax_display_en": "(incl. tax 638 yen)",
+        "description_en": "Osaka local specialty sake. Remarkably smooth, mild, and satisfying.",
+        "sake_tag_en": "Osaka • Smooth & Mild",
+        "is_recommend_en": 1
     },
     {
         "item_id": "menu-item-jizake-kubota",
@@ -929,7 +1419,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込638円)",
         "description": null,
         "sake_tag": "新潟県・淡麗辛口",
-        "sake_image": "assets/sake_kubota.png"
+        "sake_image": "assets/sake_kubota.png",
+        "title_en": "Kubota (Senju)",
+        "badge_en": "Premium Sake",
+        "price_display_en": "Glass 580 yen",
+        "tax_display_en": "(incl. tax 638 yen)",
+        "description_en": "Niigata prefecture • Super famous premium sake with a clean, crisp finish.",
+        "sake_tag_en": "Niigata • Crisp & Clean",
+        "is_recommend_en": 1
     },
     {
         "item_id": "menu-item-shochu-rock",
@@ -942,7 +1439,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込363円)",
         "description": "※梅/レモン 各+30円(税込33円)、ソーダ +80円(税込88円)追加",
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Shochu (On the Rocks)",
+        "badge_en": null,
+        "price_display_en": "330 yen",
+        "tax_display_en": "(incl. tax 363 yen)",
+        "description_en": "Neat distilled Japanese spirit served on the rocks. *Add Plum/Lemon +30 yen (incl. tax 33 yen), Soda +80 yen (incl. tax 88 yen)",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-shochu-water",
@@ -955,7 +1459,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込363円)",
         "description": "※梅/レモン 各+30円(税込33円)、ソーダ +80円(税込88円)追加",
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Shochu (Water / Hot Water)",
+        "badge_en": null,
+        "price_display_en": "330 yen each",
+        "tax_display_en": "(incl. tax 363 yen)",
+        "description_en": "Distilled Japanese spirit served with water or hot water. *Add Plum/Lemon +30 yen (incl. tax 33 yen), Soda +80 yen (incl. tax 88 yen)",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-shochu-soda",
@@ -968,7 +1479,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込418円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Shochu (Soda Mix)",
+        "badge_en": null,
+        "price_display_en": "380 yen",
+        "tax_display_en": "(incl. tax 418 yen)",
+        "description_en": "Distilled Japanese spirit mixed with carbonated soda.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-keep-sho",
@@ -981,7 +1499,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込2,420円)",
         "description": "〈麦〉いいちこ、二階堂　〈芋〉さつま白波、紫尾の露",
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Shochu Bottle Keep Small (900ml)",
+        "badge_en": "1 Free per 10 Kept",
+        "price_display_en": "2,200 yen each",
+        "tax_display_en": "(incl. tax 2,420 yen)",
+        "description_en": "Keep a 900ml Shochu bottle. Choose: Barley (Iichiko, Nikaido) or Potato (White Shiranami, Shibinotsuyu).",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-keep-dai",
@@ -994,7 +1519,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込4,620円)",
         "description": "〈麦〉いいちこ、二階堂　〈芋〉さつま白波、黒霧島、ぼっけもん、紫尾の露",
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Shochu Bottle Keep Large (1800ml)",
+        "badge_en": "1 Free per 10 Kept",
+        "price_display_en": "4,200 yen each",
+        "tax_display_en": "(incl. tax 4,620 yen)",
+        "description_en": "Keep a 1800ml Shochu bottle. Choose: Barley (Iichiko, Nikaido) or Potato (White Shiranami, Kurokirishima, Bokkemon, Shibinotsuyu).",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-soft-oolong",
@@ -1007,7 +1539,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込330円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Oolong Tea",
+        "badge_en": null,
+        "price_display_en": "300 yen",
+        "tax_display_en": "(incl. tax 330 yen)",
+        "description_en": "Chilled unsweetened oolong tea.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-soft-calpis",
@@ -1020,7 +1559,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込330円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Calpis Water",
+        "badge_en": null,
+        "price_display_en": "300 yen",
+        "tax_display_en": "(incl. tax 330 yen)",
+        "description_en": "Sweet, refreshing milk-based lactic acid beverage.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     },
     {
         "item_id": "menu-item-soft-cola",
@@ -1033,7 +1579,14 @@ MENU_ITEMS_JSON = '''[
         "tax_display": "(税込330円)",
         "description": null,
         "sake_tag": null,
-        "sake_image": null
+        "sake_image": null,
+        "title_en": "Coca Cola",
+        "badge_en": null,
+        "price_display_en": "300 yen",
+        "tax_display_en": "(incl. tax 330 yen)",
+        "description_en": "Chilled classic Coca-Cola.",
+        "sake_tag_en": null,
+        "is_recommend_en": 0
     }
 ]'''
 
@@ -1045,21 +1598,28 @@ def init_db():
     cursor.execute('DROP TABLE IF EXISTS menu_items')
     cursor.execute('DROP TABLE IF EXISTS sake_items')
 
-    # Create new unified menu_items table
+    # Create new unified menu_items table with English translation columns
     cursor.execute('''
     CREATE TABLE menu_items (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         item_id TEXT UNIQUE NOT NULL,
         category TEXT NOT NULL,
         badge TEXT,
+        badge_en TEXT,
         title TEXT NOT NULL,
+        title_en TEXT NOT NULL,
         price INTEGER,
         tax_price INTEGER,
         price_display TEXT NOT NULL,
+        price_display_en TEXT NOT NULL,
         tax_display TEXT NOT NULL,
+        tax_display_en TEXT NOT NULL,
         description TEXT,
+        description_en TEXT,
         sake_tag TEXT,
-        sake_image TEXT
+        sake_tag_en TEXT,
+        sake_image TEXT,
+        is_recommend_en INTEGER DEFAULT 0
     )
     ''')
 
@@ -1069,20 +1629,27 @@ def init_db():
     for item in items:
         cursor.execute('''
         INSERT INTO menu_items 
-        (item_id, category, badge, title, price, tax_price, price_display, tax_display, description, sake_tag, sake_image)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        (item_id, category, badge, badge_en, title, title_en, price, tax_price, price_display, price_display_en, tax_display, tax_display_en, description, description_en, sake_tag, sake_tag_en, sake_image, is_recommend_en)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ''', (
             item['item_id'],
             item['category'],
             item['badge'],
+            item.get('badge_en'),
             item['title'],
+            item.get('title_en', item['title']),
             item['price'],
             item['tax_price'],
             item['price_display'],
+            item.get('price_display_en', item['price_display']),
             item['tax_display'],
+            item.get('tax_display_en', item['tax_display']),
             item['description'],
+            item.get('description_en'),
             item['sake_tag'],
-            item['sake_image']
+            item.get('sake_tag_en'),
+            item['sake_image'],
+            item.get('is_recommend_en', 0)
         ))
 
     conn.commit()

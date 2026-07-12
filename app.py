@@ -33,14 +33,21 @@ def get_menu():
                 "item_id": row["item_id"],
                 "category": row["category"],
                 "badge": row["badge"],
+                "badge_en": row["badge_en"],
                 "title": row["title"],
+                "title_en": row["title_en"],
                 "price": row["price"],
                 "tax_price": row["tax_price"],
                 "price_display": row["price_display"],
+                "price_display_en": row["price_display_en"],
                 "tax_display": row["tax_display"],
+                "tax_display_en": row["tax_display_en"],
                 "description": row["description"],
+                "description_en": row["description_en"],
                 "sake_tag": row["sake_tag"],
-                "sake_image": row["sake_image"]
+                "sake_tag_en": row["sake_tag_en"],
+                "sake_image": row["sake_image"],
+                "is_recommend_en": row["is_recommend_en"]
             })
         response = jsonify(menu_items)
         response.headers.add("Access-Control-Allow-Origin", "*")
@@ -65,11 +72,17 @@ def get_sake():
                 "id": row["id"],
                 "item_id": row["item_id"],
                 "tag": row["sake_tag"],
+                "tag_en": row["sake_tag_en"],
                 "name": row["title"],
+                "name_en": row["title_en"],
                 "description": row["description"] or "",
+                "description_en": row["description_en"] or "",
                 "price_display": row["price_display"],
+                "price_display_en": row["price_display_en"],
                 "tax_display": row["tax_display"],
-                "image_src": row["sake_image"]
+                "tax_display_en": row["tax_display_en"],
+                "image_src": row["sake_image"],
+                "is_recommend_en": row["is_recommend_en"]
             })
         response = jsonify(sake_items)
         response.headers.add("Access-Control-Allow-Origin", "*")

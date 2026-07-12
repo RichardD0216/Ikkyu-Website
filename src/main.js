@@ -3,10 +3,13 @@
 // Interactivity & Page Logic
 //
 
+let currentLang = localStorage.getItem('selected_language') || 'ja';
+
 document.addEventListener('DOMContentLoaded', () => {
   initMobileNav();
   initScrollReveal();
   initHeroParallax();
+  initLangSwitcher();
   // initMenuFilters() is now initialized inside loadMenuItems after fetching data
   initGalleryLightbox();
   initSmoothScroll();
@@ -61,8 +64,8 @@ function initHeroParallax() {
   });
 }
 
-// Dynamic category mapping for Parent-Child tabs
-const MENU_CATEGORIES = {
+// Dynamic category mapping for Parent-Child tabs (Japanese)
+const MENU_CATEGORIES_JA = {
   food: [
     { key: 'all', label: 'すべて' },
     { key: 'alacarte', label: 'アラカルト' },
@@ -89,9 +92,43 @@ const MENU_CATEGORIES = {
   ]
 };
 
+// Dynamic category mapping for Parent-Child tabs (English with Japan Specials as first option)
+const MENU_CATEGORIES_EN = {
+  food: [
+    { key: 'japan_recommend', label: '🇯🇵 Must-Try Specials' },
+    { key: 'all', label: 'All Foods' },
+    { key: 'alacarte', label: 'A La Carte' },
+    { key: 'salad', label: 'Salads' },
+    { key: 'fry', label: 'Fried Foods' },
+    { key: 'grill', label: 'Grilled Foods' },
+    { key: 'stirfry', label: 'Stir-Fried' },
+    { key: 'hotpot', label: 'Mini Hot Pot' },
+    { key: 'meal', label: 'Rice & Noodles' }
+  ],
+  drink: [
+    { key: 'japan_recommend', label: '🇯🇵 Must-Try Sake & Drinks' },
+    { key: 'all', label: 'All Drinks' },
+    { key: 'beer', label: 'Beer' },
+    { key: 'nonalcoholic', label: 'Non-Alcoholic Beer' },
+    { key: 'sake', label: 'Standard Sake' },
+    { key: 'umeshu', label: 'Plum Wine (Umeshu)' },
+    { key: 'chuhai', label: 'Shochu Sour (Chuhai)' },
+    { key: 'highball', label: 'Highball' },
+    { key: 'wine', label: 'Wine' },
+    { key: 'jizake', label: 'Premium Sake' },
+    { key: 'shochu', label: 'Shochu' },
+    { key: 'shochu_keep', label: 'Shochu Bottle Keep' },
+    { key: 'softdrink', label: 'Soft Drinks' }
+  ]
+};
+
+function getMenuCategories() {
+  return currentLang === 'en' ? MENU_CATEGORIES_EN : MENU_CATEGORIES_JA;
+}
+
 let allMenuItems = [];
 let activeParentGroup = 'food';
-let activeChildCategory = 'all';
+let activeChildCategory = localStorage.getItem('selected_language') === 'en' ? 'japan_recommend' : 'all';
 
 /**
  * Initialize parent tab events
@@ -106,7 +143,7 @@ function initParentTabs() {
       if (selectedGroup === activeParentGroup) return;
 
       activeParentGroup = selectedGroup;
-      activeChildCategory = 'all';
+      activeChildCategory = (currentLang === 'en') ? 'japan_recommend' : 'all';
 
       // Update active button state
       parentButtons.forEach(b => b.classList.remove('active'));
@@ -126,7 +163,7 @@ function renderChildTabs() {
   const tabContainer = document.getElementById('menu-tab-container');
   if (!tabContainer) return;
 
-  const categories = MENU_CATEGORIES[activeParentGroup];
+  const categories = getMenuCategories()[activeParentGroup];
   tabContainer.innerHTML = categories.map(cat => {
     const isActive = cat.key === activeChildCategory ? 'active' : '';
     return `<button class="menu-tab-btn ${isActive}" data-category="${cat.key}">${cat.label}</button>`;
@@ -166,11 +203,22 @@ function filterAndRenderGrid() {
 
   setTimeout(() => {
     // 1. Get allowable categories in active parent group
-    const allowedCategories = MENU_CATEGORIES[activeParentGroup].map(c => c.key);
+    const allowedCategories = getMenuCategories()[activeParentGroup].map(c => c.key);
     
     // 2. Filter items
     const filteredItems = allMenuItems.filter(item => {
-      // Must belong to active parent group
+      // If we are in "Japan Special" recommendations filter mode
+      if (activeChildCategory === 'japan_recommend') {
+        const isFoodGroup = activeParentGroup === 'food';
+        const itemIsFood = ['alacarte', 'salad', 'fry', 'grill', 'stirfry', 'hotpot', 'meal'].includes(item.category);
+        const itemIsDrink = ['beer', 'nonalcoholic', 'sake', 'umeshu', 'chuhai', 'highball', 'wine', 'jizake', 'shochu', 'shochu_keep', 'softdrink'].includes(item.category);
+        
+        if (isFoodGroup && !itemIsFood) return false;
+        if (!isFoodGroup && !itemIsDrink) return false;
+        
+        return item.is_recommend_en === 1;
+      }
+
       if (!allowedCategories.includes(item.category)) return false;
       
       // Must match sub-category filter if not 'all'
@@ -180,19 +228,34 @@ function filterAndRenderGrid() {
 
     // 3. Render items HTML
     if (filteredItems.length === 0) {
-      menuGrid.innerHTML = '<p class="error-placeholder" style="grid-column: 1/-1; text-align: center; color: var(--color-text-muted); padding: 3rem 0;">該当するメニューはありません。</p>';
+      const emptyMsg = (currentLang === 'en') ? 'No items found.' : '該当するメニューはありません。';
+      menuGrid.innerHTML = `<p class="error-placeholder" style="grid-column: 1/-1; text-align: center; color: var(--color-text-muted); padding: 3rem 0;">${emptyMsg}</p>`;
     } else {
       menuGrid.innerHTML = filteredItems.map(item => {
-        let badgeHTML = item.badge ? `<span class="menu-item-badge">${item.badge}</span>` : '';
-        let descHTML = item.description ? `<p class="menu-item-desc">${item.description}</p>` : '';
+        const title = (currentLang === 'en') ? item.title_en : item.title;
+        const description = (currentLang === 'en') ? item.description_en : item.description;
+        const badge = (currentLang === 'en') ? item.badge_en : item.badge;
+        const priceDisplay = (currentLang === 'en') ? item.price_display_en : item.price_display;
+        const taxDisplay = (currentLang === 'en') ? item.tax_display_en : item.tax_display;
+
+        let badgeHTML = badge ? `<span class="menu-item-badge">${badge}</span>` : '';
+        let descHTML = description ? `<p class="menu-item-desc">${description}</p>` : '';
         
+        let recommendBadgeHTML = '';
+        if (item.is_recommend_en) {
+          const badgeText = (currentLang === 'en') ? '🇯🇵 Must Try' : 'おすすめ';
+          recommendBadgeHTML = `<span class="menu-item-recommend-badge">${badgeText}</span>`;
+        }
+
+        const recommendedClass = item.is_recommend_en ? 'recommended' : '';
+
         return `
-          <div class="menu-item" data-category="${item.category}" id="${item.item_id}">
+          <div class="menu-item ${recommendedClass}" data-category="${item.category}" id="${item.item_id}">
             ${badgeHTML}
             <div class="menu-item-header">
-              <h4 class="menu-item-title">${item.title}</h4>
+              <h4 class="menu-item-title">${title}${recommendBadgeHTML}</h4>
               <div class="menu-item-dots"></div>
-              <span class="menu-item-price">${item.price_display}<span class="tax-inc"> ${item.tax_display}</span></span>
+              <span class="menu-item-price">${priceDisplay}<span class="tax-inc"> ${taxDisplay}</span></span>
             </div>
             ${descHTML}
           </div>
@@ -435,14 +498,33 @@ async function loadSakeItems() {
     
     items.forEach(item => {
       const cardEl = document.createElement('div');
-      cardEl.className = 'sake-card';
+      
+      const tag = (currentLang === 'en') ? item.tag_en : item.tag;
+      const name = (currentLang === 'en') ? item.name_en : item.name;
+      const description = (currentLang === 'en') ? item.description_en : item.description;
+      const priceDisplay = (currentLang === 'en') ? item.price_display_en : item.price_display;
+      const taxDisplay = (currentLang === 'en') ? item.tax_display_en : item.tax_display;
+
+      const isRecommend = item.is_recommend_en === 1;
+      const recommendedClass = isRecommend ? 'recommended' : '';
+
+      cardEl.className = `sake-card ${recommendedClass}`;
       cardEl.id = item.item_id;
 
+      let recommendBadge = '';
+      if (isRecommend) {
+        const badgeText = (currentLang === 'en') ? '🇯🇵 Must Try' : 'おすすめ';
+        recommendBadge = `<span class="menu-item-recommend-badge" style="margin-left: 0; margin-top: 4px;">${badgeText}</span>`;
+      }
+
       cardEl.innerHTML = `
-        <div class="sake-card-tag">${item.tag}</div>
-        <div class="sake-card-name">${item.name}</div>
-        <div class="sake-card-origin">${item.description}<br><span class="sake-card-price">${item.price_display} <span class="tax-label">${item.tax_display}</span></span></div>
-        <img src="${item.image_src}" alt="${item.name}" class="sake-card-bottle-art">
+        <div class="sake-card-tag" style="display: flex; flex-direction: column; align-items: flex-start; gap: 4px;">
+          <span>${tag}</span>
+          ${recommendBadge}
+        </div>
+        <div class="sake-card-name">${name}</div>
+        <div class="sake-card-origin">${description}<br><span class="sake-card-price">${priceDisplay} <span class="tax-label">${taxDisplay}</span></span></div>
+        <img src="${item.image_src}" alt="${name}" class="sake-card-bottle-art">
       `;
       fragment.appendChild(cardEl);
     });
@@ -460,6 +542,199 @@ async function loadSakeItems() {
         地酒メニューの読み込みに失敗しました。再度お試しください。
       </p>
     `;
+  }
+}
+
+//
+// MULTI-LANGUAGE TRANSLATION MAPPINGS & LOGIC
+//
+const STATIC_TRANSLATIONS = {
+  ja: {
+    "nav-specialty": "こだわり",
+    "nav-menu": "お品書き",
+    "nav-gallery": "お店の雰囲気",
+    "nav-access": "店舗情報",
+    "hero-badge": "淀屋橋・北浜 隠れ家",
+    "hero-tagline": "創業から愛される木製の温もりと、厳選を重ねた極上の旨い地酒。",
+    "hero-booking": "【ご予約受付】お電話にて承ります：<a href=\"tel:06-6202-3644\" class=\"hero-tel-link\">06-6202-3644</a>",
+    "hero-cta": "店舗情報・アクセス",
+    "specialty-title": "一休のこだわり",
+    "keep-badge": "10本毎に1本サービス",
+    "keep-title": "焼酎ボトルキープ",
+    "keep-desc": "常連様に長年愛され続ける一休の名物システム。<br>お気に入りの焼酎ボトル（黒霧島、いいちこ、二階堂など）をいつでもキープいたします。<span class=\"keep-hl\">10本キープいただく毎に、次の1本を無料でプレゼント</span>いたします。",
+    "jizake-title": "厳選銘柄の地酒",
+    "menu-title": "お品書き",
+    "btn-parent-food": "フード<br>メニュー",
+    "btn-parent-drink": "ドリンク<br>メニュー",
+    "gallery-title": "お店の雰囲気",
+    "polaroid-counter": "温もりのある木製カウンター席",
+    "polaroid-table": "和の趣が落ち着く座敷・テーブル席",
+    "polaroid-food": "まごころ込めた手作り名物料理",
+    "access-title": "店舗情報",
+    "info-name-label": "店名",
+    "info-name-val": "居酒屋 一休 (居酒屋 一休)",
+    "info-addr-label": "住所",
+    "info-addr-val": "〒541-0041<br>大阪府大阪市中央区北浜3丁目3-11",
+    "info-tel-label": "電話番号",
+    "info-tel-val": "<a href=\"tel:06-6202-3644\" class=\"info-tel\">06-6202-3644</a><br><span style=\"font-size: 0.75rem; opacity: 0.6;\">(ご予約・お問合せはお気軽にどうぞ)</span>",
+    "info-tel-sub": "(ご予約・お問合せはお気軽にどうぞ)",
+    "info-hours-label": "営業時間",
+    "info-hours-val": "17:00 ～ 23:00<br><span style=\"font-size: 0.8rem; opacity: 0.8;\">(ラストオーダー 22:30)</span>",
+    "info-hours-sub": "(ラストオーダー 22:30)",
+    "info-closed-label": "定休日",
+    "info-closed-val": "土曜日・日曜日・祝日",
+    "booking-board-title": "ご予約について",
+    "booking-board-desc": "当店はご予約をお電話にて承っております。<br>少人数からご宴会まで、お気軽にお電話ください。",
+    "booking-board-btn": "📞 06-6202-3644 に電話する",
+    "btn-tabelog-title": "食べログで詳細を見る",
+    "btn-tabelog-desc": "メニュー詳細、口コミ、レビューの確認はこちら",
+    "btn-google-title": "Google マップで開く",
+    "btn-google-desc": "スマートフォンでの経路案内・GPSナビに最適",
+    "btn-yahoo-title": "Yahoo!マップで開く",
+    "btn-yahoo-desc": "高精度な地図表示と乗り換え検索ルート案内",
+    "footer-text": "〒541-0041 大阪府大阪市中央区北浜3丁目3-11 | 電話: 06-6202-3644"
+  },
+  en: {
+    "nav-specialty": "Our Specialty",
+    "nav-menu": "Menu",
+    "nav-gallery": "Atmosphere",
+    "nav-access": "Info & Location",
+    "hero-badge": "Yodoyabashi • Kitahama Hideaway",
+    "hero-tagline": "Loved since our founding, experience the warmth of wood and our carefully selected premium local sake.",
+    "hero-booking": "[Reservations] Please call: <a href=\"tel:06-6202-3644\" class=\"hero-tel-link\">06-6202-3644</a>",
+    "hero-cta": "Shop Info & Location",
+    "specialty-title": "Our Specialty",
+    "keep-badge": "1 Free Bottle for Every 10 Kept",
+    "keep-title": "Shochu Bottle Keep",
+    "keep-desc": "A long-time favorite system at Ikkyu.<br>Keep your favorite bottle of Shochu (Kurokirishima, Iichiko, Nikaido, etc.) at the shop. <span class=\"keep-hl\">For every 10 bottles kept, you will receive the next 1 bottle free of charge</span>.",
+    "jizake-title": "Premium Selection of Sake",
+    "menu-title": "Our Menu",
+    "btn-parent-food": "Food<br>Menu",
+    "btn-parent-drink": "Drink<br>Menu",
+    "gallery-title": "Interior Gallery",
+    "polaroid-counter": "Cozy wooden counter seats",
+    "polaroid-table": "Relaxing Japanese tatami & table seating",
+    "polaroid-food": "Heartfelt, handmade specialty dishes",
+    "access-title": "Shop Information",
+    "info-name-label": "Name",
+    "info-name-val": "Izakaya Ikkyu",
+    "info-addr-label": "Address",
+    "info-addr-val": "3-3-11 Kitahama, Chuo-ku, Osaka, 541-0041",
+    "info-tel-label": "Phone Number",
+    "info-tel-val": "<a href=\"tel:06-6202-3644\" class=\"info-tel\">06-6202-3644</a><br><span style=\"font-size: 0.75rem; opacity: 0.6;\">(Please feel free to call for reservations or inquiries)</span>",
+    "info-tel-sub": "(Please feel free to call for reservations or inquiries)",
+    "info-hours-label": "Hours",
+    "info-hours-val": "17:00 - 23:00<br><span style=\"font-size: 0.8rem; opacity: 0.8;\">(Last Order 22:30)</span>",
+    "info-hours-sub": "(Last Order 22:30)",
+    "info-closed-label": "Closed",
+    "info-closed-val": "Saturdays, Sundays, and National Holidays",
+    "booking-board-title": "About Reservations",
+    "booking-board-desc": "We accept reservations via phone.<br>From small groups to large banquets, please feel free to call us.",
+    "booking-board-btn": "📞 Call 06-6202-3644",
+    "btn-tabelog-title": "View details on Tabelog",
+    "btn-tabelog-desc": "Check menu details, reviews, and ratings here",
+    "btn-google-title": "Open in Google Maps",
+    "btn-google-desc": "Ideal for turn-by-turn directions and GPS navigation",
+    "btn-yahoo-title": "Open in Yahoo! Maps",
+    "btn-yahoo-desc": "High-precision maps and transit route planning guides",
+    "footer-text": "3-3-11 Kitahama, Chuo-ku, Osaka, 541-0041 | Phone: 06-6202-3644"
+  }
+};
+
+/**
+ * Initialize Language Switcher click listeners and set document state
+ */
+function initLangSwitcher() {
+  const langToggle = document.getElementById('lang-switch-toggle');
+  if (!langToggle) return;
+
+  const options = langToggle.querySelectorAll('.lang-option');
+  
+  // Set initial active state based on currentLang
+  options.forEach(opt => {
+    if (opt.getAttribute('data-lang') === currentLang) {
+      opt.classList.add('active');
+    } else {
+      opt.classList.remove('active');
+    }
+  });
+
+  // Attach click listener to each language button option
+  options.forEach(opt => {
+    opt.addEventListener('click', () => {
+      const selectedLang = opt.getAttribute('data-lang');
+      if (selectedLang === currentLang) return;
+      
+      setLanguage(selectedLang);
+    });
+  });
+  
+  // Apply document-wide initial translations
+  applyTranslations();
+}
+
+/**
+ * Switch language, update UI, and save to localStorage
+ */
+function setLanguage(lang) {
+  currentLang = lang;
+  localStorage.setItem('selected_language', lang);
+  document.documentElement.lang = lang;
+
+  // Update toggle state
+  const langToggle = document.getElementById('lang-switch-toggle');
+  if (langToggle) {
+    const options = langToggle.querySelectorAll('.lang-option');
+    options.forEach(opt => {
+      if (opt.getAttribute('data-lang') === lang) {
+        opt.classList.add('active');
+      } else {
+        opt.classList.remove('active');
+      }
+    });
+  }
+
+  // Update static text elements
+  applyTranslations();
+  
+  // Default child category to recommendation tab in English, and 'all' in Japanese
+  activeChildCategory = (currentLang === 'en') ? 'japan_recommend' : 'all';
+
+  // Re-render menu tabs and grid
+  renderChildTabs();
+  filterAndRenderGrid();
+  
+  // Reload Sake cards
+  loadSakeItems();
+}
+
+/**
+ * Apply translation mappings to all static DOM elements
+ */
+function applyTranslations() {
+  const translations = STATIC_TRANSLATIONS[currentLang];
+  if (!translations) return;
+
+  // Translate elements with data-translate-id attribute
+  const elements = document.querySelectorAll('[data-translate-id]');
+  elements.forEach(el => {
+    const key = el.getAttribute('data-translate-id');
+    if (translations[key] !== undefined) {
+      el.innerHTML = translations[key];
+    }
+  });
+
+  // Update document title
+  if (currentLang === 'en') {
+    document.title = "Izakaya Ikkyu | Traditional Japanese Pub in Yodoyabashi & Kitahama";
+  } else {
+    document.title = "居酒屋 一休 | 北浜・淀屋橋の伝統的な和風居酒屋";
+  }
+
+  // Update mobile floating call button tooltip
+  const mobileCallBtn = document.getElementById('mobile-call-btn');
+  if (mobileCallBtn) {
+    mobileCallBtn.title = (currentLang === 'en') ? "Call for Inquiries & Reservations" : "電話で予約・問合せ";
   }
 }
 
