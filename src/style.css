@@ -601,6 +601,8 @@ body.js-enabled .reveal.reveal-visible {
   flex-direction: column;
   justify-content: flex-start;
   z-index: 1;
+  text-decoration: none;
+  color: inherit;
 }
 
 .sake-card::after {
@@ -667,6 +669,34 @@ body.js-enabled .reveal.reveal-visible {
   color: var(--wood-light);
   line-height: 1.6;
   max-width: 80%;
+}
+
+.sake-card-more {
+  margin-top: auto;
+  padding-top: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--wood-light);
+  opacity: 0.6;
+  transition: var(--transition-smooth);
+  letter-spacing: 0.05em;
+}
+
+.sake-card-more .arrow {
+  display: inline-block;
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.sake-card:hover .sake-card-more {
+  color: var(--gold);
+  opacity: 1;
+}
+
+.sake-card:hover .sake-card-more .arrow {
+  transform: translateX(4px);
 }
 
 /* Interactive right-side demo image */

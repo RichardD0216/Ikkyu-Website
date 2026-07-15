@@ -1346,7 +1346,9 @@ MENU_ITEMS_JSON = '''[
         "tax_display_en": "(incl. tax 528 yen)",
         "description_en": "Hyogo prefecture • Rich and full-bodied classic sake.",
         "sake_tag_en": "Hyogo • Rich & Dry",
-        "is_recommend_en": 1
+        "is_recommend_en": 1,
+        "sake_website": "https://www.kenbishi.co.jp/",
+        "sake_website_en": "https://www.kenbishi.co.jp/en/"
     },
     {
         "item_id": "menu-item-jizake-tosatsuru",
@@ -1366,7 +1368,9 @@ MENU_ITEMS_JSON = '''[
         "tax_display_en": "(incl. tax 528 yen)",
         "description_en": "Kochi prefecture • Extremely crisp and dry sake.",
         "sake_tag_en": "Kochi • Crisp & Dry",
-        "is_recommend_en": 1
+        "is_recommend_en": 1,
+        "sake_website": "https://www.tosatsuru.co.jp/",
+        "sake_website_en": "https://www.tosatsuru.co.jp/"
     },
     {
         "item_id": "menu-item-jizake-karatanba",
@@ -1386,7 +1390,9 @@ MENU_ITEMS_JSON = '''[
         "tax_display_en": "(incl. tax 528 yen)",
         "description_en": "Hyogo prefecture • Rich yet clean dry sake.",
         "sake_tag_en": "Hyogo • Clean & Dry",
-        "is_recommend_en": 0
+        "is_recommend_en": 0,
+        "sake_website": "https://www.ozeki.co.jp/karatanba/",
+        "sake_website_en": "https://www.ozekisake.com/products/karatamba-honjozo/"
     },
     {
         "item_id": "menu-item-jizake-goshun",
@@ -1406,7 +1412,9 @@ MENU_ITEMS_JSON = '''[
         "tax_display_en": "(incl. tax 638 yen)",
         "description_en": "Osaka local specialty sake. Remarkably smooth, mild, and satisfying.",
         "sake_tag_en": "Osaka • Smooth & Mild",
-        "is_recommend_en": 1
+        "is_recommend_en": 1,
+        "sake_website": "https://www.sakenomy.jp/brewery/894/",
+        "sake_website_en": "https://www.sakenomy.jp/en/brewery/894/"
     },
     {
         "item_id": "menu-item-jizake-kubota",
@@ -1426,7 +1434,9 @@ MENU_ITEMS_JSON = '''[
         "tax_display_en": "(incl. tax 638 yen)",
         "description_en": "Niigata prefecture • Super famous premium sake with a clean, crisp finish.",
         "sake_tag_en": "Niigata • Crisp & Clean",
-        "is_recommend_en": 1
+        "is_recommend_en": 1,
+        "sake_website": "https://www.asahi-shuzo.co.jp/kubota/senjyu/",
+        "sake_website_en": "https://www.asahi-shuzo.co.jp/en/kubota/"
     },
     {
         "item_id": "menu-item-shochu-rock",
@@ -1619,7 +1629,9 @@ def init_db():
         sake_tag TEXT,
         sake_tag_en TEXT,
         sake_image TEXT,
-        is_recommend_en INTEGER DEFAULT 0
+        is_recommend_en INTEGER DEFAULT 0,
+        sake_website TEXT,
+        sake_website_en TEXT
     )
     ''')
 
@@ -1629,8 +1641,8 @@ def init_db():
     for item in items:
         cursor.execute('''
         INSERT INTO menu_items 
-        (item_id, category, badge, badge_en, title, title_en, price, tax_price, price_display, price_display_en, tax_display, tax_display_en, description, description_en, sake_tag, sake_tag_en, sake_image, is_recommend_en)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        (item_id, category, badge, badge_en, title, title_en, price, tax_price, price_display, price_display_en, tax_display, tax_display_en, description, description_en, sake_tag, sake_tag_en, sake_image, is_recommend_en, sake_website, sake_website_en)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         ''', (
             item['item_id'],
             item['category'],
@@ -1649,7 +1661,9 @@ def init_db():
             item['sake_tag'],
             item.get('sake_tag_en'),
             item['sake_image'],
-            item.get('is_recommend_en', 0)
+            item.get('is_recommend_en', 0),
+            item.get('sake_website'),
+            item.get('sake_website_en')
         ))
 
     conn.commit()

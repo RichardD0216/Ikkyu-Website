@@ -449,8 +449,8 @@ async function loadMenuItems() {
 
   try {
     let apiUrl = '/api/menu';
-    if (window.location.port && window.location.port !== '5001') {
-      apiUrl = 'http://localhost:5001/api/menu';
+    if (window.location.port && window.location.port !== '5002') {
+      apiUrl = 'http://localhost:5002/api/menu';
     }
     const response = await fetch(apiUrl);
     if (!response.ok) {
@@ -482,8 +482,8 @@ async function loadSakeItems() {
 
   try {
     let apiUrl = '/api/sake';
-    if (window.location.port && window.location.port !== '5001') {
-      apiUrl = 'http://localhost:5001/api/sake';
+    if (window.location.port && window.location.port !== '5002') {
+      apiUrl = 'http://localhost:5002/api/sake';
     }
     const response = await fetch(apiUrl);
     if (!response.ok) {
@@ -497,19 +497,27 @@ async function loadSakeItems() {
     const fragment = document.createDocumentFragment();
     
     items.forEach(item => {
-      const cardEl = document.createElement('div');
+      const cardEl = document.createElement('a');
       
       const tag = (currentLang === 'en') ? item.tag_en : item.tag;
       const name = (currentLang === 'en') ? item.name_en : item.name;
       const description = (currentLang === 'en') ? item.description_en : item.description;
       const priceDisplay = (currentLang === 'en') ? item.price_display_en : item.price_display;
       const taxDisplay = (currentLang === 'en') ? item.tax_display_en : item.tax_display;
+      const website = (currentLang === 'en') ? (item.website_en || item.website) : item.website;
 
       const isRecommend = item.is_recommend_en === 1;
       const recommendedClass = isRecommend ? 'recommended' : '';
 
       cardEl.className = `sake-card ${recommendedClass}`;
       cardEl.id = item.item_id;
+      if (website) {
+        cardEl.href = website;
+        cardEl.target = '_blank';
+        cardEl.rel = 'noopener noreferrer';
+      } else {
+        cardEl.href = '#';
+      }
 
       let recommendBadge = '';
       if (isRecommend) {
@@ -524,6 +532,10 @@ async function loadSakeItems() {
         </div>
         <div class="sake-card-name">${name}</div>
         <div class="sake-card-origin">${description}<br><span class="sake-card-price">${priceDisplay} <span class="tax-label">${taxDisplay}</span></span></div>
+        <div class="sake-card-more">
+          <span>${currentLang === 'en' ? 'Learn More' : '詳細を見る'}</span>
+          <span class="arrow">→</span>
+        </div>
         <img src="${item.image_src}" alt="${name}" class="sake-card-bottle-art">
       `;
       fragment.appendChild(cardEl);
