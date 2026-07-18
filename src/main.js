@@ -413,8 +413,8 @@ function initScrollReveal() {
 
   const observerOptions = {
     root: null,
-    rootMargin: '0px',
-    threshold: 0.12
+    rootMargin: '0px 0px 80px 0px',
+    threshold: 0.01
   };
 
   revealObserver = new IntersectionObserver((entries, obs) => {
@@ -450,7 +450,7 @@ async function loadMenuItems() {
   try {
     let apiUrl = '/api/menu';
     if (window.location.port && window.location.port !== '5002') {
-      apiUrl = 'http://localhost:5002/api/menu';
+      apiUrl = `${window.location.protocol}//${window.location.hostname}:5002/api/menu`;
     }
     const response = await fetch(apiUrl);
     if (!response.ok) {
@@ -483,7 +483,7 @@ async function loadSakeItems() {
   try {
     let apiUrl = '/api/sake';
     if (window.location.port && window.location.port !== '5002') {
-      apiUrl = 'http://localhost:5002/api/sake';
+      apiUrl = `${window.location.protocol}//${window.location.hostname}:5002/api/sake`;
     }
     const response = await fetch(apiUrl);
     if (!response.ok) {
@@ -567,13 +567,13 @@ const STATIC_TRANSLATIONS = {
     "nav-gallery": "お店の雰囲気",
     "nav-access": "店舗情報",
     "hero-badge": "淀屋橋・北浜 隠れ家",
-    "hero-tagline": "創業から愛される木製の温もりと、厳選を重ねた極上の旨い地酒。",
+    "hero-tagline": "創業から愛される木製の温もりと、厳選を重ねた<br class=\"br-sp\">極上の旨い地酒。",
     "hero-booking": "【ご予約受付】お電話にて承ります：<a href=\"tel:06-6202-3644\" class=\"hero-tel-link\">06-6202-3644</a>",
     "hero-cta": "店舗情報・アクセス",
     "specialty-title": "一休のこだわり",
     "keep-badge": "10本毎に1本サービス",
-    "keep-title": "焼酎ボトルキープ",
-    "keep-desc": "常連様に長年愛され続ける一休の名物システム。<br>お気に入りの焼酎ボトル（黒霧島、いいちこ、二階堂など）をいつでもキープいたします。<span class=\"keep-hl\">10本キープいただく毎に、次の1本を無料でプレゼント</span>いたします。",
+    "keep-title": "焼酎<br class=\"br-sp\">ボトルキープ",
+    "keep-desc": "常連様に長年愛され続ける<br class=\"br-sp\">一休の名物システム。<br>お気に入りの焼酎ボトル（黒霧島、いいちこ、二階堂など）をいつでもキープいたします。<span class=\"keep-hl\">10本キープいただく毎に、次の1本を無料でプレゼント</span>いたします。",
     "jizake-title": "厳選銘柄の地酒",
     "menu-title": "お品書き",
     "btn-parent-food": "フード<br>メニュー",
