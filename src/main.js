@@ -413,8 +413,8 @@ function initScrollReveal() {
 
   const observerOptions = {
     root: null,
-    rootMargin: '0px',
-    threshold: 0.12
+    rootMargin: '0px 0px 80px 0px',
+    threshold: 0.01
   };
 
   revealObserver = new IntersectionObserver((entries, obs) => {
@@ -450,7 +450,7 @@ async function loadMenuItems() {
   try {
     let apiUrl = '/api/menu';
     if (window.location.port && window.location.port !== '5002') {
-      apiUrl = 'http://localhost:5002/api/menu';
+      apiUrl = `${window.location.protocol}//${window.location.hostname}:5002/api/menu`;
     }
     const response = await fetch(apiUrl);
     if (!response.ok) {
@@ -483,7 +483,7 @@ async function loadSakeItems() {
   try {
     let apiUrl = '/api/sake';
     if (window.location.port && window.location.port !== '5002') {
-      apiUrl = 'http://localhost:5002/api/sake';
+      apiUrl = `${window.location.protocol}//${window.location.hostname}:5002/api/sake`;
     }
     const response = await fetch(apiUrl);
     if (!response.ok) {

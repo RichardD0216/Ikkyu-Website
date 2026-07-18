@@ -1554,22 +1554,60 @@ footer {
   background: var(--lantern-red);
   border: 2px solid var(--gold);
   border-radius: 50%;
-  box-shadow: 0 6px 25px rgba(0,0,0,0.6), 0 0 15px rgba(211, 56, 28, 0.45);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.4);
   z-index: 1500;
   align-items: center;
   justify-content: center;
-  font-size: 1.8rem;
-  color: var(--washi-cream);
   text-decoration: none;
-  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.2);
+  transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.2), background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* SVG Icon Inside Button */
+.floating-mobile-call .phone-svg-icon {
+  width: 26px;
+  height: 26px;
+  stroke: var(--washi-cream);
+  stroke-width: 2.5px;
+  fill: none;
+  display: block;
+  animation: phone-shake 3.5s infinite ease-in-out;
+  transform-origin: center;
+  z-index: 2;
 }
 
 .floating-mobile-call:hover {
   transform: scale(1.08);
+  background: #e04426; /* Slightly brighter red on hover */
+  box-shadow: 0 8px 25px rgba(0,0,0,0.5);
 }
 
 .floating-mobile-call:active {
   transform: scale(0.92);
+}
+
+/* Phone shake effect keyframes */
+@keyframes phone-shake {
+  0%, 85%, 100% {
+    transform: rotate(0);
+  }
+  87% {
+    transform: rotate(-15deg);
+  }
+  89% {
+    transform: rotate(15deg);
+  }
+  91% {
+    transform: rotate(-15deg);
+  }
+  93% {
+    transform: rotate(15deg);
+  }
+  95% {
+    transform: rotate(-10deg);
+  }
+  97% {
+    transform: rotate(10deg);
+  }
 }
 
 @media (max-width: 768px) {
