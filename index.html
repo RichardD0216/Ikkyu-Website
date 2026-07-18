@@ -22,13 +22,19 @@
       <a href="#hero" class="logo" id="nav-logo">
         居酒屋 <span>一休</span>
       </a>
-      <ul class="nav-links">
-        <li><a href="#specialty" id="link-specialty">こだわり</a></li>
-        <li><a href="#menu" id="link-menu">お品書き</a></li>
-        <li><a href="#gallery" id="link-gallery">お店の雰囲気</a></li>
-        <li><a href="#access" id="link-access">店舗情報</a></li>
-      </ul>
-      <div class="menu-toggle" id="menu-toggle">☰</div>
+      <div class="nav-right-controls">
+        <div class="lang-switch" id="lang-switch-toggle">
+          <span class="lang-option active" data-lang="ja">日本語</span>
+          <span class="lang-option" data-lang="en">English</span>
+        </div>
+        <ul class="nav-links">
+          <li><a href="#specialty" id="link-specialty" data-translate-id="nav-specialty">こだわり</a></li>
+          <li><a href="#menu" id="link-menu" data-translate-id="nav-menu">お品書き</a></li>
+          <li><a href="#gallery" id="link-gallery" data-translate-id="nav-gallery">お店の雰囲気</a></li>
+          <li><a href="#access" id="link-access" data-translate-id="nav-access">店舗情報</a></li>
+        </ul>
+        <div class="menu-toggle" id="menu-toggle">☰</div>
+      </div>
     </div>
   </header>
 
@@ -50,11 +56,11 @@
 
     <!-- Text Overlay -->
     <div class="hero-content">
-      <div class="hero-badge">淀屋橋・北浜 隠れ家</div>
+      <div class="hero-badge" data-translate-id="hero-badge">淀屋橋・北浜 隠れ家</div>
       <h1 class="hero-title" id="main-title">居酒屋 一休</h1>
-      <p class="hero-tagline">創業から愛される木製の温もりと、厳選を重ねた極上の旨い地酒。</p>
-      <div class="hero-booking-notice">【ご予約受付】お電話にて承ります：<a href="tel:06-6202-3644" class="hero-tel-link">06-6202-3644</a></div>
-      <a href="#access" class="hero-cta" id="hero-cta-btn">店舗情報・アクセス</a>
+      <p class="hero-tagline" data-translate-id="hero-tagline">創業から愛される木製の温もりと、厳選を重ねた極上の旨い地酒。</p>
+      <div class="hero-booking-notice" data-translate-id="hero-booking">【ご予約受付】お電話にて承ります：<a href="tel:06-6202-3644" class="hero-tel-link">06-6202-3644</a></div>
+      <a href="#access" class="hero-cta" id="hero-cta-btn" data-translate-id="hero-cta">店舗情報・アクセス</a>
     </div>
   </section>
 
@@ -63,16 +69,16 @@
     <div class="specialty-container">
       <div class="sake-showcase">
         <div class="section-header" style="text-align: left; margin-bottom: 2rem;">
-          <h2>一休のこだわり</h2>
+          <h2 data-translate-id="specialty-title">一休のこだわり</h2>
           <div class="section-header-sub">Sake & Bottle Keep</div>
         </div>
         
         <!-- High Conversion Callout Grid -->
         <div class="wrapper-grids">
           <div class="bottle-keep-banner" id="bottle-keep-board">
-            <div class="badge-conversion" id="keep-promo-badge">10本毎に1本サービス</div>
-            <h3 class="keep-title">焼酎ボトルキープ</h3>
-            <p class="keep-desc">
+            <div class="badge-conversion" id="keep-promo-badge" data-translate-id="keep-badge">10本毎に1本サービス</div>
+            <h3 class="keep-title" data-translate-id="keep-title">焼酎ボトルキープ</h3>
+            <p class="keep-desc" data-translate-id="keep-desc">
               常連様に長年愛され続ける一休の名物システム。<br>
               お気に入りの焼酎ボトル（黒霧島、いいちこ、二階堂など）をいつでもキープいたします。<span class="keep-hl">10本キープいただく毎に、次の1本を無料でプレゼント</span>いたします。
             </p>
@@ -80,7 +86,7 @@
         </div>
 
         <!-- Sake Cards Grid -->
-        <h3 class="jp-title" style="margin: 1.5rem 0 1rem 0; font-size: 1.5rem; border-left: 4px solid var(--gold); padding-left: 0.75rem;">厳選銘柄の地酒</h3>
+        <h3 class="jp-title" style="margin: 1.5rem 0 1rem 0; font-size: 1.5rem; border-left: 4px solid var(--gold); padding-left: 0.75rem;" data-translate-id="jizake-title">厳選銘柄の地酒</h3>
         <div class="sake-list" id="sake-cards-grid">
           <!-- データベースから動的にロードされます -->
           <p class="loading-placeholder" style="grid-column: 1/-1; text-align: center; color: var(--color-text-muted); padding: 2rem 0; font-size: 1rem; width: 100%;">
@@ -95,14 +101,14 @@
   <section id="menu">
     <div class="menu-container">
       <div class="section-header">
-        <h2>お品書き</h2>
+        <h2 data-translate-id="menu-title">お品書き</h2>
         <div class="section-header-sub">Food & Drink Menu</div>
       </div>
 
       <!-- Parent & Child Tab Filters -->
       <div class="menu-parent-tabs" id="menu-parent-tab-container">
-        <button class="menu-parent-tab-btn active" data-group="food" id="btn-parent-food">フード<br>メニュー</button>
-        <button class="menu-parent-tab-btn" data-group="drink" id="btn-parent-drink">ドリンク<br>メニュー</button>
+        <button class="menu-parent-tab-btn active" data-group="food" id="btn-parent-food" data-translate-id="btn-parent-food">フード<br>メニュー</button>
+        <button class="menu-parent-tab-btn" data-group="drink" id="btn-parent-drink" data-translate-id="btn-parent-drink">ドリンク<br>メニュー</button>
       </div>
       
       <div class="menu-child-tabs-wrapper">
@@ -125,7 +131,7 @@
   <section id="gallery">
     <div class="gallery-container">
       <div class="section-header">
-        <h2>お店の雰囲気</h2>
+        <h2 data-translate-id="gallery-title">お店の雰囲気</h2>
         <div class="section-header-sub">Interior Gallery</div>
       </div>
 
@@ -134,19 +140,19 @@
         <!-- Polaroid 1 -->
         <div class="polaroid-frame polaroid-1" id="polaroid-frame-counter">
           <img src="assets/gallery_counter.png" alt="居酒屋 一休のカウンター席">
-          <div class="polaroid-caption">温もりのある木製カウンター席</div>
+          <div class="polaroid-caption" data-translate-id="polaroid-counter">温もりのある木製カウンター席</div>
         </div>
 
         <!-- Polaroid 2 -->
         <div class="polaroid-frame polaroid-2" id="polaroid-frame-table">
           <img src="assets/gallery_table.png" alt="居酒屋 一休の小上がり座敷">
-          <div class="polaroid-caption">和の趣が落ち着く座敷・テーブル席</div>
+          <div class="polaroid-caption" data-translate-id="polaroid-table">和の趣が落ち着く座敷・テーブル席</div>
         </div>
 
         <!-- Polaroid 3 -->
         <div class="polaroid-frame polaroid-3" id="polaroid-frame-food">
           <img src="assets/gallery_food.png" alt="一休の手作り串焼きと餃子">
-          <div class="polaroid-caption">まごころ込めた手作り名物料理</div>
+          <div class="polaroid-caption" data-translate-id="polaroid-food">まごころ込めた手作り名物料理</div>
         </div>
 
       </div>
@@ -159,37 +165,37 @@
       <!-- Info Board -->
       <div class="info-wood-board" id="access-info-board">
         <div class="section-header" style="text-align: left; margin-bottom: 2rem;">
-          <h2 style="color: var(--washi-cream);">店舗情報</h2>
+          <h2 style="color: var(--washi-cream);" data-translate-id="access-title">店舗情報</h2>
           <div class="section-header-sub" style="color: var(--gold);">Location & Hours</div>
         </div>
         
         <table class="info-table" id="access-info-table">
           <tr>
-            <th>店名</th>
-            <td>居酒屋 一休 (居酒屋 一休)</td>
+            <th data-translate-id="info-name-label">店名</th>
+            <td data-translate-id="info-name-val">居酒屋 一休 (居酒屋 一休)</td>
           </tr>
           <tr>
-            <th>住所</th>
-            <td>〒541-0041<br>大阪府大阪市中央区北浜3丁目3-11</td>
+            <th data-translate-id="info-addr-label">住所</th>
+            <td data-translate-id="info-addr-val">〒541-0041<br>大阪府大阪市中央区北浜3丁目3-11</td>
           </tr>
           <tr>
-            <th>電話番号</th>
-            <td><a href="tel:06-6202-3644" class="info-tel">06-6202-3644</a><br><span style="font-size: 0.75rem; opacity: 0.6;">(ご予約・お問合せはお気軽にどうぞ)</span></td>
+            <th data-translate-id="info-tel-label">電話番号</th>
+            <td data-translate-id="info-tel-val"><a href="tel:06-6202-3644" class="info-tel">06-6202-3644</a><br><span style="font-size: 0.75rem; opacity: 0.6;" data-translate-id="info-tel-sub">(ご予約・お問合せはお気軽にどうぞ)</span></td>
           </tr>
           <tr>
-            <th>営業時間</th>
-            <td>17:00 ～ 23:00<br><span style="font-size: 0.8rem; opacity: 0.8;">(ラストオーダー 22:30)</span></td>
+            <th data-translate-id="info-hours-label">営業時間</th>
+            <td data-translate-id="info-hours-val">17:00 ～ 23:00<br><span style="font-size: 0.8rem; opacity: 0.8;" data-translate-id="info-hours-sub">(ラストオーダー 22:30)</span></td>
           </tr>
           <tr>
-            <th>定休日</th>
-            <td>土曜日・日曜日・祝日</td>
+            <th data-translate-id="info-closed-label">定休日</th>
+            <td data-translate-id="info-closed-val">土曜日・日曜日・祝日</td>
           </tr>
         </table>
         
         <div class="wood-board-booking">
-          <h4>ご予約について</h4>
-          <p>当店はご予約をお電話にて承っております。<br>少人数からご宴会まで、お気軽にお電話ください。</p>
-          <a href="tel:06-6202-3644" class="booking-call-btn">📞 06-6202-3644 に電話する</a>
+          <h4 data-translate-id="booking-board-title">ご予約について</h4>
+          <p data-translate-id="booking-board-desc">当店はご予約をお電話にて承っております。<br>少人数からご宴会まで、お気軽にお電話ください。</p>
+          <a href="tel:06-6202-3644" class="booking-call-btn" data-translate-id="booking-board-btn">📞 06-6202-3644 に電話する</a>
         </div>
       </div>
 
@@ -197,14 +203,15 @@
       <div class="links-panel" id="access-links-panel">
         
         <!-- Tabelog Link -->
+        <!-- Tabelog Link -->
         <a href="https://tabelog.com/osaka/A2701/A270102/27031404/" target="_blank" rel="noopener noreferrer" class="map-btn tabelog-theme" id="btn-tabelog">
           <div class="map-btn-content">
             <div class="map-btn-icon">
               <img src="assets/icon_tabelog.png" alt="食べログ" class="map-btn-img" style="width: 100%; height: 100%; object-fit: contain;">
             </div>
             <div class="map-btn-text">
-              <h4>食べログで詳細を見る</h4>
-              <p>メニュー詳細、口コミ、レビューの確認はこちら</p>
+              <h4 data-translate-id="btn-tabelog-title">食べログで詳細を見る</h4>
+              <p data-translate-id="btn-tabelog-desc">メニュー詳細、口コミ、レビューの確認はこちら</p>
             </div>
           </div>
           <div class="map-btn-arrow">→</div>
@@ -217,8 +224,8 @@
               <img src="assets/icon_google.png" alt="Google マップ" class="map-btn-img" style="width: 100%; height: 100%; object-fit: contain;">
             </div>
             <div class="map-btn-text">
-              <h4>Google マップで開く</h4>
-              <p>スマートフォンでの経路案内・GPSナビに最適</p>
+              <h4 data-translate-id="btn-google-title">Google マップで開く</h4>
+              <p data-translate-id="btn-google-desc">スマートフォンでの経路案内・GPSナビに最適</p>
             </div>
           </div>
           <div class="map-btn-arrow">→</div>
@@ -231,8 +238,8 @@
               <img src="assets/icon_yahoo.png" alt="Yahoo!マップ" class="map-btn-img" style="width: 100%; height: 100%; object-fit: contain;">
             </div>
             <div class="map-btn-text">
-              <h4>Yahoo!マップで開く</h4>
-              <p>高精度な地図表示と乗り換え検索ルート案内</p>
+              <h4 data-translate-id="btn-yahoo-title">Yahoo!マップで開く</h4>
+              <p data-translate-id="btn-yahoo-desc">高精度な地図表示と乗り換え検索ルート案内</p>
             </div>
           </div>
           <div class="map-btn-arrow">→</div>
@@ -245,7 +252,7 @@
   <!-- Footer -->
   <footer>
     <div class="footer-logo">居酒屋 一休</div>
-    <p>〒541-0041 大阪府大阪市中央区北浜3丁目3-11 | 電話: 06-6202-3644</p>
+    <p data-translate-id="footer-text">〒541-0041 大阪府大阪市中央区北浜3丁目3-11 | 電話: 06-6202-3644</p>
     <p class="footer-copy">&copy; 2026 Izakaya Ikkyu. All Rights Reserved. Designed by Antigravity.</p>
   </footer>
 
