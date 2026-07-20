@@ -278,6 +278,50 @@ function filterAndRenderGrid() {
   }, 150);
 }
 
+// Detailed modal definitions for seating types (Title removed as per user request)
+const SEATING_DETAILS = {
+  private: {
+    ja: {
+      badge: "1室限定 • 最大5名様",
+      desc: "周囲を気にせずゆったりお寛ぎいただける半個室です。ご会食や少人数でのお祝い事に最適です。"
+    },
+    en: {
+      badge: "1 Room Only • Up to 5 Guests",
+      desc: "A cozy semi-private dining room where you can relax. Perfect for small gatherings and celebrations."
+    }
+  },
+  table: {
+    ja: {
+      badge: "2卓 • 各4名様（計8名様）",
+      desc: "木目の温もりを感じるテーブル席。お仕事帰りのサク飲みや、少人数のグループでのお食事に使い勝手の良いお席です。"
+    },
+    en: {
+      badge: "2 Tables • 4 Guests Each (Max 8)",
+      desc: "Warm wooden table seats. Ideal for a quick drink after work or casual group dinners with friends and colleagues."
+    }
+  },
+  counter: {
+    ja: {
+      badge: "全5席 • お一人様大歓迎",
+      desc: "木の温もりが漂う特等席。店主やスタッフとの会話を楽しみながら、自慢の手作り料理と厳選地酒を心ゆくまでお楽しみいただけます。"
+    },
+    en: {
+      badge: "5 Seats Total • Solo Diners Welcome",
+      desc: "Special seats along the warm wooden bar. Enjoy chatting with staff while savoring our handmade specialty dishes and curated sake."
+    }
+  },
+  horigotatsu: {
+    ja: {
+      badge: "7卓 • 各3〜6名様（最大28名様）",
+      desc: "足を伸ばして心地よくお過ごしいただける広々とした和風掘りごたつ。少人数から中規模・大規模なご宴会（貸切・団体様）まで幅広く対応可能です。"
+    },
+    en: {
+      badge: "7 Tables • 3–6 Guests Each (Max 28)",
+      desc: "Spacious sunken kotatsu tatami seating where you can stretch your legs. Accommodates small drinking parties to large corporate banquets."
+    }
+  }
+};
+
 /**
  * Polaroid photo viewer Modal popups
  */
@@ -286,20 +330,49 @@ function initGalleryLightbox() {
   const lightbox = document.getElementById('lightbox-modal');
   const lightboxImg = document.getElementById('lightbox-img');
   const lightboxCaption = document.getElementById('lightbox-caption');
+  const lightboxBadge = document.getElementById('lightbox-badge');
+  const lightboxDescription = document.getElementById('lightbox-description');
   const closeBtn = document.getElementById('lightbox-close-btn');
 
-  if (polaroids.length === 0 || !lightbox || !lightboxImg || !lightboxCaption) return;
+  if (polaroids.length === 0 || !lightbox || !lightboxImg) return;
 
   polaroids.forEach(frame => {
     frame.addEventListener('click', () => {
       const img = frame.querySelector('img');
-      const caption = frame.querySelector('.polaroid-caption');
+      const seatingType = frame.getAttribute('data-seating-type');
 
-      if (img && caption) {
+      if (img) {
         // Set lightbox details
         lightboxImg.src = img.src;
         lightboxImg.alt = img.alt;
-        lightboxCaption.textContent = caption.textContent;
+
+        if (seatingType && SEATING_DETAILS[seatingType]) {
+          const detail = SEATING_DETAILS[seatingType][currentLang] || SEATING_DETAILS[seatingType]['ja'];
+          
+          // Hide title caption as requested by user
+          if (lightboxCaption) {
+            lightboxCaption.textContent = '';
+            lightboxCaption.style.display = 'none';
+          }
+          
+          if (lightboxBadge) {
+            lightboxBadge.textContent = detail.badge;
+            lightboxBadge.style.display = 'inline-block';
+          }
+          if (lightboxDescription) {
+            lightboxDescription.textContent = detail.desc;
+            lightboxDescription.style.display = 'block';
+          }
+        } else {
+          // Standard interior gallery photos
+          const caption = frame.querySelector('.polaroid-caption');
+          if (lightboxCaption) {
+            lightboxCaption.textContent = caption ? caption.textContent : '';
+            lightboxCaption.style.display = caption ? 'block' : 'none';
+          }
+          if (lightboxBadge) lightboxBadge.style.display = 'none';
+          if (lightboxDescription) lightboxDescription.style.display = 'none';
+        }
 
         // Open lightbox
         lightbox.classList.add('active');
@@ -658,6 +731,20 @@ const STATIC_TRANSLATIONS = {
     "news-title": "お知らせ",
     "nav-specialty": "こだわり",
     "nav-menu": "お品書き",
+    "nav-seating": "お座席",
+    "seating-title": "お座席のご案内",
+    "seating-private-badge": "1室 / 5席",
+    "seating-private-name": "半個室",
+    "seating-private-sub": "5名様まで対応の落ち着いた半個室空間",
+    "seating-table-badge": "2卓 / 各4名様",
+    "seating-table-name": "テーブル席",
+    "seating-table-sub": "ご友人同士やグループでのご夕食に",
+    "seating-counter-badge": "5席",
+    "seating-counter-name": "カウンター席",
+    "seating-counter-sub": "お一人様やちょい飲みに人気の木製カウンター",
+    "seating-horigotatsu-badge": "7卓 / 各3〜6名様",
+    "seating-horigotatsu-name": "掘りごたつ席",
+    "seating-horigotatsu-sub": "足を伸ばして過ごせるゆったり座敷（最大28名）",
     "nav-gallery": "お店の雰囲気",
     "nav-access": "店舗情報",
     "hero-badge": "淀屋橋・北浜 隠れ家",
@@ -707,6 +794,20 @@ const STATIC_TRANSLATIONS = {
     "news-title": "News & Announcements",
     "nav-specialty": "Our Specialty",
     "nav-menu": "Menu",
+    "nav-seating": "Seating",
+    "seating-title": "Seating Information",
+    "seating-private-badge": "1 Room / 5 Seats",
+    "seating-private-name": "Semi-Private Room",
+    "seating-private-sub": "Cozy semi-private room accommodating up to 5 guests",
+    "seating-table-badge": "2 Tables / 4 Seats Each",
+    "seating-table-name": "Table Seats",
+    "seating-table-sub": "Ideal for drinks with friends or group dining",
+    "seating-counter-badge": "5 Seats",
+    "seating-counter-name": "Counter Seats",
+    "seating-counter-sub": "Popular wooden counter for solo diners or casual drinks",
+    "seating-horigotatsu-badge": "7 Tables / 3–6 Seats Each",
+    "seating-horigotatsu-name": "Horigotatsu (Sunken Kotatsu)",
+    "seating-horigotatsu-sub": "Relaxing sunken floor seating for small to large groups (up to 28)",
     "nav-gallery": "Atmosphere",
     "nav-access": "Info & Location",
     "hero-badge": "Yodoyabashi • Kitahama Hideaway",
