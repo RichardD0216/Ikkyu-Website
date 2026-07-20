@@ -449,7 +449,9 @@ async function loadMenuItems() {
 
   try {
     let apiUrl = '/api/menu';
-    if (window.location.port && window.location.port !== '5002') {
+    if (window.location.protocol === 'file:') {
+      apiUrl = 'http://localhost:5002/api/menu';
+    } else if (window.location.port && window.location.port !== '5002') {
       apiUrl = `${window.location.protocol}//${window.location.hostname}:5002/api/menu`;
     }
     const response = await fetch(apiUrl);
@@ -482,7 +484,9 @@ async function loadSakeItems() {
 
   try {
     let apiUrl = '/api/sake';
-    if (window.location.port && window.location.port !== '5002') {
+    if (window.location.protocol === 'file:') {
+      apiUrl = 'http://localhost:5002/api/sake';
+    } else if (window.location.port && window.location.port !== '5002') {
       apiUrl = `${window.location.protocol}//${window.location.hostname}:5002/api/sake`;
     }
     const response = await fetch(apiUrl);
