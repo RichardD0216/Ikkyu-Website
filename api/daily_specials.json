@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "title": "お刺身",
+    "title_en": "Osashimi",
+    "price": 500,
+    "tax_price": 550,
+    "price_display": "500円",
+    "price_display_en": "500 yen",
+    "tax_display": "(税込550円)",
+    "tax_display_en": "(incl. tax 550 yen)",
+    "is_active": 1
+  }
+]
