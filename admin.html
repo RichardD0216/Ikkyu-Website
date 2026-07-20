@@ -86,6 +86,11 @@
       background-color: #d0d0d0;
     }
 
+    .btn-sm {
+      padding: 4px 10px;
+      font-size: 0.85rem;
+    }
+
     .card {
       background-color: var(--card-bg);
       border: 1px solid var(--border);
@@ -274,6 +279,129 @@
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
+
+    /* レスポンシブ (スマホ対応) */
+    .card-header-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+
+      .container {
+        width: 100%;
+      }
+
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      header button {
+        align-self: flex-start;
+      }
+
+      #login-view {
+        margin: 30px auto 0 auto;
+        padding: 15px;
+      }
+
+      .card {
+        padding: 15px 12px;
+      }
+
+      .category-filter {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .row {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .nav-tabs {
+        flex-wrap: wrap;
+        gap: 4px;
+      }
+
+      .tab {
+        flex: 1 1 calc(50% - 4px);
+        text-align: center;
+        padding: 10px 8px;
+        font-size: 0.9rem;
+      }
+
+      /* テーブルのスマホカード表示変換 */
+      .news-table thead, .menu-table thead {
+        display: none;
+      }
+
+      .news-table, .news-table tbody, .news-table tr, .news-table td,
+      .menu-table, .menu-table tbody, .menu-table tr, .menu-table td {
+        display: block;
+        width: 100%;
+      }
+
+      .news-table tr, .menu-table tr {
+        margin-bottom: 16px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background-color: var(--card-bg);
+        padding: 12px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      }
+
+      .news-table tr:hover, .menu-table tr:hover {
+        background-color: var(--card-bg);
+      }
+
+      .news-table td, .menu-table td {
+        border: none;
+        padding: 6px 0;
+        position: relative;
+      }
+
+      .news-table td:not(:last-child), .menu-table td:not(:last-child) {
+        border-bottom: 1px dashed #eee;
+        padding-bottom: 8px;
+        margin-bottom: 8px;
+      }
+
+      .news-table td::before, .menu-table td::before {
+        content: attr(data-label);
+        display: block;
+        font-weight: bold;
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        margin-bottom: 4px;
+      }
+
+      .menu-table .form-control {
+        width: 100% !important;
+      }
+
+      .price-input-wrapper {
+        width: 100%;
+      }
+
+      .price-input-wrapper input {
+        flex: 1;
+        width: auto !important;
+      }
+
+      .news-table td[data-label="操作"] {
+        text-align: left !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -326,36 +454,40 @@
       <!-- A. お知らせ管理タブ -->
       <div id="tab-news" class="tab-content active">
         <div class="card">
-          <h2 style="margin-bottom: 15px;">新規お知らせ登録</h2>
+          <h2 id="news-form-title" style="margin-bottom: 15px;">新規お知らせ登録</h2>
           <form id="news-form" class="news-form">
+            <input type="hidden" id="news-edit-id" value="">
             <div class="row">
-              <div class="col" class="form-group">
+              <div class="col form-group">
                 <label for="news-date">掲載日</label>
                 <input type="date" id="news-date" class="form-control" required>
               </div>
               <div class="col"></div>
             </div>
             <div class="row" style="margin-top: 10px;">
-              <div class="col class="form-group"">
+              <div class="col form-group">
                 <label for="news-title-ja">タイトル (日本語)</label>
                 <input type="text" id="news-title-ja" class="form-control" placeholder="例：夏期休暇のお知らせ" required>
               </div>
-              <div class="col class="form-group"">
+              <div class="col form-group">
                 <label for="news-title-en">タイトル (英語)</label>
                 <input type="text" id="news-title-en" class="form-control" placeholder="例：Summer Holiday Notice" required>
               </div>
             </div>
             <div class="row" style="margin-top: 10px;">
-              <div class="col class="form-group"">
+              <div class="col form-group">
                 <label for="news-content-ja">本文 (日本語)</label>
                 <textarea id="news-content-ja" class="form-control" rows="4" placeholder="日本語のお知らせ本文を入力してください。" required></textarea>
               </div>
-              <div class="col class="form-group"">
+              <div class="col form-group">
                 <label for="news-content-en">本文 (英語)</label>
                 <textarea id="news-content-en" class="form-control" rows="4" placeholder="英語のお知らせ本文を入力してください。" required></textarea>
               </div>
             </div>
-            <button type="submit" id="btn-add-news" class="btn btn-primary" style="margin-top: 15px;">お知らせを追加して保存</button>
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+              <button type="submit" id="btn-add-news" class="btn btn-primary">お知らせを追加して保存</button>
+              <button type="button" id="btn-cancel-news-edit" class="btn btn-secondary" style="display: none;" onclick="cancelNewsEdit()">編集をキャンセル</button>
+            </div>
           </form>
 
           <h2 style="margin-top: 30px; margin-bottom: 15px;">登録済みお知らせ一覧</h2>
@@ -382,11 +514,11 @@
       <!-- B. メニュー・料金管理タブ -->
       <div id="tab-menu" class="tab-content">
         <div class="card">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+          <div class="card-header-flex">
             <h2>メニュー一覧・編集</h2>
             <button id="btn-save-menu" class="btn btn-accent" style="display: flex; align-items: center;">
               <span id="save-menu-spinner" class="spinner" style="display: none;"></span>
-              変更をGitHubに保存する
+              変更を保存する
             </button>
           </div>
 
@@ -690,27 +822,63 @@
       sorted.forEach(item => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-          <td><strong>${item.date.replace(/-/g, '.')}</strong></td>
-          <td>
+          <td data-label="日付"><strong>${item.date.replace(/-/g, '.')}</strong></td>
+          <td data-label="タイトル (日 / 英)">
             <div><strong>日:</strong> ${escapeHtml(item.title)}</div>
             <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;"><strong>英:</strong> ${escapeHtml(item.title_en || '')}</div>
           </td>
-          <td>
+          <td data-label="本文 (日 / 英)">
             <div style="white-space: pre-wrap;"><strong>日:</strong> ${escapeHtml(item.content)}</div>
             <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; white-space: pre-wrap;"><strong>英:</strong> ${escapeHtml(item.content_en || '')}</div>
           </td>
-          <td style="text-align: center; vertical-align: middle;">
-            <button class="btn btn-accent btn-sm" onclick="deleteNewsItem(${item.id})">削除</button>
+          <td data-label="操作" style="text-align: center; vertical-align: middle;">
+            <div style="display: flex; gap: 6px; justify-content: center; align-items: center; flex-wrap: wrap;">
+              <button class="btn btn-secondary btn-sm" onclick="editNewsItem(${item.id})">編集</button>
+              <button class="btn btn-accent btn-sm" onclick="deleteNewsItem(${item.id})">削除</button>
+            </div>
           </td>
         `;
         tbody.appendChild(tr);
       });
     }
 
-    // お知らせの新規追加
+    // お知らせの編集モード開始
+    function editNewsItem(id) {
+      const item = state.newsItems.find(item => item.id === id);
+      if (!item) return;
+
+      document.getElementById('news-edit-id').value = item.id;
+      document.getElementById('news-date').value = item.date;
+      document.getElementById('news-title-ja').value = item.title || '';
+      document.getElementById('news-title-en').value = item.title_en || '';
+      document.getElementById('news-content-ja').value = item.content || '';
+      document.getElementById('news-content-en').value = item.content_en || '';
+
+      document.getElementById('news-form-title').innerText = `お知らせの編集 (ID: ${item.id})`;
+      document.getElementById('btn-add-news').innerText = 'お知らせを更新して保存';
+      document.getElementById('btn-cancel-news-edit').style.display = 'inline-block';
+
+      document.getElementById('news-form').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // お知らせの編集キャンセル
+    function cancelNewsEdit() {
+      document.getElementById('news-edit-id').value = '';
+      document.getElementById('news-title-ja').value = '';
+      document.getElementById('news-title-en').value = '';
+      document.getElementById('news-content-ja').value = '';
+      document.getElementById('news-content-en').value = '';
+
+      document.getElementById('news-form-title').innerText = '新規お知らせ登録';
+      document.getElementById('btn-add-news').innerText = 'お知らせを追加して保存';
+      document.getElementById('btn-cancel-news-edit').style.display = 'none';
+    }
+
+    // お知らせの新規追加・編集保存
     async function handleAddNews(e) {
       e.preventDefault();
       const btn = document.getElementById('btn-add-news');
+      const editId = document.getElementById('news-edit-id').value;
       const originalText = btn.innerText;
       btn.disabled = true;
       btn.innerHTML = `<span class="spinner"></span> 保存中...`;
@@ -721,50 +889,72 @@
       const contentJa = document.getElementById('news-content-ja').value.trim();
       const contentEn = document.getElementById('news-content-en').value.trim();
 
-      // 新しいIDの発行
-      const nextId = state.newsItems.reduce((max, item) => item.id > max ? item.id : max, 0) + 1;
+      let updatedNews;
+      let commitMessage;
 
-      const newItem = {
-        id: nextId,
-        date: date,
-        title: titleJa,
-        title_en: titleEn,
-        content: contentJa,
-        content_en: contentEn
-      };
-
-      const updatedNews = [newItem, ...state.newsItems];
+      if (editId) {
+        const idNum = parseInt(editId, 10);
+        updatedNews = state.newsItems.map(item => {
+          if (item.id === idNum) {
+            return {
+              ...item,
+              date: date,
+              title: titleJa,
+              title_en: titleEn,
+              content: contentJa,
+              content_en: contentEn
+            };
+          }
+          return item;
+        });
+        commitMessage = `Update announcement: ${titleJa} (ID: ${idNum})`;
+      } else {
+        const nextId = state.newsItems.reduce((max, item) => item.id > max ? item.id : max, 0) + 1;
+        const newItem = {
+          id: nextId,
+          date: date,
+          title: titleJa,
+          title_en: titleEn,
+          content: contentJa,
+          content_en: contentEn
+        };
+        updatedNews = [newItem, ...state.newsItems];
+        commitMessage = `Add announcement: ${titleJa}`;
+      }
 
       try {
         // 先に現在の最新SHAを再度取得 (同時書き込み対策)
         const fileInfo = await getGithubFileInfo('api/news.json');
         state.newsSha = fileInfo.sha;
 
-        const res = await saveFileToGithub('api/news.json', updatedNews, state.newsSha, `Add announcement: ${titleJa}`);
+        const res = await saveFileToGithub('api/news.json', updatedNews, state.newsSha, commitMessage);
         state.newsSha = res.content.sha;
         state.newsItems = updatedNews;
 
-        showToast('お知らせを登録しました');
+        showToast(editId ? 'お知らせを更新しました' : 'お知らせを登録しました');
         
-        // フォームのリセット (日付以外)
-        document.getElementById('news-title-ja').value = '';
-        document.getElementById('news-title-en').value = '';
-        document.getElementById('news-content-ja').value = '';
-        document.getElementById('news-content-en').value = '';
-        
+        cancelNewsEdit();
         renderNewsList();
 
       } catch (err) {
-        showToast('登録に失敗しました: ' + err.message, 'error');
+        showToast((editId ? '更新' : '登録') + 'に失敗しました: ' + err.message, 'error');
       } finally {
         btn.disabled = false;
-        btn.innerText = originalText;
+        if (document.getElementById('news-edit-id').value) {
+          btn.innerText = 'お知らせを更新して保存';
+        } else {
+          btn.innerText = 'お知らせを追加して保存';
+        }
       }
     }
 
     // お知らせの削除
     async function deleteNewsItem(id) {
       if (!confirm('このお知らせを削除してもよろしいですか？')) return;
+
+      if (document.getElementById('news-edit-id').value === String(id)) {
+        cancelNewsEdit();
+      }
 
       const updatedNews = state.newsItems.filter(item => item.id !== id);
 
@@ -851,20 +1041,20 @@
       filtered.forEach(item => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-          <td style="font-size: 0.85rem; font-family: monospace; color: var(--text-muted);">${item.item_id}</td>
-          <td class="menu-inputs">
+          <td data-label="商品ID" style="font-size: 0.85rem; font-family: monospace; color: var(--text-muted);">${item.item_id}</td>
+          <td data-label="メニュー名 (日本語)" class="menu-inputs">
             <input type="text" class="form-control" value="${escapeHtml(item.title)}" onchange="updateMenuItemData('${item.item_id}', 'title', this.value)">
           </td>
-          <td class="menu-inputs">
+          <td data-label="メニュー名 (英語)" class="menu-inputs">
             <input type="text" class="form-control" value="${escapeHtml(item.title_en || '')}" onchange="updateMenuItemData('${item.item_id}', 'title_en', this.value)">
           </td>
-          <td>
+          <td data-label="税抜価格 (自動計算)">
             <div class="price-input-wrapper">
               <input type="number" class="form-control" value="${item.price || 0}" style="width: 100px;" onchange="updateMenuItemPrice('${item.item_id}', this.value)">
               <span>円</span>
             </div>
           </td>
-          <td style="vertical-align: middle;">
+          <td data-label="現在の税込表記" style="vertical-align: middle;">
             <div style="font-size: 0.9rem;" id="preview-jp-${item.item_id}">${item.price_display} ${item.tax_display}</div>
             <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;" id="preview-en-${item.item_id}">${item.price_display_en} ${item.tax_display_en}</div>
           </td>
