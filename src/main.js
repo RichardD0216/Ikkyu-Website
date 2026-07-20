@@ -3,7 +3,10 @@
 // Interactivity & Page Logic
 //
 
-let currentLang = localStorage.getItem('selected_language') || 'ja';
+const urlParams = new URLSearchParams(window.location.search);
+const langParam = urlParams.get('lang');
+let currentLang = (langParam === 'en' || langParam === 'ja') ? langParam : (localStorage.getItem('selected_language') || 'ja');
+
 
 document.addEventListener('DOMContentLoaded', () => {
   initMobileNav();
@@ -448,11 +451,9 @@ async function loadMenuItems() {
   if (!menuGrid) return;
 
   try {
-    let apiUrl = '/api/menu';
+    let apiUrl = 'api/menu.json';
     if (window.location.protocol === 'file:') {
-      apiUrl = 'http://localhost:5002/api/menu';
-    } else if (window.location.port && window.location.port !== '5002') {
-      apiUrl = `${window.location.protocol}//${window.location.hostname}:5002/api/menu`;
+      apiUrl = 'http://localhost:5002/api/menu.json';
     }
     const response = await fetch(apiUrl);
     if (!response.ok) {
@@ -483,11 +484,9 @@ async function loadSakeItems() {
   if (!sakeGrid) return;
 
   try {
-    let apiUrl = '/api/sake';
+    let apiUrl = 'api/sake.json';
     if (window.location.protocol === 'file:') {
-      apiUrl = 'http://localhost:5002/api/sake';
-    } else if (window.location.port && window.location.port !== '5002') {
-      apiUrl = `${window.location.protocol}//${window.location.hostname}:5002/api/sake`;
+      apiUrl = 'http://localhost:5002/api/sake.json';
     }
     const response = await fetch(apiUrl);
     if (!response.ok) {
@@ -677,7 +676,8 @@ function initLangSwitcher() {
 
   // Attach click listener to each language button option
   options.forEach(opt => {
-    opt.addEventListener('click', () => {
+    opt.addEventListener('click', (e) => {
+      e.preventDefault();
       const selectedLang = opt.getAttribute('data-lang');
       if (selectedLang === currentLang) return;
       
@@ -687,6 +687,10 @@ function initLangSwitcher() {
   
   // Apply document-wide initial translations
   applyTranslations();
+
+  // Initialize SEO tags and Structured Data
+  updateSeoHead();
+  updateStructuredData();
 }
 
 /**
@@ -696,6 +700,11 @@ function setLanguage(lang) {
   currentLang = lang;
   localStorage.setItem('selected_language', lang);
   document.documentElement.lang = lang;
+
+  // URL Parameter synchronization (using replaceState to not pollute browser history)
+  const url = new URL(window.location.href);
+  url.searchParams.set('lang', lang);
+  window.history.replaceState({}, '', url.pathname + url.search + url.hash);
 
   // Update toggle state
   const langToggle = document.getElementById('lang-switch-toggle');
@@ -712,6 +721,10 @@ function setLanguage(lang) {
 
   // Update static text elements
   applyTranslations();
+
+  // Update SEO tags and Structured Data
+  updateSeoHead();
+  updateStructuredData();
   
   // Default child category to recommendation tab in English, and 'all' in Japanese
   activeChildCategory = (currentLang === 'en') ? 'japan_recommend' : 'all';
@@ -752,5 +765,108 @@ function applyTranslations() {
   if (mobileCallBtn) {
     mobileCallBtn.title = (currentLang === 'en') ? "Call for Inquiries & Reservations" : "電話で予約・問合せ";
   }
+}
+
+/**
+ * Update Canonical and Alternate hreflang tags in the <head> dynamically
+ */
+function updateSeoHead() {
+  const origin = window.location.origin;
+  const pathname = window.location.pathname;
+
+  // Remove existing dynamic canonical and hreflang links
+  document.querySelectorAll('link[data-dynamic-seo]').forEach(el => el.remove());
+
+  const createLink = (rel, hreflang, href) => {
+    const link = document.createElement('link');
+    link.rel = rel;
+    if (hreflang) {
+      link.hreflang = hreflang;
+    }
+    link.href = href;
+    link.setAttribute('data-dynamic-seo', 'true');
+    document.head.appendChild(link);
+  };
+
+  // Canonical URL pointing to the current language page variant
+  createLink('canonical', null, `${origin}${pathname}?lang=${currentLang}`);
+
+  // Alternate for Japanese
+  createLink('alternate', 'ja', `${origin}${pathname}?lang=ja`);
+
+  // Alternate for English
+  createLink('alternate', 'en', `${origin}${pathname}?lang=en`);
+
+  // x-default points to default language (Japanese)
+  createLink('alternate', 'x-default', `${origin}${pathname}`);
+}
+
+/**
+ * Update Schema.org Structured Data (JSON-LD) dynamically based on current language
+ */
+function updateStructuredData() {
+  const existingScript = document.getElementById('schema-jsonld');
+  if (existingScript) {
+    existingScript.remove();
+  }
+
+  const origin = window.location.origin;
+  const isEn = currentLang === 'en';
+
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@type": ["BarOrPub", "Restaurant"],
+    "@id": `${origin}/#restaurant`,
+    "name": isEn ? "Izakaya Ikkyu" : "居酒屋 一休",
+    "image": [
+      `${origin}/assets/hero_bg.png`,
+      `${origin}/assets/gallery_counter.png`,
+      `${origin}/assets/gallery_table.png`,
+      `${origin}/assets/gallery_food.png`
+    ],
+    "url": `${origin}${window.location.pathname}${isEn ? '?lang=en' : '?lang=ja'}`,
+    "telephone": "+81-6-6202-3644",
+    "priceRange": "¥¥",
+    "servesCuisine": isEn ? "Japanese, Sake, Izakaya" : "居酒屋, 和食, 日本酒",
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "JP",
+      "postalCode": "541-0041",
+      "addressRegion": isEn ? "Osaka" : "大阪府",
+      "addressLocality": isEn ? "Chuo-ku, Osaka" : "大阪市中央区",
+      "streetAddress": isEn ? "3-3-11 Kitahama" : "北浜3丁目3-11"
+    },
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 34.6875137,
+      "longitude": 135.4983942
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ],
+        "opens": "17:00",
+        "closes": "23:00"
+      }
+    ],
+    "hasMenu": `${origin}${window.location.pathname}#menu`,
+    "sameAs": [
+      "https://tabelog.com/osaka/A2701/A270102/27031404/",
+      "https://www.google.com/maps/place/%E4%B8%80%E4%BC%91/@34.6875137,135.4958139,17z/data=!3m2!4b1!5s0x6000e6e49e9929cd:0x249d78865056d15f!4m6!3m5!1s0x6000e6e49c210547:0x34993830a1cda759!8m2!3d34.6875137!4d135.4983942!16s%2Fg%2F1td42crt?authuser=0&entry=ttu&g_ep=EgoyMDI2MDcwOC4wIKXMDSoASAFQAw%3D%3D",
+      "https://map.yahoo.co.jp/v3/place/d02wFaVRN46"
+    ]
+  };
+
+  const script = document.createElement('script');
+  script.id = 'schema-jsonld';
+  script.type = 'application/ld+json';
+  script.text = JSON.stringify(schemaData, null, 2);
+  document.head.appendChild(script);
 }
 
