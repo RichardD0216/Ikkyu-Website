@@ -1784,3 +1784,120 @@ footer {
   white-space: pre-wrap;
 }
 
+/* --- Daily Specials Section (本日のおすすめ) --- */
+.daily-specials-section {
+  padding: 5rem 2rem;
+  background: linear-gradient(180deg, var(--washi-cream-dark) 0%, var(--washi-cream) 100%);
+  border-bottom: 2px dashed var(--washi-border);
+  position: relative;
+}
+
+.daily-specials-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.daily-specials-intro {
+  text-align: center;
+  color: var(--wood-light);
+  font-size: 1.05rem;
+  margin-top: -1rem;
+  margin-bottom: 3rem;
+  font-family: var(--font-serif);
+  letter-spacing: 0.05em;
+}
+
+.daily-specials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.75rem;
+}
+
+.special-card {
+  background: var(--washi-cream);
+  border: 1px solid var(--washi-border);
+  border-radius: 4px;
+  padding: 1.5rem 1.5rem 1.25rem 1.5rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 15px rgba(31, 20, 14, 0.06);
+  transition: var(--transition-fast);
+  overflow: hidden;
+}
+
+.special-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold) 0%, var(--lantern-red) 100%);
+  opacity: 0.7;
+  transition: var(--transition-fast);
+}
+
+.special-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(31, 20, 14, 0.12);
+  border-color: var(--gold-light);
+}
+
+.special-card:hover::before {
+  opacity: 1;
+  height: 5px;
+}
+
+.special-card-title {
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--wood-dark);
+  line-height: 1.5;
+  margin-bottom: 1.25rem;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+}
+
+.special-card-price-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed var(--washi-border);
+}
+
+.special-price-main {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--lantern-red);
+}
+
+.special-price-tax {
+  font-size: 0.85rem;
+  color: var(--wood-light);
+  font-weight: 400;
+}
+
+@media (max-width: 768px) {
+  .daily-specials-section {
+    padding: 3.5rem 1.25rem;
+  }
+
+  .daily-specials-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .daily-specials-intro {
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+  }
+}
+
+

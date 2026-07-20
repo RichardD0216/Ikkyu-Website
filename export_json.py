@@ -95,6 +95,34 @@ def export_data():
     except Exception as e:
         print(f"Failed to export sake items: {e}")
 
+    # 3. Fetch daily_specials
+    try:
+        cursor.execute("SELECT * FROM daily_specials ORDER BY is_active DESC, id ASC")
+        rows = cursor.fetchall()
+        
+        specials_items = []
+        for row in rows:
+            specials_items.append({
+                "id": row["id"],
+                "title": row["title"],
+                "title_en": row["title_en"],
+                "price": row["price"],
+                "tax_price": row["tax_price"],
+                "price_display": row["price_display"],
+                "price_display_en": row["price_display_en"],
+                "tax_display": row["tax_display"],
+                "tax_display_en": row["tax_display_en"],
+                "is_active": row["is_active"]
+            })
+            
+        specials_json_path = os.path.join(api_dir, 'daily_specials.json')
+        with open(specials_json_path, 'w', encoding='utf-8') as f:
+            json.dump(specials_items, f, ensure_ascii=False, indent=2)
+        print(f"Successfully exported {len(specials_items)} daily specials to {specials_json_path}")
+        
+    except Exception as e:
+        print(f"Failed to export daily specials: {e}")
+
     conn.close()
 
 if __name__ == '__main__':

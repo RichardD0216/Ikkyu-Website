@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loadMenuItems();
   loadSakeItems();
   loadNewsItems();
+  loadDailySpecials();
 });
 
 /**
@@ -132,6 +133,7 @@ function getMenuCategories() {
 
 let allMenuItems = [];
 let allNewsItems = [];
+let allDailySpecials = [];
 let activeParentGroup = 'food';
 let activeChildCategory = localStorage.getItem('selected_language') === 'en' ? 'japan_recommend' : 'all';
 
@@ -721,6 +723,84 @@ function renderNewsItems() {
   }
 }
 
+/**
+ * Fetch and render daily special items dynamically from API
+ */
+async function loadDailySpecials() {
+  const specialsGrid = document.getElementById('daily-specials-grid');
+  if (!specialsGrid) return;
+
+  try {
+    let apiUrl = 'api/daily_specials.json';
+    if (window.location.protocol === 'file:') {
+      apiUrl = 'http://localhost:5002/api/daily_specials.json';
+    }
+    const response = await fetch(apiUrl);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    allDailySpecials = await response.json();
+    
+    renderDailySpecials();
+
+  } catch (error) {
+    console.error('Error loading daily specials:', error);
+    specialsGrid.innerHTML = `
+      <p class="error-placeholder" style="grid-column: 1/-1; text-align: center; color: var(--lantern-red); padding: 2rem 0; font-size: 1rem; width: 100%;">
+        ${currentLang === 'en' ? 'Failed to load daily specials.' : '本日のおすすめメニューの読み込みに失敗しました。'}
+      </p>
+    `;
+  }
+}
+
+/**
+ * Render daily specials items to DOM based on selected language
+ */
+function renderDailySpecials() {
+  const specialsGrid = document.getElementById('daily-specials-grid');
+  if (!specialsGrid) return;
+
+  const activeSpecials = (allDailySpecials || []).filter(item => item.is_active !== 0);
+
+  if (activeSpecials.length === 0) {
+    specialsGrid.innerHTML = `
+      <p style="grid-column: 1/-1; text-align: center; color: var(--wood-light); padding: 2.5rem 0; width: 100%;">
+        ${currentLang === 'en' ? 'No daily specials available today.' : '本日のおすすめメニューは用意されていません。'}
+      </p>
+    `;
+    return;
+  }
+
+  specialsGrid.innerHTML = '';
+  const fragment = document.createDocumentFragment();
+
+  activeSpecials.forEach(item => {
+    const cardEl = document.createElement('div');
+    cardEl.className = 'special-card reveal';
+
+    const title = (currentLang === 'en') ? (item.title_en || item.title) : item.title;
+    const priceDisplay = (currentLang === 'en') ? (item.price_display_en || `${item.price} yen`) : (item.price_display || `${item.price}円`);
+    const taxDisplay = (currentLang === 'en') ? (item.tax_display_en || `(incl. tax ${item.tax_price} yen)`) : (item.tax_display || `(税込${item.tax_price}円)`);
+
+    cardEl.innerHTML = `
+      <h3 class="special-card-title">${title}</h3>
+      <div class="special-card-price-row">
+        <span class="special-price-main">${priceDisplay}</span>
+        <span class="special-price-tax">${taxDisplay}</span>
+      </div>
+    `;
+    fragment.appendChild(cardEl);
+  });
+
+  specialsGrid.appendChild(fragment);
+
+  // Apply scroll reveal animations
+  const newCards = specialsGrid.querySelectorAll('.special-card');
+  if (typeof observeMenuItems === 'function') {
+    observeMenuItems(newCards);
+  }
+}
+
 
 //
 // MULTI-LANGUAGE TRANSLATION MAPPINGS & LOGIC
@@ -729,6 +809,9 @@ const STATIC_TRANSLATIONS = {
   ja: {
     "nav-news": "お知らせ",
     "news-title": "お知らせ",
+    "nav-daily-specials": "本日のおすすめ",
+    "daily-specials-title": "本日のおすすめ",
+    "daily-specials-intro": "店主が毎日厳選する季節の旨いもの。旬の味わいを心を込めてご提供いたします。",
     "nav-specialty": "こだわり",
     "nav-menu": "お品書き",
     "nav-seating": "お座席",
@@ -792,6 +875,9 @@ const STATIC_TRANSLATIONS = {
   en: {
     "nav-news": "News",
     "news-title": "News & Announcements",
+    "nav-daily-specials": "Today's Specials",
+    "daily-specials-title": "Today's Daily Recommendations",
+    "daily-specials-intro": "Chef's carefully selected seasonal delicacies prepared daily with heart.",
     "nav-specialty": "Our Specialty",
     "nav-menu": "Menu",
     "nav-seating": "Seating",
@@ -936,6 +1022,9 @@ function setLanguage(lang) {
 
   // Re-render News items
   renderNewsItems();
+
+  // Re-render Daily Specials items
+  renderDailySpecials();
 }
 
 /**
