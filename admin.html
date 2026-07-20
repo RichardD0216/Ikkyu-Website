@@ -568,8 +568,11 @@
           </div>
 
           <!-- おすすめ履歴一覧 -->
-          <div class="card-header-flex" style="margin-top: 45px; margin-bottom: 15px;">
+          <div class="card-header-flex" style="margin-top: 45px; margin-bottom: 15px; flex-wrap: wrap; gap: 15px; align-items: center;">
             <h2>過去のおすすめ登録履歴 (ワンクリックで再登録)</h2>
+            <div style="flex: 1; max-width: 320px;">
+              <input type="text" id="specials-history-search" class="form-control" placeholder="🔍 履歴メニュー名で検索..." oninput="renderSpecialsList()">
+            </div>
           </div>
           <div style="overflow-x: auto;">
             <table class="news-table" id="specials-history-table">
@@ -1140,10 +1143,24 @@
       }
 
       // 2. 履歴描画
+      const searchInput = document.getElementById('specials-history-search');
+      const query = searchInput ? searchInput.value.trim().toLowerCase() : '';
+
+      let filteredHistoryItems = historyItems;
+      if (query) {
+        filteredHistoryItems = historyItems.filter(item => {
+          const titleJa = (item.title || '').toLowerCase();
+          const titleEn = (item.title_en || '').toLowerCase();
+          return titleJa.includes(query) || titleEn.includes(query);
+        });
+      }
+
       if (historyItems.length === 0) {
         historyTbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: var(--text-muted);">過去の登録履歴はありません。</td></tr>';
+      } else if (filteredHistoryItems.length === 0) {
+        historyTbody.innerHTML = `<tr><td colspan="4" style="text-align: center; color: var(--text-muted);">「${escapeHtml(query)}」に該当する履歴メニューは見つかりませんでした。</td></tr>`;
       } else {
-        historyItems.forEach(item => {
+        filteredHistoryItems.forEach(item => {
           const tr = document.createElement('tr');
           tr.style.opacity = '0.85';
           tr.innerHTML = `
