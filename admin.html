@@ -86,6 +86,11 @@
       background-color: #d0d0d0;
     }
 
+    .btn-sm {
+      padding: 4px 10px;
+      font-size: 0.85rem;
+    }
+
     .card {
       background-color: var(--card-bg);
       border: 1px solid var(--border);
@@ -274,6 +279,129 @@
     @keyframes spin {
       to { transform: rotate(360deg); }
     }
+
+    /* レスポンシブ (スマホ対応) */
+    .card-header-flex {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 10px;
+      }
+
+      .container {
+        width: 100%;
+      }
+
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      header button {
+        align-self: flex-start;
+      }
+
+      #login-view {
+        margin: 30px auto 0 auto;
+        padding: 15px;
+      }
+
+      .card {
+        padding: 15px 12px;
+      }
+
+      .category-filter {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .row {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .nav-tabs {
+        flex-wrap: wrap;
+        gap: 4px;
+      }
+
+      .tab {
+        flex: 1 1 calc(50% - 4px);
+        text-align: center;
+        padding: 10px 8px;
+        font-size: 0.9rem;
+      }
+
+      /* テーブルのスマホカード表示変換 */
+      .news-table thead, .menu-table thead {
+        display: none;
+      }
+
+      .news-table, .news-table tbody, .news-table tr, .news-table td,
+      .menu-table, .menu-table tbody, .menu-table tr, .menu-table td {
+        display: block;
+        width: 100%;
+      }
+
+      .news-table tr, .menu-table tr {
+        margin-bottom: 16px;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        background-color: var(--card-bg);
+        padding: 12px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+      }
+
+      .news-table tr:hover, .menu-table tr:hover {
+        background-color: var(--card-bg);
+      }
+
+      .news-table td, .menu-table td {
+        border: none;
+        padding: 6px 0;
+        position: relative;
+      }
+
+      .news-table td:not(:last-child), .menu-table td:not(:last-child) {
+        border-bottom: 1px dashed #eee;
+        padding-bottom: 8px;
+        margin-bottom: 8px;
+      }
+
+      .news-table td::before, .menu-table td::before {
+        content: attr(data-label);
+        display: block;
+        font-weight: bold;
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        margin-bottom: 4px;
+      }
+
+      .menu-table .form-control {
+        width: 100% !important;
+      }
+
+      .price-input-wrapper {
+        width: 100%;
+      }
+
+      .price-input-wrapper input {
+        flex: 1;
+        width: auto !important;
+      }
+
+      .news-table td[data-label="操作"] {
+        text-align: left !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -320,42 +448,47 @@
       <!-- タブメニュー -->
       <div class="nav-tabs">
         <div class="tab active" data-target="tab-news">お知らせ管理</div>
+        <div class="tab" data-target="tab-specials">今日のおすすめ管理</div>
         <div class="tab" data-target="tab-menu">メニュー・料金管理</div>
       </div>
 
       <!-- A. お知らせ管理タブ -->
       <div id="tab-news" class="tab-content active">
         <div class="card">
-          <h2 style="margin-bottom: 15px;">新規お知らせ登録</h2>
+          <h2 id="news-form-title" style="margin-bottom: 15px;">新規お知らせ登録</h2>
           <form id="news-form" class="news-form">
+            <input type="hidden" id="news-edit-id" value="">
             <div class="row">
-              <div class="col" class="form-group">
+              <div class="col form-group">
                 <label for="news-date">掲載日</label>
                 <input type="date" id="news-date" class="form-control" required>
               </div>
               <div class="col"></div>
             </div>
             <div class="row" style="margin-top: 10px;">
-              <div class="col class="form-group"">
+              <div class="col form-group">
                 <label for="news-title-ja">タイトル (日本語)</label>
                 <input type="text" id="news-title-ja" class="form-control" placeholder="例：夏期休暇のお知らせ" required>
               </div>
-              <div class="col class="form-group"">
+              <div class="col form-group">
                 <label for="news-title-en">タイトル (英語)</label>
                 <input type="text" id="news-title-en" class="form-control" placeholder="例：Summer Holiday Notice" required>
               </div>
             </div>
             <div class="row" style="margin-top: 10px;">
-              <div class="col class="form-group"">
+              <div class="col form-group">
                 <label for="news-content-ja">本文 (日本語)</label>
                 <textarea id="news-content-ja" class="form-control" rows="4" placeholder="日本語のお知らせ本文を入力してください。" required></textarea>
               </div>
-              <div class="col class="form-group"">
+              <div class="col form-group">
                 <label for="news-content-en">本文 (英語)</label>
                 <textarea id="news-content-en" class="form-control" rows="4" placeholder="英語のお知らせ本文を入力してください。" required></textarea>
               </div>
             </div>
-            <button type="submit" id="btn-add-news" class="btn btn-primary" style="margin-top: 15px;">お知らせを追加して保存</button>
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+              <button type="submit" id="btn-add-news" class="btn btn-primary">お知らせを追加して保存</button>
+              <button type="button" id="btn-cancel-news-edit" class="btn btn-secondary" style="display: none;" onclick="cancelNewsEdit()">編集をキャンセル</button>
+            </div>
           </form>
 
           <h2 style="margin-top: 30px; margin-bottom: 15px;">登録済みお知らせ一覧</h2>
@@ -379,14 +512,93 @@
         </div>
       </div>
 
+      <!-- B. 今日のおすすめ管理タブ -->
+      <div id="tab-specials" class="tab-content">
+        <div class="card">
+          <h2 id="specials-form-title" style="margin-bottom: 15px;">今日のおすすめメニュー登録</h2>
+          <form id="specials-form" class="news-form">
+            <input type="hidden" id="specials-edit-id" value="">
+            <div class="row">
+              <div class="col form-group">
+                <label for="specials-title-ja">料理名 (日本語)</label>
+                <input type="text" id="specials-title-ja" class="form-control" placeholder="例：天然ハマチとお造り3種盛り" required>
+              </div>
+              <div class="col form-group">
+                <label for="specials-title-en">料理名 (英語)</label>
+                <input type="text" id="specials-title-en" class="form-control" placeholder="例：Fresh Amberjack & 3-Piece Sashimi" required>
+              </div>
+              <div class="col form-group">
+                <label for="specials-price">税抜価格 (円)</label>
+                <div class="price-input-wrapper">
+                  <input type="number" id="specials-price" class="form-control" placeholder="例：880" required>
+                  <span>円</span>
+                </div>
+                <div id="specials-tax-calc-preview" style="font-size: 0.85rem; color: var(--success); margin-top: 4px;">税込価格: -</div>
+              </div>
+            </div>
+            <div style="display: flex; gap: 10px; margin-top: 15px;">
+              <button type="submit" id="btn-add-specials" class="btn btn-primary">おすすめメニューを追加して保存</button>
+              <button type="button" id="btn-cancel-specials-edit" class="btn btn-secondary" style="display: none;" onclick="cancelSpecialsEdit()">編集をキャンセル</button>
+            </div>
+          </form>
+
+          <!-- 本日の表示メニュー -->
+          <div class="card-header-flex" style="margin-top: 35px; margin-bottom: 15px;">
+            <h2>今日のおすすめメニュー一覧 (Web表示中: 6〜8品目推奨)</h2>
+            <button id="btn-clear-all-specials" class="btn btn-accent btn-sm" onclick="clearAllActiveSpecials()" style="display: flex; align-items: center; gap: 4px;">
+              🗑️ 本日のメニューを一括クリア（履歴へ移動）
+            </button>
+          </div>
+          <div style="overflow-x: auto;">
+            <table class="news-table" id="specials-table">
+              <thead>
+                <tr>
+                  <th>料理名 (日本語)</th>
+                  <th>料理名 (英語)</th>
+                  <th style="width: 160px;">価格 (税抜 / 税込)</th>
+                  <th style="width: 220px; text-align: center;">操作</th>
+                </tr>
+              </thead>
+              <tbody id="specials-active-list-body">
+                <tr>
+                  <td colspan="4" style="text-align: center; color: var(--text-muted);">おすすめデータを読み込んでいます...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- おすすめ履歴一覧 -->
+          <div class="card-header-flex" style="margin-top: 45px; margin-bottom: 15px;">
+            <h2>過去のおすすめ登録履歴 (ワンクリックで再登録)</h2>
+          </div>
+          <div style="overflow-x: auto;">
+            <table class="news-table" id="specials-history-table">
+              <thead>
+                <tr>
+                  <th>料理名 (日本語)</th>
+                  <th>料理名 (英語)</th>
+                  <th style="width: 160px;">価格 (税抜 / 税込)</th>
+                  <th style="width: 260px; text-align: center;">操作</th>
+                </tr>
+              </thead>
+              <tbody id="specials-history-list-body">
+                <tr>
+                  <td colspan="4" style="text-align: center; color: var(--text-muted);">履歴データを読み込んでいます...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
       <!-- B. メニュー・料金管理タブ -->
       <div id="tab-menu" class="tab-content">
         <div class="card">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+          <div class="card-header-flex">
             <h2>メニュー一覧・編集</h2>
             <button id="btn-save-menu" class="btn btn-accent" style="display: flex; align-items: center;">
               <span id="save-menu-spinner" class="spinner" style="display: none;"></span>
-              変更をGitHubに保存する
+              変更を保存する
             </button>
           </div>
 
@@ -440,8 +652,10 @@
       owner: '',
       repo: '',
       newsItems: [],
+      specialsItems: [],
       menuItems: [],
       newsSha: null,
+      specialsSha: null,
       menuSha: null
     };
 
@@ -493,6 +707,8 @@
       document.getElementById('login-form').addEventListener('submit', handleLogin);
       document.getElementById('btn-logout').addEventListener('click', handleLogout);
       document.getElementById('news-form').addEventListener('submit', handleAddNews);
+      document.getElementById('specials-form').addEventListener('submit', handleAddSpecial);
+      document.getElementById('specials-price').addEventListener('input', handleSpecialsPriceCalc);
       document.getElementById('btn-save-menu').addEventListener('click', handleSaveMenu);
       
       document.getElementById('menu-parent-select').addEventListener('change', handleParentCategoryChange);
@@ -569,6 +785,7 @@
 
         // データの初期ロード
         loadNewsData();
+        loadDailySpecialsData();
         loadMenuData();
 
       } catch (err) {
@@ -690,27 +907,63 @@
       sorted.forEach(item => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-          <td><strong>${item.date.replace(/-/g, '.')}</strong></td>
-          <td>
+          <td data-label="日付"><strong>${item.date.replace(/-/g, '.')}</strong></td>
+          <td data-label="タイトル (日 / 英)">
             <div><strong>日:</strong> ${escapeHtml(item.title)}</div>
             <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;"><strong>英:</strong> ${escapeHtml(item.title_en || '')}</div>
           </td>
-          <td>
+          <td data-label="本文 (日 / 英)">
             <div style="white-space: pre-wrap;"><strong>日:</strong> ${escapeHtml(item.content)}</div>
             <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; white-space: pre-wrap;"><strong>英:</strong> ${escapeHtml(item.content_en || '')}</div>
           </td>
-          <td style="text-align: center; vertical-align: middle;">
-            <button class="btn btn-accent btn-sm" onclick="deleteNewsItem(${item.id})">削除</button>
+          <td data-label="操作" style="text-align: center; vertical-align: middle;">
+            <div style="display: flex; gap: 6px; justify-content: center; align-items: center; flex-wrap: wrap;">
+              <button class="btn btn-secondary btn-sm" onclick="editNewsItem(${item.id})">編集</button>
+              <button class="btn btn-accent btn-sm" onclick="deleteNewsItem(${item.id})">削除</button>
+            </div>
           </td>
         `;
         tbody.appendChild(tr);
       });
     }
 
-    // お知らせの新規追加
+    // お知らせの編集モード開始
+    function editNewsItem(id) {
+      const item = state.newsItems.find(item => item.id === id);
+      if (!item) return;
+
+      document.getElementById('news-edit-id').value = item.id;
+      document.getElementById('news-date').value = item.date;
+      document.getElementById('news-title-ja').value = item.title || '';
+      document.getElementById('news-title-en').value = item.title_en || '';
+      document.getElementById('news-content-ja').value = item.content || '';
+      document.getElementById('news-content-en').value = item.content_en || '';
+
+      document.getElementById('news-form-title').innerText = `お知らせの編集 (ID: ${item.id})`;
+      document.getElementById('btn-add-news').innerText = 'お知らせを更新して保存';
+      document.getElementById('btn-cancel-news-edit').style.display = 'inline-block';
+
+      document.getElementById('news-form').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // お知らせの編集キャンセル
+    function cancelNewsEdit() {
+      document.getElementById('news-edit-id').value = '';
+      document.getElementById('news-title-ja').value = '';
+      document.getElementById('news-title-en').value = '';
+      document.getElementById('news-content-ja').value = '';
+      document.getElementById('news-content-en').value = '';
+
+      document.getElementById('news-form-title').innerText = '新規お知らせ登録';
+      document.getElementById('btn-add-news').innerText = 'お知らせを追加して保存';
+      document.getElementById('btn-cancel-news-edit').style.display = 'none';
+    }
+
+    // お知らせの新規追加・編集保存
     async function handleAddNews(e) {
       e.preventDefault();
       const btn = document.getElementById('btn-add-news');
+      const editId = document.getElementById('news-edit-id').value;
       const originalText = btn.innerText;
       btn.disabled = true;
       btn.innerHTML = `<span class="spinner"></span> 保存中...`;
@@ -721,50 +974,72 @@
       const contentJa = document.getElementById('news-content-ja').value.trim();
       const contentEn = document.getElementById('news-content-en').value.trim();
 
-      // 新しいIDの発行
-      const nextId = state.newsItems.reduce((max, item) => item.id > max ? item.id : max, 0) + 1;
+      let updatedNews;
+      let commitMessage;
 
-      const newItem = {
-        id: nextId,
-        date: date,
-        title: titleJa,
-        title_en: titleEn,
-        content: contentJa,
-        content_en: contentEn
-      };
-
-      const updatedNews = [newItem, ...state.newsItems];
+      if (editId) {
+        const idNum = parseInt(editId, 10);
+        updatedNews = state.newsItems.map(item => {
+          if (item.id === idNum) {
+            return {
+              ...item,
+              date: date,
+              title: titleJa,
+              title_en: titleEn,
+              content: contentJa,
+              content_en: contentEn
+            };
+          }
+          return item;
+        });
+        commitMessage = `Update announcement: ${titleJa} (ID: ${idNum})`;
+      } else {
+        const nextId = state.newsItems.reduce((max, item) => item.id > max ? item.id : max, 0) + 1;
+        const newItem = {
+          id: nextId,
+          date: date,
+          title: titleJa,
+          title_en: titleEn,
+          content: contentJa,
+          content_en: contentEn
+        };
+        updatedNews = [newItem, ...state.newsItems];
+        commitMessage = `Add announcement: ${titleJa}`;
+      }
 
       try {
         // 先に現在の最新SHAを再度取得 (同時書き込み対策)
         const fileInfo = await getGithubFileInfo('api/news.json');
         state.newsSha = fileInfo.sha;
 
-        const res = await saveFileToGithub('api/news.json', updatedNews, state.newsSha, `Add announcement: ${titleJa}`);
+        const res = await saveFileToGithub('api/news.json', updatedNews, state.newsSha, commitMessage);
         state.newsSha = res.content.sha;
         state.newsItems = updatedNews;
 
-        showToast('お知らせを登録しました');
+        showToast(editId ? 'お知らせを更新しました' : 'お知らせを登録しました');
         
-        // フォームのリセット (日付以外)
-        document.getElementById('news-title-ja').value = '';
-        document.getElementById('news-title-en').value = '';
-        document.getElementById('news-content-ja').value = '';
-        document.getElementById('news-content-en').value = '';
-        
+        cancelNewsEdit();
         renderNewsList();
 
       } catch (err) {
-        showToast('登録に失敗しました: ' + err.message, 'error');
+        showToast((editId ? '更新' : '登録') + 'に失敗しました: ' + err.message, 'error');
       } finally {
         btn.disabled = false;
-        btn.innerText = originalText;
+        if (document.getElementById('news-edit-id').value) {
+          btn.innerText = 'お知らせを更新して保存';
+        } else {
+          btn.innerText = 'お知らせを追加して保存';
+        }
       }
     }
 
     // お知らせの削除
     async function deleteNewsItem(id) {
       if (!confirm('このお知らせを削除してもよろしいですか？')) return;
+
+      if (document.getElementById('news-edit-id').value === String(id)) {
+        cancelNewsEdit();
+      }
 
       const updatedNews = state.newsItems.filter(item => item.id !== id);
 
@@ -779,6 +1054,313 @@
 
         showToast('お知らせを削除しました');
         renderNewsList();
+
+      } catch (err) {
+        showToast('削除に失敗しました: ' + err.message, 'error');
+      }
+    }
+
+    // ----------------------------------------------------
+    // 今日のおすすめメニュー管理機能
+    // ----------------------------------------------------
+
+    // 税抜価格入力時の税込価格リアルタイム計算
+    function handleSpecialsPriceCalc() {
+      const priceVal = parseInt(document.getElementById('specials-price').value, 10);
+      const calcEl = document.getElementById('specials-tax-calc-preview');
+      if (priceVal > 0) {
+        const taxPrice = Math.round(priceVal * 1.1);
+        calcEl.innerText = `税込価格: ${taxPrice}円 (${priceVal}円 + 消費税10%)`;
+      } else {
+        calcEl.innerText = '税込価格: -';
+      }
+    }
+
+    // 今日のおすすめデータのロード
+    async function loadDailySpecialsData() {
+      const activeTbody = document.getElementById('specials-active-list-body');
+      const historyTbody = document.getElementById('specials-history-list-body');
+      if (activeTbody) activeTbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: var(--text-muted);">おすすめデータをロード中...</td></tr>';
+      if (historyTbody) historyTbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: var(--text-muted);">履歴データをロード中...</td></tr>';
+      
+      try {
+        const fileInfo = await getGithubFileInfo('api/daily_specials.json');
+        state.specialsSha = fileInfo.sha;
+        
+        if (fileInfo.isNew) {
+          state.specialsItems = [];
+        } else {
+          const contentStr = decodeURIComponent(escape(atob(fileInfo.content)));
+          state.specialsItems = JSON.parse(contentStr);
+        }
+        
+        renderSpecialsList();
+      } catch (err) {
+        showToast('おすすめデータの読み込みに失敗しました: ' + err.message, 'error');
+        if (activeTbody) activeTbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: var(--accent);">読み込み失敗</td></tr>';
+        if (historyTbody) historyTbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: var(--accent);">読み込み失敗</td></tr>';
+      }
+    }
+
+    // 今日のおすすめ＆履歴リスト描画
+    function renderSpecialsList() {
+      const activeTbody = document.getElementById('specials-active-list-body');
+      const historyTbody = document.getElementById('specials-history-list-body');
+      if (!activeTbody || !historyTbody) return;
+
+      activeTbody.innerHTML = '';
+      historyTbody.innerHTML = '';
+
+      const activeItems = state.specialsItems.filter(item => item.is_active !== 0);
+      const historyItems = state.specialsItems.filter(item => item.is_active === 0);
+
+      // 1. 本日表示中のおすすめ描画
+      if (activeItems.length === 0) {
+        activeTbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: var(--text-muted);">現在表示中のおすすめメニューはありません。下の履歴から追加するか、新規登録してください。</td></tr>';
+      } else {
+        activeItems.forEach(item => {
+          const tr = document.createElement('tr');
+          tr.innerHTML = `
+            <td data-label="料理名 (日本語)"><strong>${escapeHtml(item.title)}</strong></td>
+            <td data-label="料理名 (英語)">${escapeHtml(item.title_en || '-')}</td>
+            <td data-label="価格 (税抜 / 税込)">
+              <div><strong>${item.price_display || item.price + '円'}</strong></div>
+              <div style="font-size: 0.8rem; color: var(--text-muted);">${item.tax_display || ''}</div>
+            </td>
+            <td data-label="操作" style="text-align: center; vertical-align: middle;">
+              <div style="display: flex; gap: 6px; justify-content: center; align-items: center; flex-wrap: wrap;">
+                <button class="btn btn-secondary btn-sm" onclick="editSpecialItem(${item.id})">編集</button>
+                <button class="btn btn-secondary btn-sm" onclick="toggleSpecialActive(${item.id}, 0)" style="color: var(--text-muted);">履歴へ移動</button>
+                <button class="btn btn-accent btn-sm" onclick="deleteSpecialItem(${item.id})">完全削除</button>
+              </div>
+            </td>
+          `;
+          activeTbody.appendChild(tr);
+        });
+      }
+
+      // 2. 履歴描画
+      if (historyItems.length === 0) {
+        historyTbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: var(--text-muted);">過去の登録履歴はありません。</td></tr>';
+      } else {
+        historyItems.forEach(item => {
+          const tr = document.createElement('tr');
+          tr.style.opacity = '0.85';
+          tr.innerHTML = `
+            <td data-label="料理名 (日本語)"><strong>${escapeHtml(item.title)}</strong></td>
+            <td data-label="料理名 (英語)">${escapeHtml(item.title_en || '-')}</td>
+            <td data-label="価格 (税抜 / 税込)">
+              <div><strong>${item.price_display || item.price + '円'}</strong></div>
+              <div style="font-size: 0.8rem; color: var(--text-muted);">${item.tax_display || ''}</div>
+            </td>
+            <td data-label="操作" style="text-align: center; vertical-align: middle;">
+              <div style="display: flex; gap: 6px; justify-content: center; align-items: center; flex-wrap: wrap;">
+                <button class="btn btn-primary btn-sm" onclick="toggleSpecialActive(${item.id}, 1)">➕ 本日のメニューに追加</button>
+                <button class="btn btn-secondary btn-sm" onclick="editSpecialItem(${item.id})">編集</button>
+                <button class="btn btn-accent btn-sm" onclick="deleteSpecialItem(${item.id})">削除</button>
+              </div>
+            </td>
+          `;
+          historyTbody.appendChild(tr);
+        });
+      }
+    }
+
+    // 編集モード開始
+    function editSpecialItem(id) {
+      const item = state.specialsItems.find(item => item.id === id);
+      if (!item) return;
+
+      document.getElementById('specials-edit-id').value = item.id;
+      document.getElementById('specials-title-ja').value = item.title || '';
+      document.getElementById('specials-title-en').value = item.title_en || '';
+      document.getElementById('specials-price').value = item.price || '';
+
+      handleSpecialsPriceCalc();
+
+      document.getElementById('specials-form-title').innerText = `おすすめメニューの編集 (ID: ${item.id})`;
+      document.getElementById('btn-add-specials').innerText = '変更を更新して保存';
+      document.getElementById('btn-cancel-specials-edit').style.display = 'inline-block';
+
+      document.getElementById('specials-form').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    // 編集キャンセル
+    function cancelSpecialsEdit() {
+      document.getElementById('specials-edit-id').value = '';
+      document.getElementById('specials-title-ja').value = '';
+      document.getElementById('specials-title-en').value = '';
+      document.getElementById('specials-price').value = '';
+
+      document.getElementById('specials-tax-calc-preview').innerText = '税込価格: -';
+
+      document.getElementById('specials-form-title').innerText = '今日のおすすめメニュー登録';
+      document.getElementById('btn-add-specials').innerText = 'おすすめメニューを追加して保存';
+      document.getElementById('btn-cancel-specials-edit').style.display = 'none';
+    }
+
+    // 新規登録・更新保存
+    async function handleAddSpecial(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btn-add-specials');
+      const editId = document.getElementById('specials-edit-id').value;
+      btn.disabled = true;
+      btn.innerHTML = `<span class="spinner"></span> 保存中...`;
+
+      const titleJa = document.getElementById('specials-title-ja').value.trim();
+      const titleEn = document.getElementById('specials-title-en').value.trim();
+      const priceNum = parseInt(document.getElementById('specials-price').value.trim(), 10);
+
+      const taxPriceNum = Math.round(priceNum * 1.1);
+
+      let updatedSpecials;
+      let commitMessage;
+
+      if (editId) {
+        const idNum = parseInt(editId, 10);
+        updatedSpecials = state.specialsItems.map(item => {
+          if (item.id === idNum) {
+            return {
+              ...item,
+              title: titleJa,
+              title_en: titleEn || titleJa,
+              price: priceNum,
+              tax_price: taxPriceNum,
+              price_display: `${priceNum.toLocaleString()}円`,
+              price_display_en: `${priceNum.toLocaleString()} yen`,
+              tax_display: `(税込${taxPriceNum.toLocaleString()}円)`,
+              tax_display_en: `(incl. tax ${taxPriceNum.toLocaleString()} yen)`
+            };
+          }
+          return item;
+        });
+        commitMessage = `Update daily special: ${titleJa} (ID: ${idNum})`;
+      } else {
+        const nextId = state.specialsItems.reduce((max, item) => item.id > max ? item.id : max, 0) + 1;
+        const newItem = {
+          id: nextId,
+          title: titleJa,
+          title_en: titleEn || titleJa,
+          price: priceNum,
+          tax_price: taxPriceNum,
+          price_display: `${priceNum.toLocaleString()}円`,
+          price_display_en: `${priceNum.toLocaleString()} yen`,
+          tax_display: `(税込${taxPriceNum.toLocaleString()}円)`,
+          tax_display_en: `(incl. tax ${taxPriceNum.toLocaleString()} yen)`,
+          is_active: 1
+        };
+        updatedSpecials = [newItem, ...state.specialsItems];
+        commitMessage = `Add daily special: ${titleJa}`;
+      }
+
+      try {
+        const fileInfo = await getGithubFileInfo('api/daily_specials.json');
+        state.specialsSha = fileInfo.sha;
+
+        const res = await saveFileToGithub('api/daily_specials.json', updatedSpecials, state.specialsSha, commitMessage);
+        state.specialsSha = res.content.sha;
+        state.specialsItems = updatedSpecials;
+
+        showToast(editId ? 'おすすめメニューを更新しました' : 'おすすめメニューを登録・保存しました');
+        
+        cancelSpecialsEdit();
+        renderSpecialsList();
+
+      } catch (err) {
+        showToast((editId ? '更新' : '登録') + 'に失敗しました: ' + err.message, 'error');
+      } finally {
+        btn.disabled = false;
+        if (document.getElementById('specials-edit-id').value) {
+          btn.innerText = '変更を更新して保存';
+        } else {
+          btn.innerText = 'おすすめメニューを追加して保存';
+        }
+      }
+    }
+
+    // アイテムの表示・履歴状態の切り替え (is_active 1/0)
+    async function toggleSpecialActive(id, newStatus) {
+      const item = state.specialsItems.find(i => i.id === id);
+      if (!item) return;
+
+      const updatedSpecials = state.specialsItems.map(i => {
+        if (i.id === id) {
+          return { ...i, is_active: newStatus };
+        }
+        return i;
+      });
+
+      const actionText = newStatus === 1 ? '本日のおすすめに追加' : '履歴へ移動';
+
+      try {
+        const fileInfo = await getGithubFileInfo('api/daily_specials.json');
+        state.specialsSha = fileInfo.sha;
+
+        const res = await saveFileToGithub('api/daily_specials.json', updatedSpecials, state.specialsSha, `${actionText}: ${item.title}`);
+        state.specialsSha = res.content.sha;
+        state.specialsItems = updatedSpecials;
+
+        showToast(`「${item.title}」を${actionText}しました`);
+        renderSpecialsList();
+
+      } catch (err) {
+        showToast(`更新に失敗しました: ${err.message}`, 'error');
+      }
+    }
+
+    // 本日のメニューを一括クリア（すべて履歴へ移動）
+    async function clearAllActiveSpecials() {
+      const activeCount = state.specialsItems.filter(i => i.is_active !== 0).length;
+      if (activeCount === 0) {
+        showToast('現在表示中のおすすめメニューはありません。', 'error');
+        return;
+      }
+
+      if (!confirm(`現在登録されているおすすめメニュー（${activeCount}件）をすべて履歴へ移動してクリアしますか？`)) {
+        return;
+      }
+
+      const updatedSpecials = state.specialsItems.map(i => ({ ...i, is_active: 0 }));
+
+      try {
+        const fileInfo = await getGithubFileInfo('api/daily_specials.json');
+        state.specialsSha = fileInfo.sha;
+
+        const res = await saveFileToGithub('api/daily_specials.json', updatedSpecials, state.specialsSha, 'Clear all active daily specials to history');
+        state.specialsSha = res.content.sha;
+        state.specialsItems = updatedSpecials;
+
+        showToast('本日のおすすめメニューを一括クリア（履歴へ移動）しました');
+        renderSpecialsList();
+
+      } catch (err) {
+        showToast(`一括クリアに失敗しました: ${err.message}`, 'error');
+      }
+    }
+
+    // おすすめメニューの完全削除
+    async function deleteSpecialItem(id) {
+      const item = state.specialsItems.find(i => i.id === id);
+      if (!item) return;
+
+      if (!confirm(`「${item.title}」を完全に削除してもよろしいですか？（履歴からも消去されます）`)) return;
+
+      if (document.getElementById('specials-edit-id').value === String(id)) {
+        cancelSpecialsEdit();
+      }
+
+      const updatedSpecials = state.specialsItems.filter(i => i.id !== id);
+
+      try {
+        const fileInfo = await getGithubFileInfo('api/daily_specials.json');
+        state.specialsSha = fileInfo.sha;
+
+        const res = await saveFileToGithub('api/daily_specials.json', updatedSpecials, state.specialsSha, `Delete daily special permanently (ID: ${id})`);
+        state.specialsSha = res.content.sha;
+        state.specialsItems = updatedSpecials;
+
+        showToast('メニューを完全に削除しました');
+        renderSpecialsList();
 
       } catch (err) {
         showToast('削除に失敗しました: ' + err.message, 'error');
@@ -851,20 +1433,20 @@
       filtered.forEach(item => {
         const tr = document.createElement('tr');
         tr.innerHTML = `
-          <td style="font-size: 0.85rem; font-family: monospace; color: var(--text-muted);">${item.item_id}</td>
-          <td class="menu-inputs">
+          <td data-label="商品ID" style="font-size: 0.85rem; font-family: monospace; color: var(--text-muted);">${item.item_id}</td>
+          <td data-label="メニュー名 (日本語)" class="menu-inputs">
             <input type="text" class="form-control" value="${escapeHtml(item.title)}" onchange="updateMenuItemData('${item.item_id}', 'title', this.value)">
           </td>
-          <td class="menu-inputs">
+          <td data-label="メニュー名 (英語)" class="menu-inputs">
             <input type="text" class="form-control" value="${escapeHtml(item.title_en || '')}" onchange="updateMenuItemData('${item.item_id}', 'title_en', this.value)">
           </td>
-          <td>
+          <td data-label="税抜価格 (自動計算)">
             <div class="price-input-wrapper">
               <input type="number" class="form-control" value="${item.price || 0}" style="width: 100px;" onchange="updateMenuItemPrice('${item.item_id}', this.value)">
               <span>円</span>
             </div>
           </td>
-          <td style="vertical-align: middle;">
+          <td data-label="現在の税込表記" style="vertical-align: middle;">
             <div style="font-size: 0.9rem;" id="preview-jp-${item.item_id}">${item.price_display} ${item.tax_display}</div>
             <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;" id="preview-en-${item.item_id}">${item.price_display_en} ${item.tax_display_en}</div>
           </td>
