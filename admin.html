@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>居酒屋 一休 | 管理画面</title>
+  <style>
+    :root {
+      --primary: #1f140e;
+      --accent: #d3381c;
+      --gold: #c59b27;
+      --bg: #f5f5f5;
+      --card-bg: #ffffff;
+      --border: #dddddd;
+      --text: #333333;
+      --text-muted: #666666;
+      --success: #2e7d32;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding-bottom: 20px;
+      border-bottom: 2px solid var(--primary);
+    }
+
+    h1 {
+      font-size: 1.5rem;
+      color: var(--primary);
+    }
+
+    .btn {
+      padding: 8px 16px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.2s;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: #3b281c;
+    }
+
+    .btn-accent {
+      background-color: var(--accent);
+      color: white;
+    }
+
+    .btn-accent:hover {
+      background-color: #b52b12;
+    }
+
+    .btn-secondary {
+      background-color: #e0e0e0;
+      color: var(--text);
+    }
+
+    .btn-secondary:hover {
+      background-color: #d0d0d0;
+    }
+
+    .card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 20px;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    /* ログイン画面 */
+    #login-view {
+      max-width: 450px;
+      margin: 100px auto 0 auto;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+      font-size: 0.9rem;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 8px 12px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      font-size: 1rem;
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--gold);
+    }
+
+    .help-block {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 5px;
+    }
+
+    .help-block a {
+      color: var(--gold);
+    }
+
+    /* メイン管理画面 */
+    #main-view {
+      display: none;
+    }
+
+    .nav-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 20px;
+      gap: 5px;
+    }
+
+    .tab {
+      padding: 10px 20px;
+      cursor: pointer;
+      border: 1px solid transparent;
+      border-bottom: none;
+      border-radius: 4px 4px 0 0;
+      margin-bottom: -1px;
+      font-weight: bold;
+      color: var(--text-muted);
+    }
+
+    .tab.active {
+      background-color: var(--card-bg);
+      border-color: var(--border);
+      color: var(--primary);
+      border-bottom: 1px solid var(--card-bg);
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* ニュース管理テーブル・フォーム */
+    .news-form {
+      background-color: #fafafa;
+      border: 1px dashed var(--border);
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 4px;
+    }
+
+    .row {
+      display: flex;
+      gap: 15px;
+    }
+
+    .col {
+      flex: 1;
+    }
+
+    .news-table, .menu-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 15px;
+    }
+
+    .news-table th, .news-table td, .menu-table th, .menu-table td {
+      border: 1px solid var(--border);
+      padding: 10px;
+      text-align: left;
+    }
+
+    .news-table th, .menu-table th {
+      background-color: #f0f0f0;
+      font-weight: bold;
+    }
+
+    .news-table tr:hover, .menu-table tr:hover {
+      background-color: #fcfcfc;
+    }
+
+    /* メニュー管理 */
+    .category-filter {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .menu-inputs {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .price-input-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .price-input-wrapper span {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+
+    /* 通知トースト */
+    #toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      padding: 12px 24px;
+      background-color: #333;
+      color: white;
+      border-radius: 4px;
+      display: none;
+      z-index: 2000;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    }
+
+    #toast.success {
+      background-color: var(--success);
+    }
+
+    #toast.error {
+      background-color: var(--accent);
+    }
+
+    /* スピナー */
+    .spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s ease-in-out infinite;
+      margin-right: 8px;
+      vertical-align: middle;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <!-- 1. ログインビュー -->
+    <div id="login-view" class="card">
+      <h2 style="margin-bottom: 20px; text-align: center; color: var(--primary);">管理者ログイン</h2>
+      <form id="login-form">
+        <div class="form-group">
+          <label for="github-owner">GitHub ユーザー名 (オーナー)</label>
+          <input type="text" id="github-owner" class="form-control" value="RichardD0216" required>
+        </div>
+        <div class="form-group">
+          <label for="github-repo">リポジトリ名</label>
+          <input type="text" id="github-repo" class="form-control" value="Ikkyu-Website" required>
+        </div>
+        <div class="form-group">
+          <label for="github-token">パーソナルアクセストークン (PAT)</label>
+          <input type="password" id="github-token" class="form-control" placeholder="ghp_..." required>
+          <div class="help-block">
+            ※ <code>contents</code> の書込権限(Write)を持つトークンが必要です。
+            <a href="https://github.com/settings/tokens" target="_blank">トークンの発行はこちら (GitHub)</a>
+          </div>
+        </div>
+        <div class="form-group" style="display: flex; align-items: center; gap: 8px;">
+          <input type="checkbox" id="remember-me" checked>
+          <label for="remember-me" style="margin-bottom: 0; font-weight: normal; cursor: pointer;">ログイン情報をこのブラウザに保存する</label>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%; padding: 12px; margin-top: 10px;">ログイン</button>
+      </form>
+    </div>
+
+    <!-- 2. メイン管理ビュー -->
+    <div id="main-view">
+      <header>
+        <div>
+          <h1>居酒屋 一休 管理画面</h1>
+          <p id="repo-indicator" style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;"></p>
+        </div>
+        <button id="btn-logout" class="btn btn-secondary">ログアウト</button>
+      </header>
+
+      <!-- タブメニュー -->
+      <div class="nav-tabs">
+        <div class="tab active" data-target="tab-news">お知らせ管理</div>
+        <div class="tab" data-target="tab-menu">メニュー・料金管理</div>
+      </div>
+
+      <!-- A. お知らせ管理タブ -->
+      <div id="tab-news" class="tab-content active">
+        <div class="card">
+          <h2 style="margin-bottom: 15px;">新規お知らせ登録</h2>
+          <form id="news-form" class="news-form">
+            <div class="row">
+              <div class="col" class="form-group">
+                <label for="news-date">掲載日</label>
+                <input type="date" id="news-date" class="form-control" required>
+              </div>
+              <div class="col"></div>
+            </div>
+            <div class="row" style="margin-top: 10px;">
+              <div class="col class="form-group"">
+                <label for="news-title-ja">タイトル (日本語)</label>
+                <input type="text" id="news-title-ja" class="form-control" placeholder="例：夏期休暇のお知らせ" required>
+              </div>
+              <div class="col class="form-group"">
+                <label for="news-title-en">タイトル (英語)</label>
+                <input type="text" id="news-title-en" class="form-control" placeholder="例：Summer Holiday Notice" required>
+              </div>
+            </div>
+            <div class="row" style="margin-top: 10px;">
+              <div class="col class="form-group"">
+                <label for="news-content-ja">本文 (日本語)</label>
+                <textarea id="news-content-ja" class="form-control" rows="4" placeholder="日本語のお知らせ本文を入力してください。" required></textarea>
+              </div>
+              <div class="col class="form-group"">
+                <label for="news-content-en">本文 (英語)</label>
+                <textarea id="news-content-en" class="form-control" rows="4" placeholder="英語のお知らせ本文を入力してください。" required></textarea>
+              </div>
+            </div>
+            <button type="submit" id="btn-add-news" class="btn btn-primary" style="margin-top: 15px;">お知らせを追加して保存</button>
+          </form>
+
+          <h2 style="margin-top: 30px; margin-bottom: 15px;">登録済みお知らせ一覧</h2>
+          <div style="overflow-x: auto;">
+            <table class="news-table" id="news-table">
+              <thead>
+                <tr>
+                  <th style="width: 120px;">日付</th>
+                  <th>タイトル (日 / 英)</th>
+                  <th>本文 (日 / 英)</th>
+                  <th style="width: 100px; text-align: center;">操作</th>
+                </tr>
+              </thead>
+              <tbody id="news-list-body">
+                <tr>
+                  <td colspan="4" style="text-align: center; color: var(--text-muted);">お知らせデータを読み込んでいます...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- B. メニュー・料金管理タブ -->
+      <div id="tab-menu" class="tab-content">
+        <div class="card">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+            <h2>メニュー一覧・編集</h2>
+            <button id="btn-save-menu" class="btn btn-accent" style="display: flex; align-items: center;">
+              <span id="save-menu-spinner" class="spinner" style="display: none;"></span>
+              変更をGitHubに保存する
+            </button>
+          </div>
+
+          <div class="category-filter">
+            <div style="flex: 1;">
+              <label for="menu-parent-select" style="font-weight: bold; display: block; margin-bottom: 5px;">カテゴリー (大区分)</label>
+              <select id="menu-parent-select" class="form-control">
+                <option value="food">フードメニュー</option>
+                <option value="drink">ドリンクメニュー</option>
+              </select>
+            </div>
+            <div style="flex: 1;">
+              <label for="menu-child-select" style="font-weight: bold; display: block; margin-bottom: 5px;">小カテゴリー</label>
+              <select id="menu-child-select" class="form-control">
+                <!-- JavaScriptで動的に選択肢を生成します -->
+              </select>
+            </div>
+          </div>
+
+          <div style="overflow-x: auto;">
+            <table class="menu-table">
+              <thead>
+                <tr>
+                  <th>商品ID</th>
+                  <th>メニュー名 (日本語)</th>
+                  <th>メニュー名 (英語)</th>
+                  <th style="width: 180px;">税抜価格 (自動計算)</th>
+                  <th>現在の税込表記</th>
+                </tr>
+              </thead>
+              <tbody id="menu-list-body">
+                <tr>
+                  <td colspan="5" style="text-align: center; color: var(--text-muted);">メニューデータを読み込んでいます...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- トースト通知 -->
+  <div id="toast"></div>
+
+  <script>
+    // 状態管理
+    const state = {
+      token: '',
+      owner: '',
+      repo: '',
+      newsItems: [],
+      menuItems: [],
+      newsSha: null,
+      menuSha: null
+    };
+
+    // メニューカテゴリー定義 (メインJSと同期)
+    const MENU_CATEGORIES = {
+      food: [
+        { key: 'alacarte', label: 'アラカルト' },
+        { key: 'salad', label: 'サラダ' },
+        { key: 'fry', label: '揚げもの' },
+        { key: 'grill', label: '焼きもの' },
+        { key: 'stirfry', label: '炒めもの' },
+        { key: 'hotpot', label: 'ミニ鍋' },
+        { key: 'meal', label: '食事もの' }
+      ],
+      drink: [
+        { key: 'beer', label: 'ビール' },
+        { key: 'nonalcoholic', label: 'ノンアルコールビール' },
+        { key: 'sake', label: 'お酒' },
+        { key: 'umeshu', label: '梅酒' },
+        { key: 'chuhai', label: 'チューハイ' },
+        { key: 'highball', label: 'ハイボール' },
+        { key: 'wine', label: 'ワイン(赤・白)' },
+        { key: 'jizake', label: '地酒' },
+        { key: 'shochu', label: '焼酎' },
+        { key: 'shochu_keep', label: '焼酎ボトルキープ' },
+        { key: 'softdrink', label: 'ソフトドリンク' }
+      ]
+    };
+
+    // DOMロード時
+    document.addEventListener('DOMContentLoaded', () => {
+      initApp();
+    });
+
+    // 初期化処理
+    function initApp() {
+      // 保存されたログイン情報の復元
+      const savedToken = localStorage.getItem('ikkyu_admin_token');
+      const savedOwner = localStorage.getItem('ikkyu_admin_owner') || 'RichardD0216';
+      const savedRepo = localStorage.getItem('ikkyu_admin_repo') || 'Ikkyu-Website';
+
+      document.getElementById('github-owner').value = savedOwner;
+      document.getElementById('github-repo').value = savedRepo;
+      if (savedToken) {
+        document.getElementById('github-token').value = savedToken;
+      }
+
+      // イベントリスナー登録
+      document.getElementById('login-form').addEventListener('submit', handleLogin);
+      document.getElementById('btn-logout').addEventListener('click', handleLogout);
+      document.getElementById('news-form').addEventListener('submit', handleAddNews);
+      document.getElementById('btn-save-menu').addEventListener('click', handleSaveMenu);
+      
+      document.getElementById('menu-parent-select').addEventListener('change', handleParentCategoryChange);
+      document.getElementById('menu-child-select').addEventListener('change', renderMenuList);
+
+      // 今日の日付をセット
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('news-date').value = today;
+
+      // タブ切り替え処理
+      const tabs = document.querySelectorAll('.tab');
+      tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+          tabs.forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+
+          const target = tab.getAttribute('data-target');
+          document.querySelectorAll('.tab-content').forEach(tc => tc.classList.remove('active'));
+          document.getElementById(target).classList.add('active');
+        });
+      });
+    }
+
+    // トースト通知の表示
+    function showToast(message, type = 'success') {
+      const toast = document.getElementById('toast');
+      toast.innerText = message;
+      toast.className = type;
+      toast.style.display = 'block';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 4000);
+    }
+
+    // ログイン処理
+    async function handleLogin(e) {
+      e.preventDefault();
+      
+      const owner = document.getElementById('github-owner').value.trim();
+      const repo = document.getElementById('github-repo').value.trim();
+      const token = document.getElementById('github-token').value.trim();
+      const remember = document.getElementById('remember-me').checked;
+
+      state.owner = owner;
+      state.repo = repo;
+      state.token = token;
+
+      try {
+        // トークンの有効性確認を兼ねて、リポジトリ情報を取得してみる
+        const res = await fetch(`https://api.github.com/repos/${owner}/${repo}`, {
+          headers: {
+            'Authorization': `token ${token}`,
+            'Accept': 'application/vnd.github.v3+json'
+          }
+        });
+
+        if (!res.ok) {
+          throw new Error('リポジトリの取得に失敗しました。トークンやリポジトリ名を確認してください。');
+        }
+
+        // ログイン成功時
+        if (remember) {
+          localStorage.setItem('ikkyu_admin_token', token);
+          localStorage.setItem('ikkyu_admin_owner', owner);
+          localStorage.setItem('ikkyu_admin_repo', repo);
+        } else {
+          localStorage.clear();
+        }
+
+        showToast('ログインに成功しました');
+        document.getElementById('login-view').style.display = 'none';
+        document.getElementById('main-view').style.display = 'block';
+        document.getElementById('repo-indicator').innerText = `接続先リポジトリ: ${owner}/${repo}`;
+
+        // データの初期ロード
+        loadNewsData();
+        loadMenuData();
+
+      } catch (err) {
+        showToast(err.message, 'error');
+      }
+    }
+
+    // ログアウト処理
+    function handleLogout() {
+      state.token = '';
+      document.getElementById('github-token').value = '';
+      localStorage.removeItem('ikkyu_admin_token');
+      document.getElementById('login-view').style.display = 'block';
+      document.getElementById('main-view').style.display = 'none';
+      showToast('ログアウトしました');
+    }
+
+    // GitHub API 汎用リクエスト関数
+    async function githubRequest(url, method = 'GET', body = null) {
+      const headers = {
+        'Authorization': `token ${state.token}`,
+        'Accept': 'application/vnd.github.v3+json'
+      };
+      if (body) {
+        headers['Content-Type'] = 'application/json';
+      }
+      const response = await fetch(url, {
+        method,
+        headers,
+        body: body ? JSON.stringify(body) : null
+      });
+
+      if (!response.ok) {
+        const errText = await response.text();
+        throw new Error(`GitHub APIエラー: ${response.status} - ${errText}`);
+      }
+      return response.json();
+    }
+
+    // ファイル情報の取得 (SHAとコンテンツ)
+    async function getGithubFileInfo(path) {
+      const url = `https://api.github.com/repos/${state.owner}/${state.repo}/contents/${path}`;
+      try {
+        return await githubRequest(url, 'GET');
+      } catch (err) {
+        // 404エラー (ファイル未存在) の場合は新規作成用オブジェクトを返す
+        if (err.message.includes('404')) {
+          return { sha: null, content: null, isNew: true };
+        }
+        throw err;
+      }
+    }
+
+    // ファイルの保存処理
+    async function saveFileToGithub(path, contentObj, currentSha, commitMessage) {
+      const url = `https://api.github.com/repos/${state.owner}/${state.repo}/contents/${path}`;
+      
+      const utf8Encoder = new TextEncoder();
+      const bytes = utf8Encoder.encode(JSON.stringify(contentObj, null, 2));
+      const base64Content = btoa(String.fromCharCode(...bytes));
+
+      const payload = {
+        message: commitMessage,
+        content: base64Content
+      };
+
+      if (currentSha) {
+        payload.sha = currentSha;
+      }
+
+      return await githubRequest(url, 'PUT', payload);
+    }
+
+    // ----------------------------------------------------
+    // お知らせ管理機能
+    // ----------------------------------------------------
+
+    // お知らせデータのロード
+    async function loadNewsData() {
+      const tbody = document.getElementById('news-list-body');
+      tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: var(--text-muted);">お知らせデータをロード中...</td></tr>';
+      
+      try {
+        const fileInfo = await getGithubFileInfo('api/news.json');
+        state.newsSha = fileInfo.sha;
+        
+        if (fileInfo.isNew) {
+          state.newsItems = [];
+        } else {
+          // Base64デコード
+          const contentStr = decodeURIComponent(escape(atob(fileInfo.content)));
+          state.newsItems = JSON.parse(contentStr);
+        }
+        
+        renderNewsList();
+      } catch (err) {
+        showToast('お知らせデータの読み込みに失敗しました: ' + err.message, 'error');
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: var(--accent);">読み込み失敗</td></tr>';
+      }
+    }
+
+    // お知らせリストの描画
+    function renderNewsList() {
+      const tbody = document.getElementById('news-list-body');
+      tbody.innerHTML = '';
+
+      if (state.newsItems.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="4" style="text-align: center; color: var(--text-muted);">お知らせはありません。</td></tr>';
+        return;
+      }
+
+      // 日付の新しい順にソート
+      const sorted = [...state.newsItems].sort((a, b) => {
+        const dateCompare = b.date.localeCompare(a.date);
+        if (dateCompare !== 0) return dateCompare;
+        return b.id - a.id;
+      });
+
+      sorted.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td><strong>${item.date.replace(/-/g, '.')}</strong></td>
+          <td>
+            <div><strong>日:</strong> ${escapeHtml(item.title)}</div>
+            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;"><strong>英:</strong> ${escapeHtml(item.title_en || '')}</div>
+          </td>
+          <td>
+            <div style="white-space: pre-wrap;"><strong>日:</strong> ${escapeHtml(item.content)}</div>
+            <div style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px; white-space: pre-wrap;"><strong>英:</strong> ${escapeHtml(item.content_en || '')}</div>
+          </td>
+          <td style="text-align: center; vertical-align: middle;">
+            <button class="btn btn-accent btn-sm" onclick="deleteNewsItem(${item.id})">削除</button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // お知らせの新規追加
+    async function handleAddNews(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btn-add-news');
+      const originalText = btn.innerText;
+      btn.disabled = true;
+      btn.innerHTML = `<span class="spinner"></span> 保存中...`;
+
+      const date = document.getElementById('news-date').value;
+      const titleJa = document.getElementById('news-title-ja').value.trim();
+      const titleEn = document.getElementById('news-title-en').value.trim();
+      const contentJa = document.getElementById('news-content-ja').value.trim();
+      const contentEn = document.getElementById('news-content-en').value.trim();
+
+      // 新しいIDの発行
+      const nextId = state.newsItems.reduce((max, item) => item.id > max ? item.id : max, 0) + 1;
+
+      const newItem = {
+        id: nextId,
+        date: date,
+        title: titleJa,
+        title_en: titleEn,
+        content: contentJa,
+        content_en: contentEn
+      };
+
+      const updatedNews = [newItem, ...state.newsItems];
+
+      try {
+        // 先に現在の最新SHAを再度取得 (同時書き込み対策)
+        const fileInfo = await getGithubFileInfo('api/news.json');
+        state.newsSha = fileInfo.sha;
+
+        const res = await saveFileToGithub('api/news.json', updatedNews, state.newsSha, `Add announcement: ${titleJa}`);
+        state.newsSha = res.content.sha;
+        state.newsItems = updatedNews;
+
+        showToast('お知らせを登録しました');
+        
+        // フォームのリセット (日付以外)
+        document.getElementById('news-title-ja').value = '';
+        document.getElementById('news-title-en').value = '';
+        document.getElementById('news-content-ja').value = '';
+        document.getElementById('news-content-en').value = '';
+        
+        renderNewsList();
+
+      } catch (err) {
+        showToast('登録に失敗しました: ' + err.message, 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerText = originalText;
+      }
+    }
+
+    // お知らせの削除
+    async function deleteNewsItem(id) {
+      if (!confirm('このお知らせを削除してもよろしいですか？')) return;
+
+      const updatedNews = state.newsItems.filter(item => item.id !== id);
+
+      try {
+        // 最新SHAを取得
+        const fileInfo = await getGithubFileInfo('api/news.json');
+        state.newsSha = fileInfo.sha;
+
+        const res = await saveFileToGithub('api/news.json', updatedNews, state.newsSha, `Delete announcement (ID: ${id})`);
+        state.newsSha = res.content.sha;
+        state.newsItems = updatedNews;
+
+        showToast('お知らせを削除しました');
+        renderNewsList();
+
+      } catch (err) {
+        showToast('削除に失敗しました: ' + err.message, 'error');
+      }
+    }
+
+
+    // ----------------------------------------------------
+    // メニュー・料金管理機能
+    // ----------------------------------------------------
+
+    // メニューデータのロード
+    async function loadMenuData() {
+      const tbody = document.getElementById('menu-list-body');
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-muted);">メニューデータをロード中...</td></tr>';
+      
+      try {
+        const fileInfo = await getGithubFileInfo('api/menu.json');
+        state.menuSha = fileInfo.sha;
+        
+        if (fileInfo.isNew) {
+          state.menuItems = [];
+          showToast('警告: GitHub上に api/menu.json が見つかりません。新規作成されます。', 'error');
+        } else {
+          // Base64デコード
+          const contentStr = decodeURIComponent(escape(atob(fileInfo.content)));
+          state.menuItems = JSON.parse(contentStr);
+        }
+        
+        // カテゴリーセレクトの選択肢初期化
+        handleParentCategoryChange();
+        
+      } catch (err) {
+        showToast('メニューデータの読み込みに失敗しました: ' + err.message, 'error');
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--accent);">読み込み失敗</td></tr>';
+      }
+    }
+
+    // 大カテゴリー選択変更時、小カテゴリーのセレクトボックスを初期化
+    function handleParentCategoryChange() {
+      const parentVal = document.getElementById('menu-parent-select').value;
+      const childSelect = document.getElementById('menu-child-select');
+      childSelect.innerHTML = '';
+
+      const categories = MENU_CATEGORIES[parentVal];
+      categories.forEach(cat => {
+        const opt = document.createElement('option');
+        opt.value = cat.key;
+        opt.innerText = cat.label;
+        childSelect.appendChild(opt);
+      });
+
+      renderMenuList();
+    }
+
+    // 現在選択されているカテゴリーのメニューリストを描画
+    function renderMenuList() {
+      const childVal = document.getElementById('menu-child-select').value;
+      const tbody = document.getElementById('menu-list-body');
+      tbody.innerHTML = '';
+
+      // 該当カテゴリーのメニューを抽出
+      const filtered = state.menuItems.filter(item => item.category === childVal);
+
+      if (filtered.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="5" style="text-align: center; color: var(--text-muted);">このカテゴリーに登録されているメニューはありません。</td></tr>';
+        return;
+      }
+
+      filtered.forEach(item => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td style="font-size: 0.85rem; font-family: monospace; color: var(--text-muted);">${item.item_id}</td>
+          <td class="menu-inputs">
+            <input type="text" class="form-control" value="${escapeHtml(item.title)}" onchange="updateMenuItemData('${item.item_id}', 'title', this.value)">
+          </td>
+          <td class="menu-inputs">
+            <input type="text" class="form-control" value="${escapeHtml(item.title_en || '')}" onchange="updateMenuItemData('${item.item_id}', 'title_en', this.value)">
+          </td>
+          <td>
+            <div class="price-input-wrapper">
+              <input type="number" class="form-control" value="${item.price || 0}" style="width: 100px;" onchange="updateMenuItemPrice('${item.item_id}', this.value)">
+              <span>円</span>
+            </div>
+          </td>
+          <td style="vertical-align: middle;">
+            <div style="font-size: 0.9rem;" id="preview-jp-${item.item_id}">${item.price_display} ${item.tax_display}</div>
+            <div style="font-size: 0.8rem; color: var(--text-muted); margin-top: 2px;" id="preview-en-${item.item_id}">${item.price_display_en} ${item.tax_display_en}</div>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+    }
+
+    // メニューテキスト項目（タイトルなど）が変更された際のデータ更新
+    function updateMenuItemData(itemId, field, value) {
+      const idx = state.menuItems.findIndex(item => item.item_id === itemId);
+      if (idx !== -1) {
+        state.menuItems[idx][field] = value;
+      }
+    }
+
+    // 料金変更時の自動計算処理
+    function updateMenuItemPrice(itemId, value) {
+      const idx = state.menuItems.findIndex(item => item.item_id === itemId);
+      if (idx !== -1) {
+        const price = parseInt(value, 10) || 0;
+        const taxPrice = Math.round(price * 1.1); // 消費税10%を四捨五入計算
+
+        // データの更新
+        state.menuItems[idx].price = price;
+        state.menuItems[idx].tax_price = taxPrice;
+        state.menuItems[idx].price_display = `${price}円`;
+        state.menuItems[idx].price_display_en = `${price} yen`;
+        state.menuItems[idx].tax_display = `(税込${taxPrice}円)`;
+        state.menuItems[idx].tax_display_en = `(incl. tax ${taxPrice} yen)`;
+
+        // 画面上のプレビュー更新
+        document.getElementById(`preview-jp-${itemId}`).innerHTML = `${price}円 <span class="tax-label">(税込${taxPrice}円)</span>`;
+        document.getElementById(`preview-en-${itemId}`).innerHTML = `${price} yen <span class="tax-label">(incl. tax ${taxPrice} yen)</span>`;
+      }
+    }
+
+    // メニュー変更の一括GitHub保存
+    async function handleSaveMenu() {
+      const btn = document.getElementById('btn-save-menu');
+      const spinner = document.getElementById('save-menu-spinner');
+      
+      btn.disabled = true;
+      spinner.style.display = 'inline-block';
+
+      try {
+        // 最新SHAを取得
+        const fileInfo = await getGithubFileInfo('api/menu.json');
+        state.menuSha = fileInfo.sha;
+
+        // GitHubへ保存
+        const res = await saveFileToGithub('api/menu.json', state.menuItems, state.menuSha, 'Update menus & prices via admin dashboard');
+        state.menuSha = res.content.sha;
+
+        showToast('メニューの変更をGitHubに保存しました');
+
+      } catch (err) {
+        showToast('メニューの保存に失敗しました: ' + err.message, 'error');
+      } finally {
+        btn.disabled = false;
+        spinner.style.display = 'none';
+      }
+    }
+
+    // エスケープ関数 (XSS防止)
+    function escapeHtml(str) {
+      if (typeof str !== 'string') return '';
+      return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+  </script>
+</body>
+</html>

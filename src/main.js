@@ -19,6 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
   
   loadMenuItems();
   loadSakeItems();
+  loadNewsItems();
 });
 
 /**
@@ -130,6 +131,7 @@ function getMenuCategories() {
 }
 
 let allMenuItems = [];
+let allNewsItems = [];
 let activeParentGroup = 'food';
 let activeChildCategory = localStorage.getItem('selected_language') === 'en' ? 'japan_recommend' : 'all';
 
@@ -560,11 +562,100 @@ async function loadSakeItems() {
   }
 }
 
+/**
+ * Fetch and render news items dynamically from API
+ */
+async function loadNewsItems() {
+  const newsContainer = document.getElementById('news-list-container');
+  if (!newsContainer) return;
+
+  try {
+    let apiUrl = 'api/news.json';
+    if (window.location.protocol === 'file:') {
+      apiUrl = 'http://localhost:5002/api/news.json';
+    }
+    const response = await fetch(apiUrl);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    allNewsItems = await response.json();
+    
+    // Render the retrieved news items
+    renderNewsItems();
+
+  } catch (error) {
+    console.error('Error loading news items:', error);
+    newsContainer.innerHTML = `
+      <p class="error-placeholder" style="text-align: center; color: var(--lantern-red); padding: 2rem 0; font-size: 1rem; width: 100%;">
+        ${currentLang === 'en' ? 'Failed to load announcements.' : 'お知らせの読み込みに失敗しました。'}
+      </p>
+    `;
+  }
+}
+
+/**
+ * Render news items to the DOM based on selected language
+ */
+function renderNewsItems() {
+  const newsContainer = document.getElementById('news-list-container');
+  if (!newsContainer) return;
+  
+  if (!allNewsItems || allNewsItems.length === 0) {
+    newsContainer.innerHTML = `
+      <p style="text-align: center; color: var(--wood-light); padding: 2rem 0; width: 100%;">
+        ${currentLang === 'en' ? 'No announcements at this time.' : '現在お知らせはありません。'}
+      </p>
+    `;
+    return;
+  }
+
+  // Sort by date descending (newest first), fallback to ID if dates are equal
+  const sortedNews = [...allNewsItems].sort((a, b) => {
+    const dateCompare = b.date.localeCompare(a.date);
+    if (dateCompare !== 0) return dateCompare;
+    return b.id - a.id;
+  });
+
+  newsContainer.innerHTML = '';
+  const fragment = document.createDocumentFragment();
+
+  sortedNews.forEach(item => {
+    const itemEl = document.createElement('article');
+    itemEl.className = 'news-item reveal';
+    
+    const title = (currentLang === 'en') ? (item.title_en || item.title) : item.title;
+    const content = (currentLang === 'en') ? (item.content_en || item.content) : item.content;
+    
+    // Formatting date (YYYY.MM.DD)
+    const formattedDate = item.date.replace(/-/g, '.');
+
+    itemEl.innerHTML = `
+      <div class="news-meta">
+        <time class="news-date" datetime="${item.date}">${formattedDate}</time>
+      </div>
+      <h3 class="news-item-title">${title}</h3>
+      <p class="news-content">${content}</p>
+    `;
+    fragment.appendChild(itemEl);
+  });
+
+  newsContainer.appendChild(fragment);
+
+  // Apply scroll reveal animations if helper available
+  const newItems = newsContainer.querySelectorAll('.news-item');
+  if (typeof observeMenuItems === 'function') {
+    observeMenuItems(newItems);
+  }
+}
+
+
 //
 // MULTI-LANGUAGE TRANSLATION MAPPINGS & LOGIC
 //
 const STATIC_TRANSLATIONS = {
   ja: {
+    "nav-news": "お知らせ",
+    "news-title": "お知らせ",
     "nav-specialty": "こだわり",
     "nav-menu": "お品書き",
     "nav-gallery": "お店の雰囲気",
@@ -610,6 +701,8 @@ const STATIC_TRANSLATIONS = {
     "footer-text": "〒541-0041 大阪府大阪市中央区北浜3丁目3-11 | 電話: 06-6202-3644"
   },
   en: {
+    "nav-news": "News",
+    "news-title": "News & Announcements",
     "nav-specialty": "Our Specialty",
     "nav-menu": "Menu",
     "nav-gallery": "Atmosphere",
@@ -735,6 +828,9 @@ function setLanguage(lang) {
   
   // Reload Sake cards
   loadSakeItems();
+
+  // Re-render News items
+  renderNewsItems();
 }
 
 /**
