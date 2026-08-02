@@ -1600,6 +1600,105 @@ MENU_ITEMS_JSON = '''[
     }
 ]'''
 
+DAILY_SPECIALS_JSON = '''[
+    {
+        "id": 1,
+        "title": "天然ハマチとお造り3種盛り",
+        "title_en": "Fresh Amberjack & 3-Piece Sashimi Assortment",
+        "price": 880,
+        "tax_price": 968,
+        "price_display": "880円",
+        "price_display_en": "880 yen",
+        "tax_display": "(税込968円)",
+        "tax_display_en": "(incl. tax 968 yen)",
+        "is_active": 1
+    },
+    {
+        "id": 2,
+        "title": "筍と朝引き鶏のほっこり煮",
+        "title_en": "Bamboo Shoots & Tender Chicken Stew",
+        "price": 580,
+        "tax_price": 638,
+        "price_display": "580円",
+        "price_display_en": "580 yen",
+        "tax_display": "(税込638円)",
+        "tax_display_en": "(incl. tax 638 yen)",
+        "is_active": 1
+    },
+    {
+        "id": 3,
+        "title": "カツオのわら焼き叩き ポン酢仕立て",
+        "title_en": "Seared Bonito Tataki with Ponzu",
+        "price": 780,
+        "tax_price": 858,
+        "price_display": "780円",
+        "price_display_en": "780 yen",
+        "tax_display": "(税込858円)",
+        "tax_display_en": "(incl. tax 858 yen)",
+        "is_active": 1
+    },
+    {
+        "id": 4,
+        "title": "和牛すじ肉と大根のトロトロ赤だし煮込み",
+        "title_en": "Wagyu Beef Tendon & Radish Red Miso Stew",
+        "price": 680,
+        "tax_price": 748,
+        "price_display": "680円",
+        "price_display_en": "680 yen",
+        "tax_display": "(税込748円)",
+        "tax_display_en": "(incl. tax 748 yen)",
+        "is_active": 1
+    },
+    {
+        "id": 5,
+        "title": "自家製出し巻き玉子 明太子挟み",
+        "title_en": "Homemade Rolled Omelet with Mentaiko",
+        "price": 520,
+        "tax_price": 572,
+        "price_display": "520円",
+        "price_display_en": "520 yen",
+        "tax_display": "(税込572円)",
+        "tax_display_en": "(incl. tax 572 yen)",
+        "is_active": 1
+    },
+    {
+        "id": 6,
+        "title": "揚げ茄子と海老のそぼろあんかけ",
+        "title_en": "Fried Eggplant & Shrimp with Savory Sauce",
+        "price": 620,
+        "tax_price": 682,
+        "price_display": "620円",
+        "price_display_en": "620 yen",
+        "tax_display": "(税込682円)",
+        "tax_display_en": "(incl. tax 682 yen)",
+        "is_active": 1
+    },
+    {
+        "id": 7,
+        "title": "特選黒毛和牛サーロインの炙り焼き",
+        "title_en": "Seared Kuroge Wagyu Sirloin Steak",
+        "price": 1480,
+        "tax_price": 1628,
+        "price_display": "1,480円",
+        "price_display_en": "1,480 yen",
+        "tax_display": "(税込1,628円)",
+        "tax_display_en": "(incl. tax 1,628 yen)",
+        "is_active": 0
+    },
+    {
+        "id": 8,
+        "title": "朝採れ夏野菜のみそマヨ添え",
+        "title_en": "Fresh Summer Vegetables with Miso-Mayonnaise",
+        "price": 450,
+        "tax_price": 495,
+        "price_display": "450円",
+        "price_display_en": "450 yen",
+        "tax_display": "(税込495円)",
+        "tax_display_en": "(incl. tax 495 yen)",
+        "is_active": 0
+    }
+]'''
+
 def init_db():
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
@@ -1607,6 +1706,7 @@ def init_db():
     # Drop old tables if they exist
     cursor.execute('DROP TABLE IF EXISTS menu_items')
     cursor.execute('DROP TABLE IF EXISTS sake_items')
+    cursor.execute('DROP TABLE IF EXISTS daily_specials')
 
     # Create new unified menu_items table with English translation columns
     cursor.execute('''
@@ -1632,6 +1732,22 @@ def init_db():
         is_recommend_en INTEGER DEFAULT 0,
         sake_website TEXT,
         sake_website_en TEXT
+    )
+    ''')
+
+    # Create daily_specials table
+    cursor.execute('''
+    CREATE TABLE daily_specials (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        title TEXT NOT NULL,
+        title_en TEXT NOT NULL,
+        price INTEGER,
+        tax_price INTEGER,
+        price_display TEXT NOT NULL,
+        price_display_en TEXT NOT NULL,
+        tax_display TEXT NOT NULL,
+        tax_display_en TEXT NOT NULL,
+        is_active INTEGER DEFAULT 1
     )
     ''')
 
@@ -1666,9 +1782,28 @@ def init_db():
             item.get('sake_website_en')
         ))
 
+    specials = json.loads(DAILY_SPECIALS_JSON)
+    for s in specials:
+        cursor.execute('''
+        INSERT INTO daily_specials
+        (title, title_en, price, tax_price, price_display, price_display_en, tax_display, tax_display_en, is_active)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ''', (
+            s['title'],
+            s.get('title_en', s['title']),
+            s['price'],
+            s['tax_price'],
+            s['price_display'],
+            s.get('price_display_en', s['price_display']),
+            s['tax_display'],
+            s.get('tax_display_en', s['tax_display']),
+            s.get('is_active', 1)
+        ))
+
     conn.commit()
     conn.close()
     print("Database initialized successfully at:", db_path)
 
 if __name__ == '__main__':
     init_db()
+

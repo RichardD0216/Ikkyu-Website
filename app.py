@@ -96,5 +96,36 @@ def get_sake():
         response.headers.add("Access-Control-Allow-Origin", "*")
         return response, 500
 
+@app.route('/api/daily_specials')
+def get_daily_specials():
+    try:
+        conn = get_db()
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM daily_specials ORDER BY is_active DESC, id ASC")
+        rows = cursor.fetchall()
+        conn.close()
+        
+        specials = []
+        for row in rows:
+            specials.append({
+                "id": row["id"],
+                "title": row["title"],
+                "title_en": row["title_en"],
+                "price": row["price"],
+                "tax_price": row["tax_price"],
+                "price_display": row["price_display"],
+                "price_display_en": row["price_display_en"],
+                "tax_display": row["tax_display"],
+                "tax_display_en": row["tax_display_en"],
+                "is_active": row["is_active"]
+            })
+        response = jsonify(specials)
+        response.headers.add("Access-Control-Allow-Origin", "*")
+        return response
+    except Exception as e:
+        response = jsonify({"error": str(e)})
+        response.headers.add("Access-Control-Allow-Origin", "*")
+        return response, 500
+
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0', port=5002)

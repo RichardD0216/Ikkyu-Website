@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', () => {
   loadMenuItems();
   loadSakeItems();
   loadNewsItems();
+  loadDailySpecials();
 });
 
 /**
@@ -132,6 +133,7 @@ function getMenuCategories() {
 
 let allMenuItems = [];
 let allNewsItems = [];
+let allDailySpecials = [];
 let activeParentGroup = 'food';
 let activeChildCategory = localStorage.getItem('selected_language') === 'en' ? 'japan_recommend' : 'all';
 
@@ -278,6 +280,50 @@ function filterAndRenderGrid() {
   }, 150);
 }
 
+// Detailed modal definitions for seating types (Title removed as per user request)
+const SEATING_DETAILS = {
+  private: {
+    ja: {
+      badge: "1室限定 • 最大5名様",
+      desc: "周囲を気にせずゆったりお寛ぎいただける半個室です。ご会食や少人数でのお祝い事に最適です。"
+    },
+    en: {
+      badge: "1 Room Only • Up to 5 Guests",
+      desc: "A cozy semi-private dining room where you can relax. Perfect for small gatherings and celebrations."
+    }
+  },
+  table: {
+    ja: {
+      badge: "2卓 • 各4名様（計8名様）",
+      desc: "木目の温もりを感じるテーブル席。お仕事帰りのサク飲みや、少人数のグループでのお食事に使い勝手の良いお席です。"
+    },
+    en: {
+      badge: "2 Tables • 4 Guests Each (Max 8)",
+      desc: "Warm wooden table seats. Ideal for a quick drink after work or casual group dinners with friends and colleagues."
+    }
+  },
+  counter: {
+    ja: {
+      badge: "全5席 • お一人様大歓迎",
+      desc: "木の温もりが漂う特等席。店主やスタッフとの会話を楽しみながら、自慢の手作り料理と厳選地酒を心ゆくまでお楽しみいただけます。"
+    },
+    en: {
+      badge: "5 Seats Total • Solo Diners Welcome",
+      desc: "Special seats along the warm wooden bar. Enjoy chatting with staff while savoring our handmade specialty dishes and curated sake."
+    }
+  },
+  horigotatsu: {
+    ja: {
+      badge: "7卓 • 各3〜6名様（最大28名様）",
+      desc: "足を伸ばして心地よくお過ごしいただける広々とした和風掘りごたつ。少人数から中規模・大規模なご宴会（貸切・団体様）まで幅広く対応可能です。"
+    },
+    en: {
+      badge: "7 Tables • 3–6 Guests Each (Max 28)",
+      desc: "Spacious sunken kotatsu tatami seating where you can stretch your legs. Accommodates small drinking parties to large corporate banquets."
+    }
+  }
+};
+
 /**
  * Polaroid photo viewer Modal popups
  */
@@ -286,20 +332,49 @@ function initGalleryLightbox() {
   const lightbox = document.getElementById('lightbox-modal');
   const lightboxImg = document.getElementById('lightbox-img');
   const lightboxCaption = document.getElementById('lightbox-caption');
+  const lightboxBadge = document.getElementById('lightbox-badge');
+  const lightboxDescription = document.getElementById('lightbox-description');
   const closeBtn = document.getElementById('lightbox-close-btn');
 
-  if (polaroids.length === 0 || !lightbox || !lightboxImg || !lightboxCaption) return;
+  if (polaroids.length === 0 || !lightbox || !lightboxImg) return;
 
   polaroids.forEach(frame => {
     frame.addEventListener('click', () => {
       const img = frame.querySelector('img');
-      const caption = frame.querySelector('.polaroid-caption');
+      const seatingType = frame.getAttribute('data-seating-type');
 
-      if (img && caption) {
+      if (img) {
         // Set lightbox details
         lightboxImg.src = img.src;
         lightboxImg.alt = img.alt;
-        lightboxCaption.textContent = caption.textContent;
+
+        if (seatingType && SEATING_DETAILS[seatingType]) {
+          const detail = SEATING_DETAILS[seatingType][currentLang] || SEATING_DETAILS[seatingType]['ja'];
+          
+          // Hide title caption as requested by user
+          if (lightboxCaption) {
+            lightboxCaption.textContent = '';
+            lightboxCaption.style.display = 'none';
+          }
+          
+          if (lightboxBadge) {
+            lightboxBadge.textContent = detail.badge;
+            lightboxBadge.style.display = 'inline-block';
+          }
+          if (lightboxDescription) {
+            lightboxDescription.textContent = detail.desc;
+            lightboxDescription.style.display = 'block';
+          }
+        } else {
+          // Standard interior gallery photos
+          const caption = frame.querySelector('.polaroid-caption');
+          if (lightboxCaption) {
+            lightboxCaption.textContent = caption ? caption.textContent : '';
+            lightboxCaption.style.display = caption ? 'block' : 'none';
+          }
+          if (lightboxBadge) lightboxBadge.style.display = 'none';
+          if (lightboxDescription) lightboxDescription.style.display = 'none';
+        }
 
         // Open lightbox
         lightbox.classList.add('active');
@@ -648,6 +723,84 @@ function renderNewsItems() {
   }
 }
 
+/**
+ * Fetch and render daily special items dynamically from API
+ */
+async function loadDailySpecials() {
+  const specialsGrid = document.getElementById('daily-specials-grid');
+  if (!specialsGrid) return;
+
+  try {
+    let apiUrl = 'api/daily_specials.json';
+    if (window.location.protocol === 'file:') {
+      apiUrl = 'http://localhost:5002/api/daily_specials.json';
+    }
+    const response = await fetch(apiUrl);
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    allDailySpecials = await response.json();
+    
+    renderDailySpecials();
+
+  } catch (error) {
+    console.error('Error loading daily specials:', error);
+    specialsGrid.innerHTML = `
+      <p class="error-placeholder" style="grid-column: 1/-1; text-align: center; color: var(--lantern-red); padding: 2rem 0; font-size: 1rem; width: 100%;">
+        ${currentLang === 'en' ? 'Failed to load daily specials.' : '本日のおすすめメニューの読み込みに失敗しました。'}
+      </p>
+    `;
+  }
+}
+
+/**
+ * Render daily specials items to DOM based on selected language
+ */
+function renderDailySpecials() {
+  const specialsGrid = document.getElementById('daily-specials-grid');
+  if (!specialsGrid) return;
+
+  const activeSpecials = (allDailySpecials || []).filter(item => item.is_active !== 0);
+
+  if (activeSpecials.length === 0) {
+    specialsGrid.innerHTML = `
+      <p style="grid-column: 1/-1; text-align: center; color: var(--wood-light); padding: 2.5rem 0; width: 100%;">
+        ${currentLang === 'en' ? 'No daily specials available today.' : '本日のおすすめメニューは用意されていません。'}
+      </p>
+    `;
+    return;
+  }
+
+  specialsGrid.innerHTML = '';
+  const fragment = document.createDocumentFragment();
+
+  activeSpecials.forEach(item => {
+    const cardEl = document.createElement('div');
+    cardEl.className = 'special-card reveal';
+
+    const title = (currentLang === 'en') ? (item.title_en || item.title) : item.title;
+    const priceDisplay = (currentLang === 'en') ? (item.price_display_en || `${item.price} yen`) : (item.price_display || `${item.price}円`);
+    const taxDisplay = (currentLang === 'en') ? (item.tax_display_en || `(incl. tax ${item.tax_price} yen)`) : (item.tax_display || `(税込${item.tax_price}円)`);
+
+    cardEl.innerHTML = `
+      <h3 class="special-card-title">${title}</h3>
+      <div class="special-card-price-row">
+        <span class="special-price-main">${priceDisplay}</span>
+        <span class="special-price-tax">${taxDisplay}</span>
+      </div>
+    `;
+    fragment.appendChild(cardEl);
+  });
+
+  specialsGrid.appendChild(fragment);
+
+  // Apply scroll reveal animations
+  const newCards = specialsGrid.querySelectorAll('.special-card');
+  if (typeof observeMenuItems === 'function') {
+    observeMenuItems(newCards);
+  }
+}
+
 
 //
 // MULTI-LANGUAGE TRANSLATION MAPPINGS & LOGIC
@@ -656,8 +809,25 @@ const STATIC_TRANSLATIONS = {
   ja: {
     "nav-news": "お知らせ",
     "news-title": "お知らせ",
+    "nav-daily-specials": "本日のおすすめ",
+    "daily-specials-title": "本日のおすすめ",
+    "daily-specials-intro": "店主が毎日厳選する季節の旨いもの。旬の味わいを心を込めてご提供いたします。",
     "nav-specialty": "こだわり",
     "nav-menu": "お品書き",
+    "nav-seating": "お座席",
+    "seating-title": "お座席のご案内",
+    "seating-private-badge": "1室 / 5席",
+    "seating-private-name": "半個室",
+    "seating-private-sub": "5名様まで対応の落ち着いた半個室空間",
+    "seating-table-badge": "2卓 / 各4名様",
+    "seating-table-name": "テーブル席",
+    "seating-table-sub": "ご友人同士やグループでのご夕食に",
+    "seating-counter-badge": "5席",
+    "seating-counter-name": "カウンター席",
+    "seating-counter-sub": "お一人様やちょい飲みに人気の木製カウンター",
+    "seating-horigotatsu-badge": "7卓 / 各3〜6名様",
+    "seating-horigotatsu-name": "掘りごたつ席",
+    "seating-horigotatsu-sub": "足を伸ばして過ごせるゆったり座敷（最大28名）",
     "nav-gallery": "お店の雰囲気",
     "nav-access": "店舗情報",
     "hero-badge": "淀屋橋・北浜 隠れ家",
@@ -689,6 +859,8 @@ const STATIC_TRANSLATIONS = {
     "info-hours-sub": "(ラストオーダー 22:30)",
     "info-closed-label": "定休日",
     "info-closed-val": "土曜日・日曜日・祝日",
+    "info-payment-label": "支払い方法",
+    "info-payment-val": "カード可（Visa, Master, JCB, AMEX, Diners）<br>QRコード決済可（PayPay）",
     "booking-board-title": "ご予約について",
     "booking-board-desc": "当店はご予約をお電話にて承っております。<br>少人数からご宴会まで、お気軽にお電話ください。",
     "booking-board-btn": "📞 06-6202-3644 に電話する",
@@ -703,8 +875,25 @@ const STATIC_TRANSLATIONS = {
   en: {
     "nav-news": "News",
     "news-title": "News & Announcements",
+    "nav-daily-specials": "Today's Specials",
+    "daily-specials-title": "Today's Daily Recommendations",
+    "daily-specials-intro": "Chef's carefully selected seasonal delicacies prepared daily with heart.",
     "nav-specialty": "Our Specialty",
     "nav-menu": "Menu",
+    "nav-seating": "Seating",
+    "seating-title": "Seating Information",
+    "seating-private-badge": "1 Room / 5 Seats",
+    "seating-private-name": "Semi-Private Room",
+    "seating-private-sub": "Cozy semi-private room accommodating up to 5 guests",
+    "seating-table-badge": "2 Tables / 4 Seats Each",
+    "seating-table-name": "Table Seats",
+    "seating-table-sub": "Ideal for drinks with friends or group dining",
+    "seating-counter-badge": "5 Seats",
+    "seating-counter-name": "Counter Seats",
+    "seating-counter-sub": "Popular wooden counter for solo diners or casual drinks",
+    "seating-horigotatsu-badge": "7 Tables / 3–6 Seats Each",
+    "seating-horigotatsu-name": "Horigotatsu (Sunken Kotatsu)",
+    "seating-horigotatsu-sub": "Relaxing sunken floor seating for small to large groups (up to 28)",
     "nav-gallery": "Atmosphere",
     "nav-access": "Info & Location",
     "hero-badge": "Yodoyabashi • Kitahama Hideaway",
@@ -736,6 +925,8 @@ const STATIC_TRANSLATIONS = {
     "info-hours-sub": "(Last Order 22:30)",
     "info-closed-label": "Closed",
     "info-closed-val": "Saturdays, Sundays, and National Holidays",
+    "info-payment-label": "Payment",
+    "info-payment-val": "Credit Card (Visa, Master, JCB, AMEX, Diners)<br>QR Code Payment (PayPay)",
     "booking-board-title": "About Reservations",
     "booking-board-desc": "We accept reservations via phone.<br>From small groups to large banquets, please feel free to call us.",
     "booking-board-btn": "📞 Call 06-6202-3644",
@@ -831,6 +1022,9 @@ function setLanguage(lang) {
 
   // Re-render News items
   renderNewsItems();
+
+  // Re-render Daily Specials items
+  renderDailySpecials();
 }
 
 /**
@@ -923,6 +1117,7 @@ function updateStructuredData() {
     "url": `${origin}${window.location.pathname}${isEn ? '?lang=en' : '?lang=ja'}`,
     "telephone": "+81-6-6202-3644",
     "priceRange": "¥¥",
+    "paymentAccepted": "Cash, Credit Card, QR Code",
     "servesCuisine": isEn ? "Japanese, Sake, Izakaya" : "居酒屋, 和食, 日本酒",
     "address": {
       "@type": "PostalAddress",

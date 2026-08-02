@@ -1006,7 +1006,7 @@ body.js-enabled .reveal.reveal-visible {
 .lightbox {
   position: fixed;
   top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(18, 9, 5, 0.95);
+  background: rgba(18, 9, 5, 0.92);
   backdrop-filter: blur(10px);
   z-index: 2000;
   display: flex;
@@ -1015,6 +1015,7 @@ body.js-enabled .reveal.reveal-visible {
   opacity: 0;
   pointer-events: none;
   transition: opacity 0.4s ease;
+  padding: 1.5rem;
 }
 
 .lightbox.active {
@@ -1023,14 +1024,21 @@ body.js-enabled .reveal.reveal-visible {
 }
 
 .lightbox-content {
-  max-width: 90%;
-  max-height: 80%;
+  max-width: 600px;
+  width: 92%;
+  max-height: 88vh;
   position: relative;
   transform: scale(0.92);
   transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.15);
   display: flex;
   flex-direction: column;
   align-items: center;
+  background: var(--washi-cream);
+  padding: 1.5rem;
+  border: 1px solid var(--washi-border);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8);
+  border-radius: 4px;
+  overflow-y: auto;
 }
 
 .lightbox.active .lightbox-content {
@@ -1039,42 +1047,136 @@ body.js-enabled .reveal.reveal-visible {
 
 .lightbox-content img {
   max-width: 100%;
-  max-height: 65vh;
+  max-height: 52vh;
   object-fit: contain;
-  background: var(--washi-cream);
-  padding: 1.5rem 1.5rem 5rem 1.5rem; /* Classic Polaroid bottom weighting! */
-  border: 1px solid var(--washi-border);
-  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8);
-  border-radius: 4px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+  background: #fff;
+}
+
+.lightbox-details-wrapper {
+  margin-top: 1rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  text-align: center;
 }
 
 .lightbox-caption {
-  position: absolute;
-  bottom: 1.8rem;
   color: var(--wood-medium);
   font-family: var(--font-serif);
   text-align: center;
-  font-size: 1.25rem;
+  font-size: 1.15rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
-  width: calc(100% - 3rem);
-  text-shadow: none;
+  letter-spacing: 0.05em;
+}
+
+.lightbox-badge {
+  background: var(--gold);
+  color: var(--wood-dark);
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 4px 14px;
+  border-radius: 12px;
+  letter-spacing: 0.05em;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+.lightbox-description {
+  font-size: 0.92rem;
+  color: var(--wood-medium);
+  max-width: 95%;
+  line-height: 1.6;
 }
 
 .lightbox-close {
   position: absolute;
-  top: -45px;
-  right: 0px;
-  color: var(--washi-cream);
+  top: 10px;
+  right: 15px;
+  color: var(--wood-medium);
   font-size: 2rem;
   cursor: pointer;
-  font-weight: 300;
+  font-weight: 400;
   transition: color 0.2s ease;
+  line-height: 1;
+  z-index: 10;
 }
 
-.lightbox-close:hover {
-  color: var(--gold-light);
+/* --- Section 3.5: Seating Information --- */
+#seating {
+  background-color: var(--washi-cream-dark);
+  padding: 6rem 2rem;
+  border-top: 1px solid var(--washi-border);
+  border-bottom: 1px solid var(--washi-border);
+  position: relative;
 }
+
+.seating-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.seating-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  padding: 2rem 0;
+}
+
+@media (max-width: 1024px) {
+  .seating-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .seating-grid {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+}
+
+.seating-card {
+  padding: 1rem 1rem 2rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  overflow: visible;
+}
+
+.seating-badge {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  background: rgba(31, 20, 14, 0.85);
+  color: var(--gold-light);
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 12px;
+  border: 1px solid var(--gold);
+  z-index: 2;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(4px);
+}
+
+.seating-subtext {
+  font-size: 0.85rem;
+  color: var(--wood-light);
+  text-align: center;
+  margin-top: 0.4rem;
+  line-height: 1.4;
+}
+
+.seating-1 { animation: gallery-float-1 9s infinite ease-in-out; }
+.seating-2 { animation: gallery-float-3 10s infinite ease-in-out; }
+.seating-3 { animation: gallery-float-2 8.5s infinite ease-in-out; }
+.seating-4 { animation: gallery-float-1 11s infinite ease-in-out; }
 
 /* --- Section 5: Access & External Links --- */
 #access {
@@ -1695,4 +1797,121 @@ footer {
   line-height: 1.7;
   white-space: pre-wrap;
 }
+
+/* --- Daily Specials Section (本日のおすすめ) --- */
+.daily-specials-section {
+  padding: 5rem 2rem;
+  background: linear-gradient(180deg, var(--washi-cream-dark) 0%, var(--washi-cream) 100%);
+  border-bottom: 2px dashed var(--washi-border);
+  position: relative;
+}
+
+.daily-specials-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.daily-specials-intro {
+  text-align: center;
+  color: var(--wood-light);
+  font-size: 1.05rem;
+  margin-top: -1rem;
+  margin-bottom: 3rem;
+  font-family: var(--font-serif);
+  letter-spacing: 0.05em;
+}
+
+.daily-specials-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.75rem;
+}
+
+.special-card {
+  background: var(--washi-cream);
+  border: 1px solid var(--washi-border);
+  border-radius: 4px;
+  padding: 1.5rem 1.5rem 1.25rem 1.5rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 4px 15px rgba(31, 20, 14, 0.06);
+  transition: var(--transition-fast);
+  overflow: hidden;
+}
+
+.special-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold) 0%, var(--lantern-red) 100%);
+  opacity: 0.7;
+  transition: var(--transition-fast);
+}
+
+.special-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 25px rgba(31, 20, 14, 0.12);
+  border-color: var(--gold-light);
+}
+
+.special-card:hover::before {
+  opacity: 1;
+  height: 5px;
+}
+
+.special-card-title {
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--wood-dark);
+  line-height: 1.5;
+  margin-bottom: 1.25rem;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+}
+
+.special-card-price-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px dashed var(--washi-border);
+}
+
+.special-price-main {
+  font-family: var(--font-serif);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--lantern-red);
+}
+
+.special-price-tax {
+  font-size: 0.85rem;
+  color: var(--wood-light);
+  font-weight: 400;
+}
+
+@media (max-width: 768px) {
+  .daily-specials-section {
+    padding: 3.5rem 1.25rem;
+  }
+
+  .daily-specials-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1.25rem;
+  }
+
+  .daily-specials-intro {
+    font-size: 0.95rem;
+    margin-bottom: 2rem;
+  }
+}
+
 
